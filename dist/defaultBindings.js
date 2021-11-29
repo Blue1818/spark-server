@@ -1,198 +1,154 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
+var _Object$defineProperty = require("@babel/runtime-corejs3/core-js-stable/object/define-property");
+
+var _interopRequireDefault = require("@babel/runtime-corejs3/helpers/interopRequireDefault");
+
+_Object$defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _keys = require('babel-runtime/core-js/object/keys');
+exports["default"] = void 0;
 
-var _keys2 = _interopRequireDefault(_keys);
+var _forEach = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/instance/for-each"));
 
-var _expressOauthServer = require('express-oauth-server');
+var _keys = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/object/keys"));
 
-var _expressOauthServer2 = _interopRequireDefault(_expressOauthServer);
+var _sparkProtocol = require("spark-protocol");
 
-var _OAuthModel = require('./OAuthModel');
+var _expressOauthServer = _interopRequireDefault(require("express-oauth-server"));
 
-var _OAuthModel2 = _interopRequireDefault(_OAuthModel);
+var _OAuthModel = _interopRequireDefault(require("./OAuthModel"));
 
-var _sparkProtocol = require('spark-protocol');
+var _DeviceClaimsController = _interopRequireDefault(require("./controllers/DeviceClaimsController"));
 
-var _DeviceClaimsController = require('./controllers/DeviceClaimsController');
+var _DevicesController = _interopRequireDefault(require("./controllers/DevicesController"));
 
-var _DeviceClaimsController2 = _interopRequireDefault(_DeviceClaimsController);
+var _EventsController = _interopRequireDefault(require("./controllers/EventsController"));
 
-var _DevicesController = require('./controllers/DevicesController');
+var _EventsControllerV = _interopRequireDefault(require("./controllers/EventsControllerV2"));
 
-var _DevicesController2 = _interopRequireDefault(_DevicesController);
+var _OauthClientsController = _interopRequireDefault(require("./controllers/OauthClientsController"));
 
-var _EventsController = require('./controllers/EventsController');
+var _ProductsController = _interopRequireDefault(require("./controllers/ProductsController"));
 
-var _EventsController2 = _interopRequireDefault(_EventsController);
+var _ProductsControllerV = _interopRequireDefault(require("./controllers/ProductsControllerV2"));
 
-var _EventsControllerV = require('./controllers/EventsControllerV2');
+var _ProductFirmwaresController = _interopRequireDefault(require("./controllers/ProductFirmwaresController"));
 
-var _EventsControllerV2 = _interopRequireDefault(_EventsControllerV);
+var _ProductFirmwaresControllerV = _interopRequireDefault(require("./controllers/ProductFirmwaresControllerV2"));
 
-var _OauthClientsController = require('./controllers/OauthClientsController');
+var _ProvisioningController = _interopRequireDefault(require("./controllers/ProvisioningController"));
 
-var _OauthClientsController2 = _interopRequireDefault(_OauthClientsController);
+var _UsersController = _interopRequireDefault(require("./controllers/UsersController"));
 
-var _ProductsController = require('./controllers/ProductsController');
+var _WebhooksController = _interopRequireDefault(require("./controllers/WebhooksController"));
 
-var _ProductsController2 = _interopRequireDefault(_ProductsController);
+var _DeviceManager = _interopRequireDefault(require("./managers/DeviceManager"));
 
-var _ProductsControllerV = require('./controllers/ProductsControllerV2');
+var _WebhookManager = _interopRequireDefault(require("./managers/WebhookManager"));
 
-var _ProductsControllerV2 = _interopRequireDefault(_ProductsControllerV);
+var _EventManager = _interopRequireDefault(require("./managers/EventManager"));
 
-var _ProductFirmwaresController = require('./controllers/ProductFirmwaresController');
+var _PermissionManager = _interopRequireDefault(require("./managers/PermissionManager"));
 
-var _ProductFirmwaresController2 = _interopRequireDefault(_ProductFirmwaresController);
+var _DeviceFirmwareFileRepository = _interopRequireDefault(require("./repository/DeviceFirmwareFileRepository"));
 
-var _ProductFirmwaresControllerV = require('./controllers/ProductFirmwaresControllerV2');
+var _NeDb = _interopRequireDefault(require("./repository/NeDb"));
 
-var _ProductFirmwaresControllerV2 = _interopRequireDefault(_ProductFirmwaresControllerV);
+var _DeviceAttributeDatabaseRepository = _interopRequireDefault(require("./repository/DeviceAttributeDatabaseRepository"));
 
-var _ProvisioningController = require('./controllers/ProvisioningController');
+var _DeviceKeyDatabaseRepository = _interopRequireDefault(require("./repository/DeviceKeyDatabaseRepository"));
 
-var _ProvisioningController2 = _interopRequireDefault(_ProvisioningController);
+var _OrganizationDatabaseRepository = _interopRequireDefault(require("./repository/OrganizationDatabaseRepository"));
 
-var _UsersController = require('./controllers/UsersController');
+var _ProductDatabaseRepository = _interopRequireDefault(require("./repository/ProductDatabaseRepository"));
 
-var _UsersController2 = _interopRequireDefault(_UsersController);
+var _ProductConfigDatabaseRepository = _interopRequireDefault(require("./repository/ProductConfigDatabaseRepository"));
 
-var _WebhooksController = require('./controllers/WebhooksController');
+var _ProductDeviceDatabaseRepository = _interopRequireDefault(require("./repository/ProductDeviceDatabaseRepository"));
 
-var _WebhooksController2 = _interopRequireDefault(_WebhooksController);
+var _ProductFirmwareDatabaseRepository = _interopRequireDefault(require("./repository/ProductFirmwareDatabaseRepository"));
 
-var _DeviceManager = require('./managers/DeviceManager');
+var _UserDatabaseRepository = _interopRequireDefault(require("./repository/UserDatabaseRepository"));
 
-var _DeviceManager2 = _interopRequireDefault(_DeviceManager);
+var _WebhookDatabaseRepository = _interopRequireDefault(require("./repository/WebhookDatabaseRepository"));
 
-var _WebhookManager = require('./managers/WebhookManager');
+var _settings = _interopRequireDefault(require("./settings"));
 
-var _WebhookManager2 = _interopRequireDefault(_WebhookManager);
+var _default = function _default(container, newSettings) {
+  var _context;
 
-var _EventManager = require('./managers/EventManager');
-
-var _EventManager2 = _interopRequireDefault(_EventManager);
-
-var _PermissionManager = require('./managers/PermissionManager');
-
-var _PermissionManager2 = _interopRequireDefault(_PermissionManager);
-
-var _DeviceFirmwareFileRepository = require('./repository/DeviceFirmwareFileRepository');
-
-var _DeviceFirmwareFileRepository2 = _interopRequireDefault(_DeviceFirmwareFileRepository);
-
-var _NeDb = require('./repository/NeDb');
-
-var _NeDb2 = _interopRequireDefault(_NeDb);
-
-var _DeviceAttributeDatabaseRepository = require('./repository/DeviceAttributeDatabaseRepository');
-
-var _DeviceAttributeDatabaseRepository2 = _interopRequireDefault(_DeviceAttributeDatabaseRepository);
-
-var _DeviceKeyDatabaseRepository = require('./repository/DeviceKeyDatabaseRepository');
-
-var _DeviceKeyDatabaseRepository2 = _interopRequireDefault(_DeviceKeyDatabaseRepository);
-
-var _OrganizationDatabaseRepository = require('./repository/OrganizationDatabaseRepository');
-
-var _OrganizationDatabaseRepository2 = _interopRequireDefault(_OrganizationDatabaseRepository);
-
-var _ProductDatabaseRepository = require('./repository/ProductDatabaseRepository');
-
-var _ProductDatabaseRepository2 = _interopRequireDefault(_ProductDatabaseRepository);
-
-var _ProductConfigDatabaseRepository = require('./repository/ProductConfigDatabaseRepository');
-
-var _ProductConfigDatabaseRepository2 = _interopRequireDefault(_ProductConfigDatabaseRepository);
-
-var _ProductDeviceDatabaseRepository = require('./repository/ProductDeviceDatabaseRepository');
-
-var _ProductDeviceDatabaseRepository2 = _interopRequireDefault(_ProductDeviceDatabaseRepository);
-
-var _ProductFirmwareDatabaseRepository = require('./repository/ProductFirmwareDatabaseRepository');
-
-var _ProductFirmwareDatabaseRepository2 = _interopRequireDefault(_ProductFirmwareDatabaseRepository);
-
-var _UserDatabaseRepository = require('./repository/UserDatabaseRepository');
-
-var _UserDatabaseRepository2 = _interopRequireDefault(_UserDatabaseRepository);
-
-var _WebhookDatabaseRepository = require('./repository/WebhookDatabaseRepository');
-
-var _WebhookDatabaseRepository2 = _interopRequireDefault(_WebhookDatabaseRepository);
-
-var _settings = require('./settings');
-
-var _settings2 = _interopRequireDefault(_settings);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function (container, newSettings) {
   // Make sure that the spark-server settings match whatever is passed in
-  (0, _keys2.default)(newSettings).forEach(function (key) {
-    _settings2.default[key] = newSettings[key];
+  (0, _forEach["default"])(_context = (0, _keys["default"])(newSettings)).call(_context, function (key) {
+    _settings["default"][key] = newSettings[key];
   });
+  var BINARIES_DIRECTORY = newSettings.BINARIES_DIRECTORY,
+      CONNECTED_DEVICES_LOGGING_INTERVAL = newSettings.CONNECTED_DEVICES_LOGGING_INTERVAL,
+      DEVICE_DIRECTORY = newSettings.DEVICE_DIRECTORY,
+      ENABLE_SYSTEM_FIRWMARE_AUTOUPDATES = newSettings.ENABLE_SYSTEM_FIRWMARE_AUTOUPDATES,
+      SERVER_KEY_FILENAME = newSettings.SERVER_KEY_FILENAME,
+      SERVER_KEY_PASSWORD = newSettings.SERVER_KEY_PASSWORD,
+      SERVER_KEYS_DIRECTORY = newSettings.SERVER_KEYS_DIRECTORY,
+      TCP_DEVICE_SERVER_CONFIG = newSettings.TCP_DEVICE_SERVER_CONFIG; // spark protocol container bindings
 
-  // spark protocol container bindings
-  (0, _sparkProtocol.defaultBindings)(container, newSettings);
+  (0, _sparkProtocol.defaultBindings)(container, {
+    BINARIES_DIRECTORY: BINARIES_DIRECTORY,
+    CONNECTED_DEVICES_LOGGING_INTERVAL: CONNECTED_DEVICES_LOGGING_INTERVAL || 15000,
+    DEVICE_DIRECTORY: DEVICE_DIRECTORY,
+    ENABLE_SYSTEM_FIRWMARE_AUTOUPDATES: ENABLE_SYSTEM_FIRWMARE_AUTOUPDATES,
+    SERVER_KEY_FILENAME: SERVER_KEY_FILENAME,
+    SERVER_KEY_PASSWORD: SERVER_KEY_PASSWORD,
+    SERVER_KEYS_DIRECTORY: SERVER_KEYS_DIRECTORY,
+    TCP_DEVICE_SERVER_CONFIG: TCP_DEVICE_SERVER_CONFIG
+  }); // settings
 
-  // settings
-  container.bindValue('DATABASE_PATH', _settings2.default.DB_CONFIG.PATH);
-  container.bindValue('DEVICE_DIRECTORY', _settings2.default.DEVICE_DIRECTORY);
-  container.bindValue('FIRMWARE_DIRECTORY', _settings2.default.FIRMWARE_DIRECTORY);
-  container.bindValue('SERVER_KEY_FILENAME', _settings2.default.SERVER_KEY_FILENAME);
-  container.bindValue('SERVER_KEYS_DIRECTORY', _settings2.default.SERVER_KEYS_DIRECTORY);
-  container.bindValue('USERS_DIRECTORY', _settings2.default.USERS_DIRECTORY);
-  container.bindValue('WEBHOOKS_DIRECTORY', _settings2.default.WEBHOOKS_DIRECTORY);
+  container.bindValue('DATABASE_PATH', _settings["default"].DB_CONFIG.PATH);
+  container.bindValue('DEVICE_DIRECTORY', _settings["default"].DEVICE_DIRECTORY);
+  container.bindValue('FIRMWARE_DIRECTORY', _settings["default"].FIRMWARE_DIRECTORY);
+  container.bindValue('SERVER_KEY_FILENAME', _settings["default"].SERVER_KEY_FILENAME);
+  container.bindValue('SERVER_KEYS_DIRECTORY', _settings["default"].SERVER_KEYS_DIRECTORY);
+  container.bindValue('USERS_DIRECTORY', _settings["default"].USERS_DIRECTORY);
+  container.bindValue('WEBHOOKS_DIRECTORY', _settings["default"].WEBHOOKS_DIRECTORY);
   container.bindMethod('OAUTH_SETTINGS', function (oauthModel) {
     return {
-      accessTokenLifetime: _settings2.default.ACCESS_TOKEN_LIFETIME,
+      accessTokenLifetime: _settings["default"].ACCESS_TOKEN_LIFETIME,
       allowBearerTokensInQueryString: true,
       model: oauthModel
     };
   }, ['OAuthModel']);
+  container.bindClass('OAuthModel', _OAuthModel["default"], ['IUserRepository']);
+  container.bindClass('OAuthServer', _expressOauthServer["default"], ['OAUTH_SETTINGS']);
+  container.bindClass('IDatabase', _NeDb["default"], ['DATABASE_PATH']); // controllers
 
-  container.bindClass('OAuthModel', _OAuthModel2.default, ['IUserRepository']);
+  container.bindClass('DeviceClaimsController', _DeviceClaimsController["default"], ['DeviceManager', 'ClaimCodeManager']);
+  container.bindClass('DevicesController', _DevicesController["default"], ['DeviceManager']);
+  container.bindClass('EventsController', _EventsController["default"], ['EventManager', 'DeviceManager']);
+  container.bindClass('EventsControllerV2', _EventsControllerV["default"], ['EventManager', 'DeviceManager']);
+  container.bindClass('PermissionManager', _PermissionManager["default"], ['IDeviceAttributeRepository', 'IOrganizationRepository', 'IUserRepository', 'IWebhookRepository', 'OAuthServer']);
+  container.bindClass('OauthClientsController', _OauthClientsController["default"], []);
+  container.bindClass('ProductsController', _ProductsController["default"], ['DeviceManager', 'IDeviceAttributeRepository', 'IOrganizationRepository', 'IProductRepository', 'IProductConfigRepository', 'IProductDeviceRepository', 'IProductFirmwareRepository']);
+  container.bindClass('ProductsControllerV2', _ProductsControllerV["default"], ['DeviceManager', 'IDeviceAttributeRepository', 'IOrganizationRepository', 'IProductRepository', 'IProductConfigRepository', 'IProductDeviceRepository', 'IProductFirmwareRepository']);
+  container.bindClass('ProductFirmwaresController', _ProductFirmwaresController["default"], ['DeviceManager', 'IProductDeviceRepository', 'IProductFirmwareRepository', 'IProductRepository']);
+  container.bindClass('ProductFirmwaresControllerV2', _ProductFirmwaresControllerV["default"], ['DeviceManager', 'IProductDeviceRepository', 'IProductFirmwareRepository', 'IProductRepository']);
+  container.bindClass('ProvisioningController', _ProvisioningController["default"], ['DeviceManager']);
+  container.bindClass('UsersController', _UsersController["default"], ['IUserRepository']);
+  container.bindClass('WebhooksController', _WebhooksController["default"], ['WebhookManager']); // managers
 
-  container.bindClass('OAuthServer', _expressOauthServer2.default, ['OAUTH_SETTINGS']);
+  container.bindClass('DeviceManager', _DeviceManager["default"], ['IDeviceAttributeRepository', 'IDeviceFirmwareRepository', 'IDeviceKeyRepository', 'PermissionManager', 'EventPublisher']);
+  container.bindClass('EventManager', _EventManager["default"], ['EventPublisher']);
+  container.bindClass('WebhookManager', _WebhookManager["default"], ['EventPublisher', 'PermissionManager', 'IWebhookRepository']); // Repositories
 
-  container.bindClass('IDatabase', _NeDb2.default, ['DATABASE_PATH']);
-
-  // controllers
-  container.bindClass('DeviceClaimsController', _DeviceClaimsController2.default, ['DeviceManager', 'ClaimCodeManager']);
-  container.bindClass('DevicesController', _DevicesController2.default, ['DeviceManager']);
-  container.bindClass('EventsController', _EventsController2.default, ['EventManager', 'DeviceManager']);
-  container.bindClass('EventsControllerV2', _EventsControllerV2.default, ['EventManager', 'DeviceManager']);
-  container.bindClass('PermissionManager', _PermissionManager2.default, ['IDeviceAttributeRepository', 'IOrganizationRepository', 'IUserRepository', 'IWebhookRepository', 'OAuthServer']);
-  container.bindClass('OauthClientsController', _OauthClientsController2.default, []);
-  container.bindClass('ProductsController', _ProductsController2.default, ['DeviceManager', 'IDeviceAttributeRepository', 'IOrganizationRepository', 'IProductRepository', 'IProductConfigRepository', 'IProductDeviceRepository', 'IProductFirmwareRepository']);
-  container.bindClass('ProductsControllerV2', _ProductsControllerV2.default, ['DeviceManager', 'IDeviceAttributeRepository', 'IOrganizationRepository', 'IProductRepository', 'IProductConfigRepository', 'IProductDeviceRepository', 'IProductFirmwareRepository']);
-  container.bindClass('ProductFirmwaresController', _ProductFirmwaresController2.default, ['DeviceManager', 'IProductDeviceRepository', 'IProductFirmwareRepository', 'IProductRepository']);
-  container.bindClass('ProductFirmwaresControllerV2', _ProductFirmwaresControllerV2.default, ['DeviceManager', 'IProductDeviceRepository', 'IProductFirmwareRepository', 'IProductRepository']);
-  container.bindClass('ProvisioningController', _ProvisioningController2.default, ['DeviceManager']);
-  container.bindClass('UsersController', _UsersController2.default, ['IUserRepository']);
-  container.bindClass('WebhooksController', _WebhooksController2.default, ['WebhookManager']);
-
-  // managers
-  container.bindClass('DeviceManager', _DeviceManager2.default, ['IDeviceAttributeRepository', 'IDeviceFirmwareRepository', 'IDeviceKeyRepository', 'PermissionManager', 'EventPublisher']);
-  container.bindClass('EventManager', _EventManager2.default, ['EventPublisher']);
-  container.bindClass('WebhookManager', _WebhookManager2.default, ['EventPublisher', 'PermissionManager', 'IWebhookRepository']);
-
-  // Repositories
-  container.bindClass('IDeviceAttributeRepository', _DeviceAttributeDatabaseRepository2.default, ['IDatabase', 'IProductDeviceRepository']);
-  container.bindClass('IDeviceFirmwareRepository', _DeviceFirmwareFileRepository2.default, ['FIRMWARE_DIRECTORY']);
-  container.bindClass('IDeviceKeyRepository', _DeviceKeyDatabaseRepository2.default, ['IDatabase']);
-  container.bindClass('IOrganizationRepository', _OrganizationDatabaseRepository2.default, ['IDatabase']);
-  container.bindClass('IProductRepository', _ProductDatabaseRepository2.default, ['IDatabase']);
-  container.bindClass('IProductConfigRepository', _ProductConfigDatabaseRepository2.default, ['IDatabase']);
-  container.bindClass('IProductDeviceRepository', _ProductDeviceDatabaseRepository2.default, ['IDatabase']);
-  container.bindClass('IProductFirmwareRepository', _ProductFirmwareDatabaseRepository2.default, ['IDatabase']);
-
-  container.bindClass('IUserRepository', _UserDatabaseRepository2.default, ['IDatabase']);
-  container.bindClass('IWebhookRepository', _WebhookDatabaseRepository2.default, ['IDatabase']);
+  container.bindClass('IDeviceAttributeRepository', _DeviceAttributeDatabaseRepository["default"], ['IDatabase', 'IProductDeviceRepository']);
+  container.bindClass('IDeviceFirmwareRepository', _DeviceFirmwareFileRepository["default"], ['FIRMWARE_DIRECTORY']);
+  container.bindClass('IDeviceKeyRepository', _DeviceKeyDatabaseRepository["default"], ['IDatabase']);
+  container.bindClass('IOrganizationRepository', _OrganizationDatabaseRepository["default"], ['IDatabase']);
+  container.bindClass('IProductRepository', _ProductDatabaseRepository["default"], ['IDatabase']);
+  container.bindClass('IProductConfigRepository', _ProductConfigDatabaseRepository["default"], ['IDatabase']);
+  container.bindClass('IProductDeviceRepository', _ProductDeviceDatabaseRepository["default"], ['IDatabase']);
+  container.bindClass('IProductFirmwareRepository', _ProductFirmwareDatabaseRepository["default"], ['IDatabase']);
+  container.bindClass('IUserRepository', _UserDatabaseRepository["default"], ['IDatabase']);
+  container.bindClass('IWebhookRepository', _WebhookDatabaseRepository["default"], ['IDatabase']);
 };
+
+exports["default"] = _default;

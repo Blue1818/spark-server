@@ -13,6 +13,7 @@ import BaseRepository from './BaseRepository';
 class ProductConfigDatabaseRepository extends BaseRepository
   implements IProductConfigRepository {
   _database: IBaseDatabase;
+
   _collectionName: CollectionName = COLLECTION_NAMES.PRODUCT_CONFIGS;
 
   constructor(database: IBaseDatabase) {
@@ -20,29 +21,38 @@ class ProductConfigDatabaseRepository extends BaseRepository
     this._database = database;
   }
 
-  create = async (model: $Shape<ProductConfig>): Promise<ProductConfig> =>
-    await this._database.insertOne(this._collectionName, {
+  create: (model: $Shape<ProductConfig>) => Promise<ProductConfig> = async (
+    model: $Shape<ProductConfig>,
+  ): Promise<ProductConfig> =>
+    this._database.insertOne(this._collectionName, {
       ...model,
     });
 
-  deleteByID = async (id: string): Promise<void> =>
-    await this._database.remove(this._collectionName, { _id: id });
+  deleteByID: (id: string) => Promise<void> = async (
+    id: string,
+  ): Promise<void> => this._database.remove(this._collectionName, { _id: id });
 
-  getAll = async (userID: ?string = null): Promise<Array<ProductConfig>> => {
+  getAll: (userID: ?string) => Promise<Array<ProductConfig>> = async (
+    userID: ?string = null,
+  ): Promise<Array<ProductConfig>> => {
     // TODO - this should probably just query the organization
     const query = userID ? { ownerID: userID } : {};
-    return await this._database.find(this._collectionName, query);
+    return this._database.find(this._collectionName, query);
   };
 
-  getByProductID = async (productID: string): Promise<?ProductConfig> =>
-    await this._database.findOne(this._collectionName, {
+  getByProductID: (productID: number) => Promise<?ProductConfig> = async (
+    productID: number,
+  ): Promise<?ProductConfig> =>
+    this._database.findOne(this._collectionName, {
       product_id: productID,
     });
 
-  getByID = async (id: string): Promise<?ProductConfig> =>
-    await this._database.findOne(this._collectionName, { _id: id });
+  getByID: (id: string) => Promise<?ProductConfig> = async (
+    id: string,
+  ): Promise<?ProductConfig> =>
+    this._database.findOne(this._collectionName, { _id: id });
 
-  updateByID = async (): Promise<ProductConfig> => {
+  updateByID: () => Promise<ProductConfig> = async (): Promise<ProductConfig> => {
     throw new Error('The method is not implemented');
   };
 }

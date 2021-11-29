@@ -15,7 +15,9 @@ import BaseRepository from './BaseRepository';
 class DeviceAttributeDatabaseRepository extends BaseRepository
   implements IDeviceAttributeRepository {
   _database: IBaseDatabase;
+
   _collectionName: CollectionName = COLLECTION_NAMES.DEVICE_ATTRIBUTES;
+
   _productDeviceRepository: IProductDeviceRepository;
 
   constructor(
@@ -27,49 +29,65 @@ class DeviceAttributeDatabaseRepository extends BaseRepository
     this._productDeviceRepository = productDeviceRepository;
   }
 
-  create = async (): Promise<DeviceAttributes> => {
+  create: () => Promise<DeviceAttributes> = async (): Promise<DeviceAttributes> => {
     throw new Error('The method is not implemented');
   };
 
-  deleteByID = async (deviceID: string): Promise<void> =>
-    await this._database.remove(this._collectionName, {
+  deleteByID: (deviceID: string) => Promise<void> = async (
+    deviceID: string,
+  ): Promise<void> =>
+    this._database.remove(this._collectionName, {
       deviceID: deviceID.toLowerCase(),
     });
 
-  getAll = async (userID: ?string = null): Promise<Array<DeviceAttributes>> => {
+  getAll: (userID: ?string) => Promise<Array<DeviceAttributes>> = async (
+    userID: ?string = null,
+  ): Promise<Array<DeviceAttributes>> => {
     const query = userID ? { ownerID: userID } : {};
     return (await this._database.find(this._collectionName, query)).map(
       this._parseVariables,
     );
   };
 
-  getByID = async (deviceID: string): Promise<?DeviceAttributes> =>
+  getByID: (deviceID: string) => Promise<?DeviceAttributes> = async (
+    deviceID: string,
+  ): Promise<?DeviceAttributes> =>
     this._parseVariables(
       await this._database.findOne(this._collectionName, {
         deviceID: deviceID.toLowerCase(),
       }),
     );
 
-  getByName = async (name: string): Promise<?DeviceAttributes> =>
+  getByName: (name: string) => Promise<?DeviceAttributes> = async (
+    name: string,
+  ): Promise<?DeviceAttributes> =>
     this._parseVariables(
       await this._database.findOne(this._collectionName, {
         name,
       }),
     );
 
-  getManyFromIDs = async (
+  getManyFromIDs: (
+    deviceIDs: Array<string>,
+    ownerID?: string,
+  ) => Promise<Array<DeviceAttributes>> = async (
     deviceIDs: Array<string>,
     ownerID?: string,
   ): Promise<Array<DeviceAttributes>> =>
     // todo  $in operator doesn't work for neDb(no matter with regexp or plain strings)
-    (await this._database.find(this._collectionName, {
-      deviceID: {
-        $in: deviceIDs.map(id => id.toLowerCase()),
-      },
-      ...(ownerID ? { ownerID } : {}),
-    })).map(this._parseVariables);
+    (
+      await this._database.find(this._collectionName, {
+        deviceID: {
+          $in: deviceIDs.map((id: string): string => id.toLowerCase()),
+        },
+        ...(ownerID ? { ownerID } : {}),
+      })
+    ).map(this._parseVariables);
 
-  updateByID = async (
+  updateByID: (
+    deviceID: string,
+    attributes: $Shape<DeviceAttributes>,
+  ) => Promise<DeviceAttributes> = async (
     deviceID: string,
     { variables, ...props }: $Shape<DeviceAttributes>,
   ): Promise<DeviceAttributes> => {
@@ -94,7 +112,7 @@ class DeviceAttributeDatabaseRepository extends BaseRepository
       );
     }
 
-    return await this._database.findAndModify(
+    return this._database.findAndModify(
       this._collectionName,
       { deviceID: deviceID.toLowerCase() },
       { $set: { ...attributesToSave, timestamp: new Date() } },
@@ -104,7 +122,9 @@ class DeviceAttributeDatabaseRepository extends BaseRepository
   // mongo and neDB don't support dots in variables names
   // but some of the server users want to have dots in their device var names
   // so we have to stringify them and parse back.
-  _parseVariables = (attributesFromDB: ?Object): ?DeviceAttributes => {
+  _parseVariables: (attributesFromDB: ?Object) => ?DeviceAttributes = (
+    attributesFromDB: ?Object,
+  ): ?DeviceAttributes => {
     if (!attributesFromDB) {
       return null;
     }

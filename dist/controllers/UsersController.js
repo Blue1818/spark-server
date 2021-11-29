@@ -1,116 +1,78 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
+var _Reflect$construct = require("@babel/runtime-corejs3/core-js-stable/reflect/construct");
+
+var _Object$defineProperty = require("@babel/runtime-corejs3/core-js-stable/object/define-property");
+
+var _interopRequireDefault = require("@babel/runtime-corejs3/helpers/interopRequireDefault");
+
+_Object$defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+exports["default"] = void 0;
 
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+var _getOwnPropertyDescriptor = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-descriptor"));
 
-var _regenerator = require('babel-runtime/regenerator');
+var _regenerator = _interopRequireDefault(require("@babel/runtime-corejs3/regenerator"));
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/asyncToGenerator"));
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/classCallCheck"));
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+var _createClass2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/createClass"));
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/assertThisInitialized"));
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+var _inherits2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/inherits"));
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/possibleConstructorReturn"));
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/getPrototypeOf"));
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/defineProperty"));
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _applyDecoratedDescriptor2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/applyDecoratedDescriptor"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _basicAuthParser3 = _interopRequireDefault(require("basic-auth-parser"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _Controller2 = _interopRequireDefault(require("./Controller"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _HttpError = _interopRequireDefault(require("../lib/HttpError"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _anonymous = _interopRequireDefault(require("../decorators/anonymous"));
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _desc, _value, _class;
+var _httpVerb = _interopRequireDefault(require("../decorators/httpVerb"));
 
-var _basicAuthParser3 = require('basic-auth-parser');
+var _route = _interopRequireDefault(require("../decorators/route"));
 
-var _basicAuthParser4 = _interopRequireDefault(_basicAuthParser3);
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _class;
 
-var _Controller2 = require('./Controller');
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = _Reflect$construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
 
-var _Controller3 = _interopRequireDefault(_Controller2);
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !_Reflect$construct) return false; if (_Reflect$construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(_Reflect$construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
-var _HttpError = require('../lib/HttpError');
+var UsersController = (_dec = (0, _httpVerb["default"])('post'), _dec2 = (0, _route["default"])('/v1/users'), _dec3 = (0, _anonymous["default"])(), _dec4 = (0, _httpVerb["default"])('delete'), _dec5 = (0, _route["default"])('/v1/access_tokens/:token'), _dec6 = (0, _anonymous["default"])(), _dec7 = (0, _httpVerb["default"])('get'), _dec8 = (0, _route["default"])('/v1/access_tokens'), _dec9 = (0, _anonymous["default"])(), (_class = /*#__PURE__*/function (_Controller) {
+  (0, _inherits2["default"])(UsersController, _Controller);
 
-var _HttpError2 = _interopRequireDefault(_HttpError);
-
-var _anonymous = require('../decorators/anonymous');
-
-var _anonymous2 = _interopRequireDefault(_anonymous);
-
-var _httpVerb = require('../decorators/httpVerb');
-
-var _httpVerb2 = _interopRequireDefault(_httpVerb);
-
-var _route = require('../decorators/route');
-
-var _route2 = _interopRequireDefault(_route);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
-
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
-
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
-
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
-
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
-
-  return desc;
-}
-
-var UsersController = (_dec = (0, _httpVerb2.default)('post'), _dec2 = (0, _route2.default)('/v1/users'), _dec3 = (0, _anonymous2.default)(), _dec4 = (0, _httpVerb2.default)('delete'), _dec5 = (0, _route2.default)('/v1/access_tokens/:token'), _dec6 = (0, _anonymous2.default)(), _dec7 = (0, _httpVerb2.default)('get'), _dec8 = (0, _route2.default)('/v1/access_tokens'), _dec9 = (0, _anonymous2.default)(), (_class = function (_Controller) {
-  (0, _inherits3.default)(UsersController, _Controller);
+  var _super = _createSuper(UsersController);
 
   function UsersController(userRepository) {
-    (0, _classCallCheck3.default)(this, UsersController);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (UsersController.__proto__ || (0, _getPrototypeOf2.default)(UsersController)).call(this));
-
+    (0, _classCallCheck2["default"])(this, UsersController);
+    _this = _super.call(this);
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "_userRepository", void 0);
     _this._userRepository = userRepository;
     return _this;
   }
 
-  (0, _createClass3.default)(UsersController, [{
-    key: 'createUser',
+  (0, _createClass2["default"])(UsersController, [{
+    key: "createUser",
     value: function () {
-      var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(userCredentials) {
+      var _createUser = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(userCredentials) {
         var isUserNameInUse;
-        return _regenerator2.default.wrap(function _callee$(_context) {
+        return _regenerator["default"].wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -126,22 +88,24 @@ var UsersController = (_dec = (0, _httpVerb2.default)('post'), _dec2 = (0, _rout
                   break;
                 }
 
-                throw new _HttpError2.default('user with the username already exists');
+                throw new _HttpError["default"]('user with the username already exists');
 
               case 6:
                 _context.next = 8;
                 return this._userRepository.createWithCredentials(userCredentials);
 
               case 8:
-                return _context.abrupt('return', this.ok({ ok: true }));
+                return _context.abrupt("return", this.ok({
+                  ok: true
+                }));
 
               case 11:
                 _context.prev = 11;
-                _context.t0 = _context['catch'](0);
-                return _context.abrupt('return', this.bad(_context.t0.message));
+                _context.t0 = _context["catch"](0);
+                return _context.abrupt("return", this.bad(_context.t0.message));
 
               case 14:
-              case 'end':
+              case "end":
                 return _context.stop();
             }
           }
@@ -149,35 +113,36 @@ var UsersController = (_dec = (0, _httpVerb2.default)('post'), _dec2 = (0, _rout
       }));
 
       function createUser(_x) {
-        return _ref.apply(this, arguments);
+        return _createUser.apply(this, arguments);
       }
 
       return createUser;
     }()
   }, {
-    key: 'deleteAccessToken',
+    key: "deleteAccessToken",
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(token) {
+      var _deleteAccessToken = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(token) {
         var _basicAuthParser, username, password, user;
 
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+        return _regenerator["default"].wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _basicAuthParser = (0, _basicAuthParser4.default)(this.request.get('authorization')), username = _basicAuthParser.username, password = _basicAuthParser.password;
+                _basicAuthParser = (0, _basicAuthParser3["default"])(this.request.get('authorization')), username = _basicAuthParser.username, password = _basicAuthParser.password;
                 _context2.next = 3;
                 return this._userRepository.validateLogin(username, password);
 
               case 3:
                 user = _context2.sent;
 
-
                 this._userRepository.deleteAccessToken(user.id, token);
 
-                return _context2.abrupt('return', this.ok({ ok: true }));
+                return _context2.abrupt("return", this.ok({
+                  ok: true
+                }));
 
               case 6:
-              case 'end':
+              case "end":
                 return _context2.stop();
             }
           }
@@ -185,31 +150,31 @@ var UsersController = (_dec = (0, _httpVerb2.default)('post'), _dec2 = (0, _rout
       }));
 
       function deleteAccessToken(_x2) {
-        return _ref2.apply(this, arguments);
+        return _deleteAccessToken.apply(this, arguments);
       }
 
       return deleteAccessToken;
     }()
   }, {
-    key: 'getAccessTokens',
+    key: "getAccessTokens",
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
+      var _getAccessTokens = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3() {
         var _basicAuthParser2, username, password, user;
 
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+        return _regenerator["default"].wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _basicAuthParser2 = (0, _basicAuthParser4.default)(this.request.get('authorization')), username = _basicAuthParser2.username, password = _basicAuthParser2.password;
+                _basicAuthParser2 = (0, _basicAuthParser3["default"])(this.request.get('authorization')), username = _basicAuthParser2.username, password = _basicAuthParser2.password;
                 _context3.next = 3;
                 return this._userRepository.validateLogin(username, password);
 
               case 3:
                 user = _context3.sent;
-                return _context3.abrupt('return', this.ok(user.accessTokens));
+                return _context3.abrupt("return", this.ok(user.accessTokens));
 
               case 5:
-              case 'end':
+              case "end":
                 return _context3.stop();
             }
           }
@@ -217,12 +182,13 @@ var UsersController = (_dec = (0, _httpVerb2.default)('post'), _dec2 = (0, _rout
       }));
 
       function getAccessTokens() {
-        return _ref3.apply(this, arguments);
+        return _getAccessTokens.apply(this, arguments);
       }
 
       return getAccessTokens;
     }()
   }]);
   return UsersController;
-}(_Controller3.default), (_applyDecoratedDescriptor(_class.prototype, 'createUser', [_dec, _dec2, _dec3], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'createUser'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'deleteAccessToken', [_dec4, _dec5, _dec6], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'deleteAccessToken'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'getAccessTokens', [_dec7, _dec8, _dec9], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'getAccessTokens'), _class.prototype)), _class));
-exports.default = UsersController;
+}(_Controller2["default"]), ((0, _applyDecoratedDescriptor2["default"])(_class.prototype, "createUser", [_dec, _dec2, _dec3], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "createUser"), _class.prototype), (0, _applyDecoratedDescriptor2["default"])(_class.prototype, "deleteAccessToken", [_dec4, _dec5, _dec6], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "deleteAccessToken"), _class.prototype), (0, _applyDecoratedDescriptor2["default"])(_class.prototype, "getAccessTokens", [_dec7, _dec8, _dec9], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "getAccessTokens"), _class.prototype)), _class));
+var _default = UsersController;
+exports["default"] = _default;

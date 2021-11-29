@@ -1,14 +1,36 @@
 {
-  "extends": ["airbnb-base", "prettier"],
-  "parser": "babel-eslint",
-  "plugins": ["flowtype", "sorting"],
+  "extends": [
+    "airbnb-base",
+    "prettier",
+    "plugin:flowtype/recommended"
+  ],
+  "parser": "@babel/eslint-parser",
+  "plugins": [
+    "flowtype"
+  ],
   "rules": {
-    "class-methods-use-this": 0,
     "eol-last": 2,
     "flowtype/define-flow-type": 1,
-    "flowtype/require-valid-file-annotation": [2, "always"],
-    "flowtype/space-after-type-colon": [1, "always"],
-    "flowtype/space-before-type-colon": [1, "never"],
+    "flowtype/require-parameter-type": 1,
+    "flowtype/require-valid-file-annotation": [
+      2,
+      "always"
+    ],
+    "flowtype/require-return-type": [
+      1,
+      "always",
+      {
+        "annotateUndefined": "never"
+      }
+    ],
+    "flowtype/space-after-type-colon": [
+      1,
+      "always"
+    ],
+    "flowtype/space-before-type-colon": [
+      1,
+      "never"
+    ],
     "flowtype/use-flow-type": 1,
     "import/first": 0,
     "import/newline-after-import": 0,
@@ -23,17 +45,17 @@
     "no-duplicate-imports": 0,
     "no-mixed-operators": 0,
     "no-underscore-dangle": 0,
-    "no-unused-vars": [0, { "ignoreRestSiblings": true }],
     "no-use-before-define": 0,
     "object-curly-spacing": 2,
-    "quotes": [2, "single", { "avoidEscape": true }],
-    "semi": 2,
-    "sorting/sort-object-props": [
+    "class-methods-use-this": "off",
+    "no-promise-executor-return": "off",
+    "quotes": [
       2,
+      "single",
       {
-        "ignoreCase": true,
-        "ignoreMethods": false
+        "avoidEscape": true
       }
-    ]
+    ],
+    "semi": 2
   }
 }

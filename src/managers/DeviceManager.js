@@ -1,7 +1,9 @@
 // @flow
 
-import type { File } from 'express';
+import ECKey from 'ec-key';
+import NodeRSA from 'node-rsa';
 import type { EventPublisher } from 'spark-protocol';
+import { SPARK_SERVER_EVENTS } from 'spark-protocol';
 import type PermissionManager from './PermissionManager';
 import type {
   Device,
@@ -10,17 +12,17 @@ import type {
   IDeviceAttributeRepository,
   IDeviceFirmwareRepository,
 } from '../types';
-
-import ECKey from 'ec-key';
-import { SPARK_SERVER_EVENTS } from 'spark-protocol';
-import NodeRSA from 'node-rsa';
 import HttpError from '../lib/HttpError';
 
 class DeviceManager {
   _deviceAttributeRepository: IDeviceAttributeRepository;
+
   _deviceFirmwareRepository: IDeviceFirmwareRepository;
+
   _deviceKeyRepository: IDeviceKeyRepository;
+
   _permissionManager: PermissionManager;
+
   _eventPublisher: EventPublisher;
 
   constructor(
@@ -37,15 +39,15 @@ class DeviceManager {
     this._eventPublisher = eventPublisher;
   }
 
-  claimDevice = async (
+  async claimDevice(
     deviceID: string,
     userID: string,
-  ): Promise<DeviceAttributes> => {
+  ): Promise<DeviceAttributes> {
     // todo check: we may not need to get attributes from db here.
     const attributes = await this._deviceAttributeRepository.getByID(deviceID);
 
     if (!attributes) {
-      return await this._deviceAttributeRepository.updateByID(deviceID, {
+      return this._deviceAttributeRepository.updateByID(deviceID, {
         deviceID,
         ownerID: userID,
         registrar: userID,
@@ -66,12 +68,12 @@ class DeviceManager {
     });
 
     // todo check: we may not need to update attributes in db here.
-    return await this._deviceAttributeRepository.updateByID(deviceID, {
+    return this._deviceAttributeRepository.updateByID(deviceID, {
       ownerID: userID,
     });
-  };
+  }
 
-  unclaimDevice = async (deviceID: string): Promise<DeviceAttributes> => {
+  async unclaimDevice(deviceID: string): Promise<DeviceAttributes> {
     await this.getByID(deviceID);
 
     // update connected device attributes
@@ -80,18 +82,18 @@ class DeviceManager {
       name: SPARK_SERVER_EVENTS.UPDATE_DEVICE_ATTRIBUTES,
     });
 
-    return await this._deviceAttributeRepository.updateByID(deviceID, {
+    return this._deviceAttributeRepository.updateByID(deviceID, {
       ownerID: null,
     });
-  };
+  }
 
-  getAttributesByID = async (deviceID: string): Promise<DeviceAttributes> => {
+  async getAttributesByID(deviceID: string): Promise<DeviceAttributes> {
     // eslint-disable-next-line no-unused-vars
     const { connected, ...attributes } = await this.getByID(deviceID);
     return attributes;
-  };
+  }
 
-  getByID = async (deviceID: string): Promise<Device> => {
+  async getByID(deviceID: string): Promise<Device> {
     const connectedDeviceAttributes = await this._eventPublisher.publishAndListenForResponse(
       {
         context: { deviceID: deviceID.toLowerCase() },
@@ -117,9 +119,9 @@ class DeviceManager {
       connected: !connectedDeviceAttributes.error,
       lastFlashedAppName: null,
     };
-  };
+  }
 
-  getDeviceID = async (deviceIDorName: string): Promise<string> => {
+  async getDeviceID(deviceIDorName: string): Promise<string> {
     let device = await this._deviceAttributeRepository.getByID(deviceIDorName);
     if (device == null) {
       device = await this._deviceAttributeRepository.getByName(deviceIDorName);
@@ -136,9 +138,9 @@ class DeviceManager {
     }
 
     return device.deviceID;
-  };
+  }
 
-  getAll = async (): Promise<Array<Device>> => {
+  async getAll(): Promise<Array<Device>> {
     const devicesAttributes = await this._permissionManager.getAllEntitiesForCurrentUser(
       'deviceAttributes',
     );
@@ -161,13 +163,13 @@ class DeviceManager {
     );
 
     return Promise.all(devicePromises);
-  };
+  }
 
-  callFunction = async (
+  async callFunction<TResult>(
     deviceID: string,
     functionName: string,
     functionArguments: { [key: string]: string },
-  ): Promise<*> => {
+  ): Promise<TResult> {
     await this._permissionManager.checkPermissionsForEntityByID(
       'deviceAttributes',
       deviceID,
@@ -185,12 +187,12 @@ class DeviceManager {
     }
 
     return result;
-  };
+  }
 
-  getVariableValue = async (
+  async getVariableValue<TResult>(
     deviceID: string,
     variableName: string,
-  ): Promise<*> => {
+  ): Promise<TResult> {
     await this._permissionManager.checkPermissionsForEntityByID(
       'deviceAttributes',
       deviceID,
@@ -209,9 +211,9 @@ class DeviceManager {
     }
 
     return result;
-  };
+  }
 
-  flashBinary = async (deviceID: string, file: File): Promise<*> => {
+  async flashBinary(deviceID: string, file: File): Promise<{ status: number }> {
     await this._permissionManager.checkPermissionsForEntityByID(
       'deviceAttributes',
       deviceID,
@@ -230,9 +232,12 @@ class DeviceManager {
     }
 
     return flashResponse;
-  };
+  }
 
-  flashKnownApp = async (deviceID: string, appName: string): Promise<*> => {
+  async flashKnownApp(
+    deviceID: string,
+    appName: string,
+  ): Promise<{ status: number }> {
     await this._permissionManager.checkPermissionsForEntityByID(
       'deviceAttributes',
       deviceID,
@@ -257,31 +262,32 @@ class DeviceManager {
     }
 
     return flashResponse;
-  };
+  }
 
-  flashProductFirmware = (productID: number, deviceID: ?string = null): void =>
+  flashProductFirmware(productID: number, deviceID: ?string = null) {
     this._eventPublisher.publish({
       context: { deviceID, productID },
       name: SPARK_SERVER_EVENTS.FLASH_PRODUCT_FIRMWARE,
     });
+  }
 
-  ping = async (deviceID: string): Promise<void> => {
+  async ping(deviceID: string): Promise<Object> {
     await this._permissionManager.checkPermissionsForEntityByID(
       'deviceAttributes',
       deviceID,
     );
-    return await this._eventPublisher.publishAndListenForResponse({
+    return this._eventPublisher.publishAndListenForResponse({
       context: { deviceID },
       name: SPARK_SERVER_EVENTS.PING_DEVICE,
     });
-  };
+  }
 
-  provision = async (
+  async provision(
     deviceID: string,
     userID: string,
     publicKey: string,
     algorithm: 'ecc' | 'rsa',
-  ): Promise<*> => {
+  ): Promise<Device> {
     if (algorithm === 'ecc') {
       try {
         const eccKey = new ECKey(publicKey, 'pem');
@@ -313,13 +319,13 @@ class DeviceManager {
       ownerID: userID,
       registrar: userID,
     });
-    return await this.getByID(deviceID);
-  };
+    return this.getByID(deviceID);
+  }
 
-  raiseYourHand = async (
+  async raiseYourHand(
     deviceID: string,
     shouldShowSignal: boolean,
-  ): Promise<void> => {
+  ): Promise<{}> {
     await this._permissionManager.checkPermissionsForEntityByID(
       'deviceAttributes',
       deviceID,
@@ -338,12 +344,12 @@ class DeviceManager {
     }
 
     return raiseYourHandResponse;
-  };
+  }
 
-  renameDevice = async (
+  async renameDevice(
     deviceID: string,
     name: string,
-  ): Promise<DeviceAttributes> => {
+  ): Promise<DeviceAttributes> {
     // eslint-disable-next-line no-unused-vars
     const attributes = await this.getAttributesByID(deviceID);
 
@@ -353,8 +359,8 @@ class DeviceManager {
       name: SPARK_SERVER_EVENTS.UPDATE_DEVICE_ATTRIBUTES,
     });
 
-    return await this._deviceAttributeRepository.updateByID(deviceID, { name });
-  };
+    return this._deviceAttributeRepository.updateByID(deviceID, { name });
+  }
 }
 
 export default DeviceManager;

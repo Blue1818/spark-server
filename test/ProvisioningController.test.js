@@ -89,7 +89,7 @@ test('should throw an error if public key is not provided', async t => {
   t.is(response.body.error, 'No key provided');
 });
 
-test.after.always(async (): Promise<void> => {
+test.after.always(async () => {
   await container.constitute('IUserRepository').deleteByID(testUser.id);
   await container
     .constitute('IDeviceAttributeRepository')

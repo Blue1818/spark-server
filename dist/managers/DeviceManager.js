@@ -1,771 +1,859 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
+var _Object$keys = require("@babel/runtime-corejs3/core-js-stable/object/keys");
+
+var _Object$getOwnPropertySymbols = require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-symbols");
+
+var _filterInstanceProperty = require("@babel/runtime-corejs3/core-js-stable/instance/filter");
+
+var _Object$getOwnPropertyDescriptor = require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-descriptor");
+
+var _forEachInstanceProperty = require("@babel/runtime-corejs3/core-js-stable/instance/for-each");
+
+var _Object$getOwnPropertyDescriptors = require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-descriptors");
+
+var _Object$defineProperties = require("@babel/runtime-corejs3/core-js-stable/object/define-properties");
+
+var _Object$defineProperty = require("@babel/runtime-corejs3/core-js-stable/object/define-property");
+
+var _interopRequireDefault = require("@babel/runtime-corejs3/helpers/interopRequireDefault");
+
+_Object$defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _promise = require('babel-runtime/core-js/promise');
+exports["default"] = void 0;
 
-var _promise2 = _interopRequireDefault(_promise);
+var _map = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/instance/map"));
 
-var _extends2 = require('babel-runtime/helpers/extends');
+var _promise = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/promise"));
 
-var _extends3 = _interopRequireDefault(_extends2);
+var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/objectWithoutProperties"));
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+var _regenerator = _interopRequireDefault(require("@babel/runtime-corejs3/regenerator"));
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/asyncToGenerator"));
 
-var _regenerator = require('babel-runtime/regenerator');
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/classCallCheck"));
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+var _createClass2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/createClass"));
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/defineProperty"));
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+var _ecKey = _interopRequireDefault(require("ec-key"));
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+var _nodeRsa = _interopRequireDefault(require("node-rsa"));
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+var _sparkProtocol = require("spark-protocol");
 
-var _ecKey = require('ec-key');
+var _HttpError = _interopRequireDefault(require("../lib/HttpError"));
 
-var _ecKey2 = _interopRequireDefault(_ecKey);
+var _excluded = ["connected"];
 
-var _sparkProtocol = require('spark-protocol');
+function ownKeys(object, enumerableOnly) { var keys = _Object$keys(object); if (_Object$getOwnPropertySymbols) { var symbols = _Object$getOwnPropertySymbols(object); if (enumerableOnly) { symbols = _filterInstanceProperty(symbols).call(symbols, function (sym) { return _Object$getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var _nodeRsa = require('node-rsa');
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { var _context16; _forEachInstanceProperty(_context16 = ownKeys(Object(source), true)).call(_context16, function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }); } else if (_Object$getOwnPropertyDescriptors) { _Object$defineProperties(target, _Object$getOwnPropertyDescriptors(source)); } else { var _context17; _forEachInstanceProperty(_context17 = ownKeys(Object(source))).call(_context17, function (key) { _Object$defineProperty(target, key, _Object$getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-var _nodeRsa2 = _interopRequireDefault(_nodeRsa);
+var DeviceManager = /*#__PURE__*/function () {
+  function DeviceManager(deviceAttributeRepository, deviceFirmwareRepository, deviceKeyRepository, permissionManager, eventPublisher) {
+    (0, _classCallCheck2["default"])(this, DeviceManager);
+    (0, _defineProperty2["default"])(this, "_deviceAttributeRepository", void 0);
+    (0, _defineProperty2["default"])(this, "_deviceFirmwareRepository", void 0);
+    (0, _defineProperty2["default"])(this, "_deviceKeyRepository", void 0);
+    (0, _defineProperty2["default"])(this, "_permissionManager", void 0);
+    (0, _defineProperty2["default"])(this, "_eventPublisher", void 0);
+    this._deviceAttributeRepository = deviceAttributeRepository;
+    this._deviceFirmwareRepository = deviceFirmwareRepository;
+    this._deviceKeyRepository = deviceKeyRepository;
+    this._permissionManager = permissionManager;
+    this._eventPublisher = eventPublisher;
+  }
 
-var _HttpError = require('../lib/HttpError');
+  (0, _createClass2["default"])(DeviceManager, [{
+    key: "claimDevice",
+    value: function () {
+      var _claimDevice = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(deviceID, userID) {
+        var attributes;
+        return _regenerator["default"].wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return this._deviceAttributeRepository.getByID(deviceID);
 
-var _HttpError2 = _interopRequireDefault(_HttpError);
+              case 2:
+                attributes = _context.sent;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+                if (attributes) {
+                  _context.next = 5;
+                  break;
+                }
 
-var DeviceManager = function DeviceManager(deviceAttributeRepository, deviceFirmwareRepository, deviceKeyRepository, permissionManager, eventPublisher) {
-  var _this = this;
+                return _context.abrupt("return", this._deviceAttributeRepository.updateByID(deviceID, {
+                  deviceID: deviceID,
+                  ownerID: userID,
+                  registrar: userID
+                }));
 
-  (0, _classCallCheck3.default)(this, DeviceManager);
+              case 5:
+                if (!(attributes.ownerID && attributes.ownerID !== userID)) {
+                  _context.next = 7;
+                  break;
+                }
 
-  this.claimDevice = function () {
-    var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(deviceID, userID) {
-      var attributes;
-      return _regenerator2.default.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              _context.next = 2;
-              return _this._deviceAttributeRepository.getByID(deviceID);
+                throw new _HttpError["default"]('The device belongs to someone else.');
 
-            case 2:
-              attributes = _context.sent;
+              case 7:
+                if (!(attributes.ownerID && attributes.ownerID === userID)) {
+                  _context.next = 9;
+                  break;
+                }
 
-              if (attributes) {
-                _context.next = 7;
-                break;
-              }
+                throw new _HttpError["default"]('The device is already claimed.');
 
-              _context.next = 6;
-              return _this._deviceAttributeRepository.updateByID(deviceID, {
-                deviceID: deviceID,
-                ownerID: userID,
-                registrar: userID
-              });
-
-            case 6:
-              return _context.abrupt('return', _context.sent);
-
-            case 7:
-              if (!(attributes.ownerID && attributes.ownerID !== userID)) {
-                _context.next = 9;
-                break;
-              }
-
-              throw new _HttpError2.default('The device belongs to someone else.');
-
-            case 9:
-              if (!(attributes.ownerID && attributes.ownerID === userID)) {
+              case 9:
                 _context.next = 11;
-                break;
-              }
+                return this._eventPublisher.publishAndListenForResponse({
+                  context: {
+                    attributes: {
+                      ownerID: userID
+                    },
+                    deviceID: deviceID
+                  },
+                  name: _sparkProtocol.SPARK_SERVER_EVENTS.UPDATE_DEVICE_ATTRIBUTES
+                });
 
-              throw new _HttpError2.default('The device is already claimed.');
+              case 11:
+                return _context.abrupt("return", this._deviceAttributeRepository.updateByID(deviceID, {
+                  ownerID: userID
+                }));
 
-            case 11:
-              _context.next = 13;
-              return _this._eventPublisher.publishAndListenForResponse({
-                context: { attributes: { ownerID: userID }, deviceID: deviceID },
-                name: _sparkProtocol.SPARK_SERVER_EVENTS.UPDATE_DEVICE_ATTRIBUTES
-              });
-
-            case 13:
-              _context.next = 15;
-              return _this._deviceAttributeRepository.updateByID(deviceID, {
-                ownerID: userID
-              });
-
-            case 15:
-              return _context.abrupt('return', _context.sent);
-
-            case 16:
-            case 'end':
-              return _context.stop();
+              case 12:
+              case "end":
+                return _context.stop();
+            }
           }
-        }
-      }, _callee, _this);
-    }));
+        }, _callee, this);
+      }));
 
-    return function (_x, _x2) {
-      return _ref.apply(this, arguments);
-    };
-  }();
-
-  this.unclaimDevice = function () {
-    var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(deviceID) {
-      return _regenerator2.default.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              _context2.next = 2;
-              return _this.getByID(deviceID);
-
-            case 2:
-              _context2.next = 4;
-              return _this._eventPublisher.publishAndListenForResponse({
-                context: { attributes: { ownerID: null }, deviceID: deviceID },
-                name: _sparkProtocol.SPARK_SERVER_EVENTS.UPDATE_DEVICE_ATTRIBUTES
-              });
-
-            case 4:
-              _context2.next = 6;
-              return _this._deviceAttributeRepository.updateByID(deviceID, {
-                ownerID: null
-              });
-
-            case 6:
-              return _context2.abrupt('return', _context2.sent);
-
-            case 7:
-            case 'end':
-              return _context2.stop();
-          }
-        }
-      }, _callee2, _this);
-    }));
-
-    return function (_x3) {
-      return _ref2.apply(this, arguments);
-    };
-  }();
-
-  this.getAttributesByID = function () {
-    var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(deviceID) {
-      var _ref4, connected, attributes;
-
-      return _regenerator2.default.wrap(function _callee3$(_context3) {
-        while (1) {
-          switch (_context3.prev = _context3.next) {
-            case 0:
-              _context3.next = 2;
-              return _this.getByID(deviceID);
-
-            case 2:
-              _ref4 = _context3.sent;
-              connected = _ref4.connected;
-              attributes = (0, _objectWithoutProperties3.default)(_ref4, ['connected']);
-              return _context3.abrupt('return', attributes);
-
-            case 6:
-            case 'end':
-              return _context3.stop();
-          }
-        }
-      }, _callee3, _this);
-    }));
-
-    return function (_x4) {
-      return _ref3.apply(this, arguments);
-    };
-  }();
-
-  this.getByID = function () {
-    var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(deviceID) {
-      var connectedDeviceAttributes, attributes;
-      return _regenerator2.default.wrap(function _callee4$(_context4) {
-        while (1) {
-          switch (_context4.prev = _context4.next) {
-            case 0:
-              _context4.next = 2;
-              return _this._eventPublisher.publishAndListenForResponse({
-                context: { deviceID: deviceID.toLowerCase() },
-                name: _sparkProtocol.SPARK_SERVER_EVENTS.GET_DEVICE_ATTRIBUTES
-              });
-
-            case 2:
-              connectedDeviceAttributes = _context4.sent;
-
-              if (!(!connectedDeviceAttributes.error && _this._permissionManager.doesUserHaveAccess(connectedDeviceAttributes))) {
-                _context4.next = 7;
-                break;
-              }
-
-              _context4.t0 = connectedDeviceAttributes;
-              _context4.next = 10;
-              break;
-
-            case 7:
-              _context4.next = 9;
-              return _this._permissionManager.getEntityByID('deviceAttributes', deviceID);
-
-            case 9:
-              _context4.t0 = _context4.sent;
-
-            case 10:
-              attributes = _context4.t0;
-
-              if (attributes) {
-                _context4.next = 13;
-                break;
-              }
-
-              throw new _HttpError2.default('No device found', 404);
-
-            case 13:
-              return _context4.abrupt('return', (0, _extends3.default)({}, attributes, {
-                connected: !connectedDeviceAttributes.error,
-                lastFlashedAppName: null
-              }));
-
-            case 14:
-            case 'end':
-              return _context4.stop();
-          }
-        }
-      }, _callee4, _this);
-    }));
-
-    return function (_x5) {
-      return _ref5.apply(this, arguments);
-    };
-  }();
-
-  this.getDeviceID = function () {
-    var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(deviceIDorName) {
-      var device, hasPermission;
-      return _regenerator2.default.wrap(function _callee5$(_context5) {
-        while (1) {
-          switch (_context5.prev = _context5.next) {
-            case 0:
-              _context5.next = 2;
-              return _this._deviceAttributeRepository.getByID(deviceIDorName);
-
-            case 2:
-              device = _context5.sent;
-
-              if (!(device == null)) {
-                _context5.next = 7;
-                break;
-              }
-
-              _context5.next = 6;
-              return _this._deviceAttributeRepository.getByName(deviceIDorName);
-
-            case 6:
-              device = _context5.sent;
-
-            case 7:
-              if (!(device == null)) {
-                _context5.next = 9;
-                break;
-              }
-
-              throw new _HttpError2.default('No device found', 404);
-
-            case 9:
-              hasPermission = _this._permissionManager.doesUserHaveAccess(device);
-
-              if (hasPermission) {
-                _context5.next = 12;
-                break;
-              }
-
-              throw new _HttpError2.default("User doesn't have access", 403);
-
-            case 12:
-              return _context5.abrupt('return', device.deviceID);
-
-            case 13:
-            case 'end':
-              return _context5.stop();
-          }
-        }
-      }, _callee5, _this);
-    }));
-
-    return function (_x6) {
-      return _ref6.apply(this, arguments);
-    };
-  }();
-
-  this.getAll = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
-    var devicesAttributes, devicePromises;
-    return _regenerator2.default.wrap(function _callee7$(_context7) {
-      while (1) {
-        switch (_context7.prev = _context7.next) {
-          case 0:
-            _context7.next = 2;
-            return _this._permissionManager.getAllEntitiesForCurrentUser('deviceAttributes');
-
-          case 2:
-            devicesAttributes = _context7.sent;
-            devicePromises = devicesAttributes.map(function () {
-              var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(attributes) {
-                var pingResponse;
-                return _regenerator2.default.wrap(function _callee6$(_context6) {
-                  while (1) {
-                    switch (_context6.prev = _context6.next) {
-                      case 0:
-                        _context6.next = 2;
-                        return _this._eventPublisher.publishAndListenForResponse({
-                          context: { deviceID: attributes.deviceID },
-                          name: _sparkProtocol.SPARK_SERVER_EVENTS.PING_DEVICE
-                        });
-
-                      case 2:
-                        pingResponse = _context6.sent;
-                        return _context6.abrupt('return', (0, _extends3.default)({}, attributes, {
-                          connected: pingResponse.connected || false,
-                          lastFlashedAppName: null,
-                          lastHeard: pingResponse.lastHeard || attributes.lastHeard
-                        }));
-
-                      case 4:
-                      case 'end':
-                        return _context6.stop();
-                    }
-                  }
-                }, _callee6, _this);
-              }));
-
-              return function (_x7) {
-                return _ref8.apply(this, arguments);
-              };
-            }());
-            return _context7.abrupt('return', _promise2.default.all(devicePromises));
-
-          case 5:
-          case 'end':
-            return _context7.stop();
-        }
+      function claimDevice(_x, _x2) {
+        return _claimDevice.apply(this, arguments);
       }
-    }, _callee7, _this);
-  }));
 
-  this.callFunction = function () {
-    var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(deviceID, functionName, functionArguments) {
-      var callFunctionResponse, error, result;
-      return _regenerator2.default.wrap(function _callee8$(_context8) {
-        while (1) {
-          switch (_context8.prev = _context8.next) {
-            case 0:
-              _context8.next = 2;
-              return _this._permissionManager.checkPermissionsForEntityByID('deviceAttributes', deviceID);
+      return claimDevice;
+    }()
+  }, {
+    key: "unclaimDevice",
+    value: function () {
+      var _unclaimDevice = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(deviceID) {
+        return _regenerator["default"].wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return this.getByID(deviceID);
 
-            case 2:
-              _context8.next = 4;
-              return _this._eventPublisher.publishAndListenForResponse({
-                context: { deviceID: deviceID, functionArguments: functionArguments, functionName: functionName },
-                name: _sparkProtocol.SPARK_SERVER_EVENTS.CALL_DEVICE_FUNCTION
-              });
+              case 2:
+                _context2.next = 4;
+                return this._eventPublisher.publishAndListenForResponse({
+                  context: {
+                    attributes: {
+                      ownerID: null
+                    },
+                    deviceID: deviceID
+                  },
+                  name: _sparkProtocol.SPARK_SERVER_EVENTS.UPDATE_DEVICE_ATTRIBUTES
+                });
 
-            case 4:
-              callFunctionResponse = _context8.sent;
-              error = callFunctionResponse.error, result = callFunctionResponse.result;
+              case 4:
+                return _context2.abrupt("return", this._deviceAttributeRepository.updateByID(deviceID, {
+                  ownerID: null
+                }));
 
-              if (!error) {
-                _context8.next = 8;
-                break;
-              }
-
-              throw new _HttpError2.default(error);
-
-            case 8:
-              return _context8.abrupt('return', result);
-
-            case 9:
-            case 'end':
-              return _context8.stop();
+              case 5:
+              case "end":
+                return _context2.stop();
+            }
           }
-        }
-      }, _callee8, _this);
-    }));
+        }, _callee2, this);
+      }));
 
-    return function (_x8, _x9, _x10) {
-      return _ref9.apply(this, arguments);
-    };
-  }();
+      function unclaimDevice(_x3) {
+        return _unclaimDevice.apply(this, arguments);
+      }
 
-  this.getVariableValue = function () {
-    var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(deviceID, variableName) {
-      var getVariableResponse, error, result;
-      return _regenerator2.default.wrap(function _callee9$(_context9) {
-        while (1) {
-          switch (_context9.prev = _context9.next) {
-            case 0:
-              _context9.next = 2;
-              return _this._permissionManager.checkPermissionsForEntityByID('deviceAttributes', deviceID);
+      return unclaimDevice;
+    }()
+  }, {
+    key: "getAttributesByID",
+    value: function () {
+      var _getAttributesByID = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(deviceID) {
+        var _yield$this$getByID, connected, attributes;
 
-            case 2:
-              _context9.next = 4;
-              return _this._eventPublisher.publishAndListenForResponse({
-                context: { deviceID: deviceID, variableName: variableName },
-                name: _sparkProtocol.SPARK_SERVER_EVENTS.GET_DEVICE_VARIABLE_VALUE
-              });
+        return _regenerator["default"].wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return this.getByID(deviceID);
 
-            case 4:
-              getVariableResponse = _context9.sent;
-              error = getVariableResponse.error, result = getVariableResponse.result;
+              case 2:
+                _yield$this$getByID = _context3.sent;
+                connected = _yield$this$getByID.connected;
+                attributes = (0, _objectWithoutProperties2["default"])(_yield$this$getByID, _excluded);
+                return _context3.abrupt("return", attributes);
 
-              if (!error) {
-                _context9.next = 8;
-                break;
-              }
-
-              throw new _HttpError2.default(error);
-
-            case 8:
-              return _context9.abrupt('return', result);
-
-            case 9:
-            case 'end':
-              return _context9.stop();
+              case 6:
+              case "end":
+                return _context3.stop();
+            }
           }
-        }
-      }, _callee9, _this);
-    }));
+        }, _callee3, this);
+      }));
 
-    return function (_x11, _x12) {
-      return _ref10.apply(this, arguments);
-    };
-  }();
+      function getAttributesByID(_x4) {
+        return _getAttributesByID.apply(this, arguments);
+      }
 
-  this.flashBinary = function () {
-    var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10(deviceID, file) {
-      var flashResponse, error;
-      return _regenerator2.default.wrap(function _callee10$(_context10) {
-        while (1) {
-          switch (_context10.prev = _context10.next) {
-            case 0:
-              _context10.next = 2;
-              return _this._permissionManager.checkPermissionsForEntityByID('deviceAttributes', deviceID);
+      return getAttributesByID;
+    }()
+  }, {
+    key: "getByID",
+    value: function () {
+      var _getByID = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(deviceID) {
+        var connectedDeviceAttributes, attributes;
+        return _regenerator["default"].wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return this._eventPublisher.publishAndListenForResponse({
+                  context: {
+                    deviceID: deviceID.toLowerCase()
+                  },
+                  name: _sparkProtocol.SPARK_SERVER_EVENTS.GET_DEVICE_ATTRIBUTES
+                });
 
-            case 2:
-              _context10.next = 4;
-              return _this._eventPublisher.publishAndListenForResponse({
-                context: { deviceID: deviceID, fileBuffer: file.buffer },
-                name: _sparkProtocol.SPARK_SERVER_EVENTS.FLASH_DEVICE
-              });
+              case 2:
+                connectedDeviceAttributes = _context4.sent;
 
-            case 4:
-              flashResponse = _context10.sent;
-              error = flashResponse.error;
+                if (!(!connectedDeviceAttributes.error && this._permissionManager.doesUserHaveAccess(connectedDeviceAttributes))) {
+                  _context4.next = 7;
+                  break;
+                }
 
-              if (!error) {
-                _context10.next = 8;
+                _context4.t0 = connectedDeviceAttributes;
+                _context4.next = 10;
                 break;
-              }
 
-              throw new _HttpError2.default(error);
+              case 7:
+                _context4.next = 9;
+                return this._permissionManager.getEntityByID('deviceAttributes', deviceID);
 
-            case 8:
-              return _context10.abrupt('return', flashResponse);
+              case 9:
+                _context4.t0 = _context4.sent;
 
-            case 9:
-            case 'end':
-              return _context10.stop();
+              case 10:
+                attributes = _context4.t0;
+
+                if (attributes) {
+                  _context4.next = 13;
+                  break;
+                }
+
+                throw new _HttpError["default"]('No device found', 404);
+
+              case 13:
+                return _context4.abrupt("return", _objectSpread(_objectSpread({}, attributes), {}, {
+                  connected: !connectedDeviceAttributes.error,
+                  lastFlashedAppName: null
+                }));
+
+              case 14:
+              case "end":
+                return _context4.stop();
+            }
           }
-        }
-      }, _callee10, _this);
-    }));
+        }, _callee4, this);
+      }));
 
-    return function (_x13, _x14) {
-      return _ref11.apply(this, arguments);
-    };
-  }();
+      function getByID(_x5) {
+        return _getByID.apply(this, arguments);
+      }
 
-  this.flashKnownApp = function () {
-    var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(deviceID, appName) {
-      var knownFirmware, flashResponse, error;
-      return _regenerator2.default.wrap(function _callee11$(_context11) {
-        while (1) {
-          switch (_context11.prev = _context11.next) {
-            case 0:
-              _context11.next = 2;
-              return _this._permissionManager.checkPermissionsForEntityByID('deviceAttributes', deviceID);
+      return getByID;
+    }()
+  }, {
+    key: "getDeviceID",
+    value: function () {
+      var _getDeviceID = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(deviceIDorName) {
+        var device, hasPermission;
+        return _regenerator["default"].wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
+                return this._deviceAttributeRepository.getByID(deviceIDorName);
 
-            case 2:
-              knownFirmware = _this._deviceFirmwareRepository.getByName(appName);
+              case 2:
+                device = _context5.sent;
 
-              if (knownFirmware) {
-                _context11.next = 5;
-                break;
-              }
+                if (!(device == null)) {
+                  _context5.next = 7;
+                  break;
+                }
 
-              throw new _HttpError2.default('No firmware ' + appName + ' found', 404);
+                _context5.next = 6;
+                return this._deviceAttributeRepository.getByName(deviceIDorName);
 
-            case 5:
-              _context11.next = 7;
-              return _this._eventPublisher.publishAndListenForResponse({
-                context: { deviceID: deviceID, fileBuffer: knownFirmware },
-                name: _sparkProtocol.SPARK_SERVER_EVENTS.FLASH_DEVICE
-              });
+              case 6:
+                device = _context5.sent;
 
-            case 7:
-              flashResponse = _context11.sent;
-              error = flashResponse.error;
+              case 7:
+                if (!(device == null)) {
+                  _context5.next = 9;
+                  break;
+                }
 
-              if (!error) {
-                _context11.next = 11;
-                break;
-              }
+                throw new _HttpError["default"]('No device found', 404);
 
-              throw new _HttpError2.default(error);
+              case 9:
+                hasPermission = this._permissionManager.doesUserHaveAccess(device);
 
-            case 11:
-              return _context11.abrupt('return', flashResponse);
+                if (hasPermission) {
+                  _context5.next = 12;
+                  break;
+                }
 
-            case 12:
-            case 'end':
-              return _context11.stop();
+                throw new _HttpError["default"]("User doesn't have access", 403);
+
+              case 12:
+                return _context5.abrupt("return", device.deviceID);
+
+              case 13:
+              case "end":
+                return _context5.stop();
+            }
           }
-        }
-      }, _callee11, _this);
-    }));
+        }, _callee5, this);
+      }));
 
-    return function (_x15, _x16) {
-      return _ref12.apply(this, arguments);
-    };
-  }();
+      function getDeviceID(_x6) {
+        return _getDeviceID.apply(this, arguments);
+      }
 
-  this.flashProductFirmware = function (productID) {
-    var deviceID = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-    return _this._eventPublisher.publish({
-      context: { deviceID: deviceID, productID: productID },
-      name: _sparkProtocol.SPARK_SERVER_EVENTS.FLASH_PRODUCT_FIRMWARE
-    });
-  };
+      return getDeviceID;
+    }()
+  }, {
+    key: "getAll",
+    value: function () {
+      var _getAll = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee7() {
+        var _this = this;
 
-  this.ping = function () {
-    var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee12(deviceID) {
-      return _regenerator2.default.wrap(function _callee12$(_context12) {
-        while (1) {
-          switch (_context12.prev = _context12.next) {
-            case 0:
-              _context12.next = 2;
-              return _this._permissionManager.checkPermissionsForEntityByID('deviceAttributes', deviceID);
+        var devicesAttributes, devicePromises;
+        return _regenerator["default"].wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                _context7.next = 2;
+                return this._permissionManager.getAllEntitiesForCurrentUser('deviceAttributes');
 
-            case 2:
-              _context12.next = 4;
-              return _this._eventPublisher.publishAndListenForResponse({
-                context: { deviceID: deviceID },
-                name: _sparkProtocol.SPARK_SERVER_EVENTS.PING_DEVICE
-              });
+              case 2:
+                devicesAttributes = _context7.sent;
+                devicePromises = (0, _map["default"])(devicesAttributes).call(devicesAttributes, /*#__PURE__*/function () {
+                  var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6(attributes) {
+                    var pingResponse;
+                    return _regenerator["default"].wrap(function _callee6$(_context6) {
+                      while (1) {
+                        switch (_context6.prev = _context6.next) {
+                          case 0:
+                            _context6.next = 2;
+                            return _this._eventPublisher.publishAndListenForResponse({
+                              context: {
+                                deviceID: attributes.deviceID
+                              },
+                              name: _sparkProtocol.SPARK_SERVER_EVENTS.PING_DEVICE
+                            });
 
-            case 4:
-              return _context12.abrupt('return', _context12.sent);
+                          case 2:
+                            pingResponse = _context6.sent;
+                            return _context6.abrupt("return", _objectSpread(_objectSpread({}, attributes), {}, {
+                              connected: pingResponse.connected || false,
+                              lastFlashedAppName: null,
+                              lastHeard: pingResponse.lastHeard || attributes.lastHeard
+                            }));
 
-            case 5:
-            case 'end':
-              return _context12.stop();
+                          case 4:
+                          case "end":
+                            return _context6.stop();
+                        }
+                      }
+                    }, _callee6);
+                  }));
+
+                  return function (_x7) {
+                    return _ref.apply(this, arguments);
+                  };
+                }());
+                return _context7.abrupt("return", _promise["default"].all(devicePromises));
+
+              case 5:
+              case "end":
+                return _context7.stop();
+            }
           }
-        }
-      }, _callee12, _this);
-    }));
+        }, _callee7, this);
+      }));
 
-    return function (_x18) {
-      return _ref13.apply(this, arguments);
-    };
-  }();
+      function getAll() {
+        return _getAll.apply(this, arguments);
+      }
 
-  this.provision = function () {
-    var _ref14 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee13(deviceID, userID, publicKey, algorithm) {
-      var eccKey, createdKey;
-      return _regenerator2.default.wrap(function _callee13$(_context13) {
-        while (1) {
-          switch (_context13.prev = _context13.next) {
-            case 0:
-              if (!(algorithm === 'ecc')) {
-                _context13.next = 12;
-                break;
-              }
+      return getAll;
+    }()
+  }, {
+    key: "callFunction",
+    value: function () {
+      var _callFunction = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee8(deviceID, functionName, functionArguments) {
+        var callFunctionResponse, error, result;
+        return _regenerator["default"].wrap(function _callee8$(_context8) {
+          while (1) {
+            switch (_context8.prev = _context8.next) {
+              case 0:
+                _context8.next = 2;
+                return this._permissionManager.checkPermissionsForEntityByID('deviceAttributes', deviceID);
 
-              _context13.prev = 1;
-              eccKey = new _ecKey2.default(publicKey, 'pem');
+              case 2:
+                _context8.next = 4;
+                return this._eventPublisher.publishAndListenForResponse({
+                  context: {
+                    deviceID: deviceID,
+                    functionArguments: functionArguments,
+                    functionName: functionName
+                  },
+                  name: _sparkProtocol.SPARK_SERVER_EVENTS.CALL_DEVICE_FUNCTION
+                });
 
-              if (!eccKey.isPrivateECKey) {
-                _context13.next = 5;
-                break;
-              }
+              case 4:
+                callFunctionResponse = _context8.sent;
+                error = callFunctionResponse.error, result = callFunctionResponse.result;
 
-              throw new _HttpError2.default('Not a public key');
+                if (!error) {
+                  _context8.next = 8;
+                  break;
+                }
 
-            case 5:
-              _context13.next = 10;
-              break;
+                throw new _HttpError["default"](error);
 
-            case 7:
-              _context13.prev = 7;
-              _context13.t0 = _context13['catch'](1);
-              throw new _HttpError2.default('Key error ' + _context13.t0);
+              case 8:
+                return _context8.abrupt("return", result);
 
-            case 10:
-              _context13.next = 21;
-              break;
-
-            case 12:
-              _context13.prev = 12;
-              createdKey = new _nodeRsa2.default(publicKey);
-
-              if (createdKey.isPublic()) {
-                _context13.next = 16;
-                break;
-              }
-
-              throw new _HttpError2.default('Not a public key');
-
-            case 16:
-              _context13.next = 21;
-              break;
-
-            case 18:
-              _context13.prev = 18;
-              _context13.t1 = _context13['catch'](12);
-              throw new _HttpError2.default('Key error ' + _context13.t1);
-
-            case 21:
-              _context13.next = 23;
-              return _this._deviceKeyRepository.updateByID(deviceID, {
-                algorithm: algorithm,
-                deviceID: deviceID,
-                key: publicKey
-              });
-
-            case 23:
-              _context13.next = 25;
-              return _this._deviceAttributeRepository.updateByID(deviceID, {
-                ownerID: userID,
-                registrar: userID
-              });
-
-            case 25:
-              _context13.next = 27;
-              return _this.getByID(deviceID);
-
-            case 27:
-              return _context13.abrupt('return', _context13.sent);
-
-            case 28:
-            case 'end':
-              return _context13.stop();
+              case 9:
+              case "end":
+                return _context8.stop();
+            }
           }
-        }
-      }, _callee13, _this, [[1, 7], [12, 18]]);
-    }));
+        }, _callee8, this);
+      }));
 
-    return function (_x19, _x20, _x21, _x22) {
-      return _ref14.apply(this, arguments);
-    };
-  }();
+      function callFunction(_x8, _x9, _x10) {
+        return _callFunction.apply(this, arguments);
+      }
 
-  this.raiseYourHand = function () {
-    var _ref15 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee14(deviceID, shouldShowSignal) {
-      var raiseYourHandResponse, error;
-      return _regenerator2.default.wrap(function _callee14$(_context14) {
-        while (1) {
-          switch (_context14.prev = _context14.next) {
-            case 0:
-              _context14.next = 2;
-              return _this._permissionManager.checkPermissionsForEntityByID('deviceAttributes', deviceID);
+      return callFunction;
+    }()
+  }, {
+    key: "getVariableValue",
+    value: function () {
+      var _getVariableValue = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee9(deviceID, variableName) {
+        var getVariableResponse, error, result;
+        return _regenerator["default"].wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                _context9.next = 2;
+                return this._permissionManager.checkPermissionsForEntityByID('deviceAttributes', deviceID);
 
-            case 2:
-              _context14.next = 4;
-              return _this._eventPublisher.publishAndListenForResponse({
-                context: { deviceID: deviceID, shouldShowSignal: shouldShowSignal },
-                name: _sparkProtocol.SPARK_SERVER_EVENTS.RAISE_YOUR_HAND
-              });
+              case 2:
+                _context9.next = 4;
+                return this._eventPublisher.publishAndListenForResponse({
+                  context: {
+                    deviceID: deviceID,
+                    variableName: variableName
+                  },
+                  name: _sparkProtocol.SPARK_SERVER_EVENTS.GET_DEVICE_VARIABLE_VALUE
+                });
 
-            case 4:
-              raiseYourHandResponse = _context14.sent;
-              error = raiseYourHandResponse.error;
+              case 4:
+                getVariableResponse = _context9.sent;
+                error = getVariableResponse.error, result = getVariableResponse.result;
 
-              if (!error) {
-                _context14.next = 8;
+                if (!error) {
+                  _context9.next = 8;
+                  break;
+                }
+
+                throw new _HttpError["default"](error);
+
+              case 8:
+                return _context9.abrupt("return", result);
+
+              case 9:
+              case "end":
+                return _context9.stop();
+            }
+          }
+        }, _callee9, this);
+      }));
+
+      function getVariableValue(_x11, _x12) {
+        return _getVariableValue.apply(this, arguments);
+      }
+
+      return getVariableValue;
+    }()
+  }, {
+    key: "flashBinary",
+    value: function () {
+      var _flashBinary = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee10(deviceID, file) {
+        var flashResponse, error;
+        return _regenerator["default"].wrap(function _callee10$(_context10) {
+          while (1) {
+            switch (_context10.prev = _context10.next) {
+              case 0:
+                _context10.next = 2;
+                return this._permissionManager.checkPermissionsForEntityByID('deviceAttributes', deviceID);
+
+              case 2:
+                _context10.next = 4;
+                return this._eventPublisher.publishAndListenForResponse({
+                  context: {
+                    deviceID: deviceID,
+                    fileBuffer: file.buffer
+                  },
+                  name: _sparkProtocol.SPARK_SERVER_EVENTS.FLASH_DEVICE
+                });
+
+              case 4:
+                flashResponse = _context10.sent;
+                error = flashResponse.error;
+
+                if (!error) {
+                  _context10.next = 8;
+                  break;
+                }
+
+                throw new _HttpError["default"](error);
+
+              case 8:
+                return _context10.abrupt("return", flashResponse);
+
+              case 9:
+              case "end":
+                return _context10.stop();
+            }
+          }
+        }, _callee10, this);
+      }));
+
+      function flashBinary(_x13, _x14) {
+        return _flashBinary.apply(this, arguments);
+      }
+
+      return flashBinary;
+    }()
+  }, {
+    key: "flashKnownApp",
+    value: function () {
+      var _flashKnownApp = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee11(deviceID, appName) {
+        var knownFirmware, flashResponse, error;
+        return _regenerator["default"].wrap(function _callee11$(_context11) {
+          while (1) {
+            switch (_context11.prev = _context11.next) {
+              case 0:
+                _context11.next = 2;
+                return this._permissionManager.checkPermissionsForEntityByID('deviceAttributes', deviceID);
+
+              case 2:
+                knownFirmware = this._deviceFirmwareRepository.getByName(appName);
+
+                if (knownFirmware) {
+                  _context11.next = 5;
+                  break;
+                }
+
+                throw new _HttpError["default"]("No firmware ".concat(appName, " found"), 404);
+
+              case 5:
+                _context11.next = 7;
+                return this._eventPublisher.publishAndListenForResponse({
+                  context: {
+                    deviceID: deviceID,
+                    fileBuffer: knownFirmware
+                  },
+                  name: _sparkProtocol.SPARK_SERVER_EVENTS.FLASH_DEVICE
+                });
+
+              case 7:
+                flashResponse = _context11.sent;
+                error = flashResponse.error;
+
+                if (!error) {
+                  _context11.next = 11;
+                  break;
+                }
+
+                throw new _HttpError["default"](error);
+
+              case 11:
+                return _context11.abrupt("return", flashResponse);
+
+              case 12:
+              case "end":
+                return _context11.stop();
+            }
+          }
+        }, _callee11, this);
+      }));
+
+      function flashKnownApp(_x15, _x16) {
+        return _flashKnownApp.apply(this, arguments);
+      }
+
+      return flashKnownApp;
+    }()
+  }, {
+    key: "flashProductFirmware",
+    value: function flashProductFirmware(productID) {
+      var deviceID = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+      this._eventPublisher.publish({
+        context: {
+          deviceID: deviceID,
+          productID: productID
+        },
+        name: _sparkProtocol.SPARK_SERVER_EVENTS.FLASH_PRODUCT_FIRMWARE
+      });
+    }
+  }, {
+    key: "ping",
+    value: function () {
+      var _ping = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee12(deviceID) {
+        return _regenerator["default"].wrap(function _callee12$(_context12) {
+          while (1) {
+            switch (_context12.prev = _context12.next) {
+              case 0:
+                _context12.next = 2;
+                return this._permissionManager.checkPermissionsForEntityByID('deviceAttributes', deviceID);
+
+              case 2:
+                return _context12.abrupt("return", this._eventPublisher.publishAndListenForResponse({
+                  context: {
+                    deviceID: deviceID
+                  },
+                  name: _sparkProtocol.SPARK_SERVER_EVENTS.PING_DEVICE
+                }));
+
+              case 3:
+              case "end":
+                return _context12.stop();
+            }
+          }
+        }, _callee12, this);
+      }));
+
+      function ping(_x17) {
+        return _ping.apply(this, arguments);
+      }
+
+      return ping;
+    }()
+  }, {
+    key: "provision",
+    value: function () {
+      var _provision = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee13(deviceID, userID, publicKey, algorithm) {
+        var eccKey, createdKey;
+        return _regenerator["default"].wrap(function _callee13$(_context13) {
+          while (1) {
+            switch (_context13.prev = _context13.next) {
+              case 0:
+                if (!(algorithm === 'ecc')) {
+                  _context13.next = 12;
+                  break;
+                }
+
+                _context13.prev = 1;
+                eccKey = new _ecKey["default"](publicKey, 'pem');
+
+                if (!eccKey.isPrivateECKey) {
+                  _context13.next = 5;
+                  break;
+                }
+
+                throw new _HttpError["default"]('Not a public key');
+
+              case 5:
+                _context13.next = 10;
                 break;
-              }
 
-              throw new _HttpError2.default(error);
+              case 7:
+                _context13.prev = 7;
+                _context13.t0 = _context13["catch"](1);
+                throw new _HttpError["default"]("Key error ".concat(_context13.t0));
 
-            case 8:
-              return _context14.abrupt('return', raiseYourHandResponse);
+              case 10:
+                _context13.next = 21;
+                break;
 
-            case 9:
-            case 'end':
-              return _context14.stop();
+              case 12:
+                _context13.prev = 12;
+                createdKey = new _nodeRsa["default"](publicKey);
+
+                if (createdKey.isPublic()) {
+                  _context13.next = 16;
+                  break;
+                }
+
+                throw new _HttpError["default"]('Not a public key');
+
+              case 16:
+                _context13.next = 21;
+                break;
+
+              case 18:
+                _context13.prev = 18;
+                _context13.t1 = _context13["catch"](12);
+                throw new _HttpError["default"]("Key error ".concat(_context13.t1));
+
+              case 21:
+                _context13.next = 23;
+                return this._deviceKeyRepository.updateByID(deviceID, {
+                  algorithm: algorithm,
+                  deviceID: deviceID,
+                  key: publicKey
+                });
+
+              case 23:
+                _context13.next = 25;
+                return this._deviceAttributeRepository.updateByID(deviceID, {
+                  ownerID: userID,
+                  registrar: userID
+                });
+
+              case 25:
+                return _context13.abrupt("return", this.getByID(deviceID));
+
+              case 26:
+              case "end":
+                return _context13.stop();
+            }
           }
-        }
-      }, _callee14, _this);
-    }));
+        }, _callee13, this, [[1, 7], [12, 18]]);
+      }));
 
-    return function (_x23, _x24) {
-      return _ref15.apply(this, arguments);
-    };
-  }();
+      function provision(_x18, _x19, _x20, _x21) {
+        return _provision.apply(this, arguments);
+      }
 
-  this.renameDevice = function () {
-    var _ref16 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee15(deviceID, name) {
-      var attributes;
-      return _regenerator2.default.wrap(function _callee15$(_context15) {
-        while (1) {
-          switch (_context15.prev = _context15.next) {
-            case 0:
-              _context15.next = 2;
-              return _this.getAttributesByID(deviceID);
+      return provision;
+    }()
+  }, {
+    key: "raiseYourHand",
+    value: function () {
+      var _raiseYourHand = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee14(deviceID, shouldShowSignal) {
+        var raiseYourHandResponse, error;
+        return _regenerator["default"].wrap(function _callee14$(_context14) {
+          while (1) {
+            switch (_context14.prev = _context14.next) {
+              case 0:
+                _context14.next = 2;
+                return this._permissionManager.checkPermissionsForEntityByID('deviceAttributes', deviceID);
 
-            case 2:
-              attributes = _context15.sent;
-              _context15.next = 5;
-              return _this._eventPublisher.publishAndListenForResponse({
-                context: { attributes: { name: name }, deviceID: deviceID },
-                name: _sparkProtocol.SPARK_SERVER_EVENTS.UPDATE_DEVICE_ATTRIBUTES
-              });
+              case 2:
+                _context14.next = 4;
+                return this._eventPublisher.publishAndListenForResponse({
+                  context: {
+                    deviceID: deviceID,
+                    shouldShowSignal: shouldShowSignal
+                  },
+                  name: _sparkProtocol.SPARK_SERVER_EVENTS.RAISE_YOUR_HAND
+                });
 
-            case 5:
-              _context15.next = 7;
-              return _this._deviceAttributeRepository.updateByID(deviceID, { name: name });
+              case 4:
+                raiseYourHandResponse = _context14.sent;
+                error = raiseYourHandResponse.error;
 
-            case 7:
-              return _context15.abrupt('return', _context15.sent);
+                if (!error) {
+                  _context14.next = 8;
+                  break;
+                }
 
-            case 8:
-            case 'end':
-              return _context15.stop();
+                throw new _HttpError["default"](error);
+
+              case 8:
+                return _context14.abrupt("return", raiseYourHandResponse);
+
+              case 9:
+              case "end":
+                return _context14.stop();
+            }
           }
-        }
-      }, _callee15, _this);
-    }));
+        }, _callee14, this);
+      }));
 
-    return function (_x25, _x26) {
-      return _ref16.apply(this, arguments);
-    };
-  }();
+      function raiseYourHand(_x22, _x23) {
+        return _raiseYourHand.apply(this, arguments);
+      }
 
-  this._deviceAttributeRepository = deviceAttributeRepository;
-  this._deviceFirmwareRepository = deviceFirmwareRepository;
-  this._deviceKeyRepository = deviceKeyRepository;
-  this._permissionManager = permissionManager;
-  this._eventPublisher = eventPublisher;
-};
+      return raiseYourHand;
+    }()
+  }, {
+    key: "renameDevice",
+    value: function () {
+      var _renameDevice = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee15(deviceID, name) {
+        var attributes;
+        return _regenerator["default"].wrap(function _callee15$(_context15) {
+          while (1) {
+            switch (_context15.prev = _context15.next) {
+              case 0:
+                _context15.next = 2;
+                return this.getAttributesByID(deviceID);
 
-exports.default = DeviceManager;
+              case 2:
+                attributes = _context15.sent;
+                _context15.next = 5;
+                return this._eventPublisher.publishAndListenForResponse({
+                  context: {
+                    attributes: {
+                      name: name
+                    },
+                    deviceID: deviceID
+                  },
+                  name: _sparkProtocol.SPARK_SERVER_EVENTS.UPDATE_DEVICE_ATTRIBUTES
+                });
+
+              case 5:
+                return _context15.abrupt("return", this._deviceAttributeRepository.updateByID(deviceID, {
+                  name: name
+                }));
+
+              case 6:
+              case "end":
+                return _context15.stop();
+            }
+          }
+        }, _callee15, this);
+      }));
+
+      function renameDevice(_x24, _x25) {
+        return _renameDevice.apply(this, arguments);
+      }
+
+      return renameDevice;
+    }()
+  }]);
+  return DeviceManager;
+}();
+
+var _default = DeviceManager;
+exports["default"] = _default;

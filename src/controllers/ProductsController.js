@@ -1,7 +1,6 @@
 // @flow
 /* eslint-disable */
 
-import type { File } from 'express';
 import type DeviceManager from '../managers/DeviceManager';
 import type {
   IDeviceAttributeRepository,
@@ -56,7 +55,9 @@ class ProductsController extends Controller {
   @route('/v1/products')
   async getProducts(): Promise<*> {
     const products = await this._productRepository.getAll();
-    return this.ok({ products: products.map(this._formatProduct) });
+    return this.ok({
+      products: products.map(product => this._formatProduct(product)),
+    });
   }
 
   @httpVerb('post')
@@ -314,7 +315,7 @@ class ProductsController extends Controller {
         return this.bad('File should only have a single column of device ids');
       }
 
-      ids = [].concat.apply([], records);
+      ids = [...records];
     } else {
       if (!body.id) {
         return this.bad('You must pass an id for a device');
@@ -337,9 +338,9 @@ class ProductsController extends Controller {
       )
       .map(deviceAttribute => deviceAttribute.deviceID);
 
-    const existingProductDeviceIDs = (await this._productDeviceRepository.getManyFromDeviceIDs(
-      ids,
-    )).map(productDevice => productDevice.deviceID);
+    const existingProductDeviceIDs = (
+      await this._productDeviceRepository.getManyFromDeviceIDs(ids)
+    ).map(productDevice => productDevice.deviceID);
 
     const invalidDeviceIds = [
       ...incorrectPlatformDeviceIDs,
@@ -540,7 +541,7 @@ class ProductsController extends Controller {
 
   _formatProduct(product: Product): $Shape<Product> {
     const { product_id, ...output } = product;
-    output.id = product_id.toString();
+    output.id = product_id;
     return output;
   }
 }

@@ -1,125 +1,107 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
+var _Reflect$construct = require("@babel/runtime-corejs3/core-js-stable/reflect/construct");
+
+var _Object$keys = require("@babel/runtime-corejs3/core-js-stable/object/keys");
+
+var _Object$getOwnPropertySymbols = require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-symbols");
+
+var _filterInstanceProperty = require("@babel/runtime-corejs3/core-js-stable/instance/filter");
+
+var _Object$getOwnPropertyDescriptor2 = require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-descriptor");
+
+var _forEachInstanceProperty = require("@babel/runtime-corejs3/core-js-stable/instance/for-each");
+
+var _Object$getOwnPropertyDescriptors = require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-descriptors");
+
+var _Object$defineProperties = require("@babel/runtime-corejs3/core-js-stable/object/define-properties");
+
+var _Object$defineProperty = require("@babel/runtime-corejs3/core-js-stable/object/define-property");
+
+var _interopRequireDefault = require("@babel/runtime-corejs3/helpers/interopRequireDefault");
+
+_Object$defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+exports["default"] = void 0;
 
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+var _getOwnPropertyDescriptor = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-descriptor"));
 
-var _extends2 = require('babel-runtime/helpers/extends');
+var _regenerator = _interopRequireDefault(require("@babel/runtime-corejs3/regenerator"));
 
-var _extends3 = _interopRequireDefault(_extends2);
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/asyncToGenerator"));
 
-var _regenerator = require('babel-runtime/regenerator');
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/classCallCheck"));
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+var _createClass2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/createClass"));
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/assertThisInitialized"));
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+var _inherits2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/inherits"));
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/possibleConstructorReturn"));
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/getPrototypeOf"));
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/defineProperty"));
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+var _applyDecoratedDescriptor2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/applyDecoratedDescriptor"));
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+var _Controller2 = _interopRequireDefault(require("./Controller"));
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _HttpError = _interopRequireDefault(require("../lib/HttpError"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _httpVerb = _interopRequireDefault(require("../decorators/httpVerb"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _route = _interopRequireDefault(require("../decorators/route"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _class;
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+function ownKeys(object, enumerableOnly) { var keys = _Object$keys(object); if (_Object$getOwnPropertySymbols) { var symbols = _Object$getOwnPropertySymbols(object); if (enumerableOnly) { symbols = _filterInstanceProperty(symbols).call(symbols, function (sym) { return _Object$getOwnPropertyDescriptor2(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _desc, _value, _class;
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { var _context5; _forEachInstanceProperty(_context5 = ownKeys(Object(source), true)).call(_context5, function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }); } else if (_Object$getOwnPropertyDescriptors) { _Object$defineProperties(target, _Object$getOwnPropertyDescriptors(source)); } else { var _context6; _forEachInstanceProperty(_context6 = ownKeys(Object(source))).call(_context6, function (key) { _Object$defineProperty(target, key, _Object$getOwnPropertyDescriptor2(source, key)); }); } } return target; }
 
-var _Controller2 = require('./Controller');
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = _Reflect$construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
 
-var _Controller3 = _interopRequireDefault(_Controller2);
-
-var _HttpError = require('../lib/HttpError');
-
-var _HttpError2 = _interopRequireDefault(_HttpError);
-
-var _httpVerb = require('../decorators/httpVerb');
-
-var _httpVerb2 = _interopRequireDefault(_httpVerb);
-
-var _route = require('../decorators/route');
-
-var _route2 = _interopRequireDefault(_route);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
-
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
-
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
-
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
-
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
-
-  return desc;
-}
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !_Reflect$construct) return false; if (_Reflect$construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(_Reflect$construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 var validateWebhookMutator = function validateWebhookMutator(webhookMutator) {
   if (!webhookMutator.event) {
-    return new _HttpError2.default('no event name provided');
+    return new _HttpError["default"]('no event name provided');
   }
+
   if (!webhookMutator.url) {
-    return new _HttpError2.default('no url provided');
+    return new _HttpError["default"]('no url provided');
   }
+
   if (!webhookMutator.requestType) {
-    return new _HttpError2.default('no requestType provided');
+    return new _HttpError["default"]('no requestType provided');
   }
 
   return null;
 };
 
-var WebhooksController = (_dec = (0, _httpVerb2.default)('get'), _dec2 = (0, _route2.default)('/v1/webhooks'), _dec3 = (0, _httpVerb2.default)('get'), _dec4 = (0, _route2.default)('/v1/webhooks/:webhookID'), _dec5 = (0, _httpVerb2.default)('post'), _dec6 = (0, _route2.default)('/v1/webhooks'), _dec7 = (0, _httpVerb2.default)('delete'), _dec8 = (0, _route2.default)('/v1/webhooks/:webhookID'), (_class = function (_Controller) {
-  (0, _inherits3.default)(WebhooksController, _Controller);
+var WebhooksController = (_dec = (0, _httpVerb["default"])('get'), _dec2 = (0, _route["default"])('/v1/webhooks'), _dec3 = (0, _httpVerb["default"])('get'), _dec4 = (0, _route["default"])('/v1/webhooks/:webhookID'), _dec5 = (0, _httpVerb["default"])('post'), _dec6 = (0, _route["default"])('/v1/webhooks'), _dec7 = (0, _httpVerb["default"])('delete'), _dec8 = (0, _route["default"])('/v1/webhooks/:webhookID'), (_class = /*#__PURE__*/function (_Controller) {
+  (0, _inherits2["default"])(WebhooksController, _Controller);
+
+  var _super = _createSuper(WebhooksController);
 
   function WebhooksController(webhookManager) {
-    (0, _classCallCheck3.default)(this, WebhooksController);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (WebhooksController.__proto__ || (0, _getPrototypeOf2.default)(WebhooksController)).call(this));
-
+    (0, _classCallCheck2["default"])(this, WebhooksController);
+    _this = _super.call(this);
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "_webhookManager", void 0);
     _this._webhookManager = webhookManager;
     return _this;
   }
 
-  (0, _createClass3.default)(WebhooksController, [{
-    key: 'getAll',
+  (0, _createClass2["default"])(WebhooksController, [{
+    key: "getAll",
     value: function () {
-      var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-        return _regenerator2.default.wrap(function _callee$(_context) {
+      var _getAll = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
+        return _regenerator["default"].wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -129,10 +111,10 @@ var WebhooksController = (_dec = (0, _httpVerb2.default)('get'), _dec2 = (0, _ro
 
               case 3:
                 _context.t1 = _context.sent;
-                return _context.abrupt('return', _context.t0.ok.call(_context.t0, _context.t1));
+                return _context.abrupt("return", _context.t0.ok.call(_context.t0, _context.t1));
 
               case 5:
-              case 'end':
+              case "end":
                 return _context.stop();
             }
           }
@@ -140,16 +122,16 @@ var WebhooksController = (_dec = (0, _httpVerb2.default)('get'), _dec2 = (0, _ro
       }));
 
       function getAll() {
-        return _ref.apply(this, arguments);
+        return _getAll.apply(this, arguments);
       }
 
       return getAll;
     }()
   }, {
-    key: 'getByID',
+    key: "getByID",
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(webhookID) {
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+      var _getByID = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(webhookID) {
+        return _regenerator["default"].wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
@@ -159,10 +141,10 @@ var WebhooksController = (_dec = (0, _httpVerb2.default)('get'), _dec2 = (0, _ro
 
               case 3:
                 _context2.t1 = _context2.sent;
-                return _context2.abrupt('return', _context2.t0.ok.call(_context2.t0, _context2.t1));
+                return _context2.abrupt("return", _context2.t0.ok.call(_context2.t0, _context2.t1));
 
               case 5:
-              case 'end':
+              case "end":
                 return _context2.stop();
             }
           }
@@ -170,17 +152,17 @@ var WebhooksController = (_dec = (0, _httpVerb2.default)('get'), _dec2 = (0, _ro
       }));
 
       function getByID(_x) {
-        return _ref2.apply(this, arguments);
+        return _getByID.apply(this, arguments);
       }
 
       return getByID;
     }()
   }, {
-    key: 'create',
+    key: "create",
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(model) {
+      var _create = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(model) {
         var validateError, newWebhook;
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+        return _regenerator["default"].wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
@@ -195,13 +177,13 @@ var WebhooksController = (_dec = (0, _httpVerb2.default)('get'), _dec2 = (0, _ro
 
               case 3:
                 _context3.next = 5;
-                return this._webhookManager.create((0, _extends3.default)({}, model, {
+                return this._webhookManager.create(_objectSpread(_objectSpread({}, model), {}, {
                   ownerID: this.user.id
                 }));
 
               case 5:
                 newWebhook = _context3.sent;
-                return _context3.abrupt('return', this.ok({
+                return _context3.abrupt("return", this.ok({
                   created_at: newWebhook.created_at,
                   event: newWebhook.event,
                   id: newWebhook.id,
@@ -210,7 +192,7 @@ var WebhooksController = (_dec = (0, _httpVerb2.default)('get'), _dec2 = (0, _ro
                 }));
 
               case 7:
-              case 'end':
+              case "end":
                 return _context3.stop();
             }
           }
@@ -218,16 +200,16 @@ var WebhooksController = (_dec = (0, _httpVerb2.default)('get'), _dec2 = (0, _ro
       }));
 
       function create(_x2) {
-        return _ref3.apply(this, arguments);
+        return _create.apply(this, arguments);
       }
 
       return create;
     }()
   }, {
-    key: 'deleteByID',
+    key: "deleteByID",
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(webhookID) {
-        return _regenerator2.default.wrap(function _callee4$(_context4) {
+      var _deleteByID = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(webhookID) {
+        return _regenerator["default"].wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
@@ -235,10 +217,12 @@ var WebhooksController = (_dec = (0, _httpVerb2.default)('get'), _dec2 = (0, _ro
                 return this._webhookManager.deleteByID(webhookID);
 
               case 2:
-                return _context4.abrupt('return', this.ok({ ok: true }));
+                return _context4.abrupt("return", this.ok({
+                  ok: true
+                }));
 
               case 3:
-              case 'end':
+              case "end":
                 return _context4.stop();
             }
           }
@@ -246,12 +230,13 @@ var WebhooksController = (_dec = (0, _httpVerb2.default)('get'), _dec2 = (0, _ro
       }));
 
       function deleteByID(_x3) {
-        return _ref4.apply(this, arguments);
+        return _deleteByID.apply(this, arguments);
       }
 
       return deleteByID;
     }()
   }]);
   return WebhooksController;
-}(_Controller3.default), (_applyDecoratedDescriptor(_class.prototype, 'getAll', [_dec, _dec2], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'getAll'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'getByID', [_dec3, _dec4], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'getByID'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'create', [_dec5, _dec6], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'create'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'deleteByID', [_dec7, _dec8], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'deleteByID'), _class.prototype)), _class));
-exports.default = WebhooksController;
+}(_Controller2["default"]), ((0, _applyDecoratedDescriptor2["default"])(_class.prototype, "getAll", [_dec, _dec2], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "getAll"), _class.prototype), (0, _applyDecoratedDescriptor2["default"])(_class.prototype, "getByID", [_dec3, _dec4], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "getByID"), _class.prototype), (0, _applyDecoratedDescriptor2["default"])(_class.prototype, "create", [_dec5, _dec6], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "create"), _class.prototype), (0, _applyDecoratedDescriptor2["default"])(_class.prototype, "deleteByID", [_dec7, _dec8], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "deleteByID"), _class.prototype)), _class));
+var _default = WebhooksController;
+exports["default"] = _default;

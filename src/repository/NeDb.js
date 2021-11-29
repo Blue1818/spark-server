@@ -1,11 +1,10 @@
 // @flow
 
-import type { IBaseDatabase } from '../types';
-import type { CollectionName } from './collectionNames';
-
 import fs from 'fs';
 import mkdirp from 'mkdirp';
 import Datastore from 'nedb-core';
+import type { IBaseDatabase } from '../types';
+import type { CollectionName } from './collectionNames';
 import COLLECTION_NAMES from './collectionNames';
 import { promisify } from '../lib/promisify';
 import BaseMongoDb from './BaseMongoDb';
@@ -31,27 +30,42 @@ class NeDb extends BaseMongoDb implements IBaseDatabase {
     });
   }
 
-  count = async (collectionName: string, query: Object): Promise<number> =>
+  count: (collectionName: string, query: Object) => Promise<number> = async (
+    collectionName: string,
+    query: Object,
+  ): Promise<number> =>
     (await this.__runForCollection(
       collectionName,
       async (collection: Object): Promise<number> =>
-        await promisify(collection, 'count', query),
+        promisify(collection, 'count', query),
     )) || 0;
 
-  insertOne = async (collectionName: string, entity: Object): Promise<*> =>
-    await this.__runForCollection(
+  insertOne: <TEntity>(
+    collectionName: string,
+    entity: TEntity,
+  ) => Promise<?TEntity> = async <TEntity>(
+    collectionName: string,
+    entity: TEntity,
+  ): Promise<?TEntity> =>
+    this.__runForCollection(
       collectionName,
-      async (collection: Object): Promise<*> => {
+      async (collection: Object): Promise<?TEntity> => {
         const insertResult = await promisify(collection, 'insert', entity);
 
-        return this.__translateResultItem(insertResult);
+        return this.__translateResultItem<TEntity>(insertResult);
       },
     );
 
-  find = async (collectionName: string, query: Object): Promise<*> =>
-    await this.__runForCollection(
+  find: <TEntity>(
+    collectionName: string,
+    query: Object,
+  ) => Promise<?TEntity> = async <TEntity>(
+    collectionName: string,
+    query: Object,
+  ): Promise<?TEntity> =>
+    this.__runForCollection(
       collectionName,
-      async (collection: Object): Promise<*> => {
+      async (collection: Object): Promise<?TEntity> => {
         const { skip, take, ...otherQuery } = query;
         let result = collection.find(otherQuery);
 
@@ -67,14 +81,18 @@ class NeDb extends BaseMongoDb implements IBaseDatabase {
       },
     );
 
-  findAndModify = async (
+  findAndModify: <TEntity>(
     collectionName: string,
     query: Object,
     updateQuery: Object,
-  ): Promise<*> =>
-    await this.__runForCollection(
+  ) => Promise<?TEntity> = async <TEntity>(
+    collectionName: string,
+    query: Object,
+    updateQuery: Object,
+  ): Promise<?TEntity> =>
+    this.__runForCollection(
       collectionName,
-      async (collection: Object): Promise<*> => {
+      async (collection: Object): Promise<?TEntity> => {
         const [
           count, // eslint-disable-line no-unused-vars
           resultItem,
@@ -87,26 +105,41 @@ class NeDb extends BaseMongoDb implements IBaseDatabase {
       },
     );
 
-  findOne = async (collectionName: string, query: Object): Promise<*> =>
-    await this.__runForCollection(
+  findOne: <TEntity>(
+    collectionName: string,
+    query: Object,
+  ) => Promise<?TEntity> = async <TEntity>(
+    collectionName: string,
+    query: Object,
+  ): Promise<?TEntity> =>
+    this.__runForCollection(
       collectionName,
-      async (collection: Object): Promise<*> => {
+      async (collection: Object): Promise<?TEntity> => {
         const resultItem = await promisify(collection, 'findOne', query);
         return this.__translateResultItem(resultItem);
       },
     );
 
-  remove = async (collectionName: string, query: Object): Promise<*> =>
-    await this.__runForCollection(
+  remove: <TEntity>(
+    collectionName: string,
+    query: Object,
+  ) => Promise<?TEntity> = async <TEntity>(
+    collectionName: string,
+    query: Object,
+  ): Promise<?TEntity> =>
+    this.__runForCollection(
       collectionName,
-      async (collection: Object): Promise<*> =>
-        await promisify(collection, 'remove', query),
+      async (collection: Object): Promise<TEntity> =>
+        promisify(collection, 'remove', query),
     );
 
-  __runForCollection = async (
+  __runForCollection: <TEntity>(
     collectionName: string,
-    callback: (collection: Object) => Promise<*>,
-  ): Promise<*> => callback(this._database[collectionName]);
+    callback: (collection: Object) => Promise<?TEntity>,
+  ) => Promise<?TEntity> = async <TEntity>(
+    collectionName: string,
+    callback: (collection: Object) => Promise<?TEntity>,
+  ): Promise<?TEntity> => callback(this._database[collectionName]);
 }
 
 export default NeDb;

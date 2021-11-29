@@ -1,8 +1,8 @@
 // @flow
 
+import basicAuthParser from 'basic-auth-parser';
 import type { IUserRepository, UserCredentials } from '../types';
 
-import basicAuthParser from 'basic-auth-parser';
 import Controller from './Controller';
 import HttpError from '../lib/HttpError';
 import anonymous from '../decorators/anonymous';

@@ -455,21 +455,19 @@ test.serial(
   },
 );
 
-test.after.always(
-  async (): Promise<void> => {
-    await TestData.deleteCustomFirmwareBinary(customFirmwareFilePath);
-    await container.constitute('IUserRepository').deleteByID(testUser.id);
-    await container
-      .constitute('IDeviceAttributeRepository')
-      .deleteByID(CONNECTED_DEVICE_ID);
-    await container
-      .constitute('IDeviceKeyRepository')
-      .deleteByID(CONNECTED_DEVICE_ID);
-    await container
-      .constitute('IDeviceAttributeRepository')
-      .deleteByID(DISCONNECTED_DEVICE_ID);
-    await container
-      .constitute('IDeviceKeyRepository')
-      .deleteByID(DISCONNECTED_DEVICE_ID);
-  },
-);
+test.after.always(async () => {
+  await TestData.deleteCustomFirmwareBinary(customFirmwareFilePath);
+  await container.constitute('IUserRepository').deleteByID(testUser.id);
+  await container
+    .constitute('IDeviceAttributeRepository')
+    .deleteByID(CONNECTED_DEVICE_ID);
+  await container
+    .constitute('IDeviceKeyRepository')
+    .deleteByID(CONNECTED_DEVICE_ID);
+  await container
+    .constitute('IDeviceAttributeRepository')
+    .deleteByID(DISCONNECTED_DEVICE_ID);
+  await container
+    .constitute('IDeviceKeyRepository')
+    .deleteByID(DISCONNECTED_DEVICE_ID);
+});

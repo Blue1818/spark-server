@@ -27,6 +27,7 @@ const formatProductFirmwareFromDb = (
 class ProductFirmwareDatabaseRepository extends BaseRepository
   implements IProductFirmwareRepository {
   _database: IBaseDatabase;
+
   _collectionName: CollectionName = COLLECTION_NAMES.PRODUCT_FIRMWARE;
 
   constructor(database: IBaseDatabase) {
@@ -34,7 +35,7 @@ class ProductFirmwareDatabaseRepository extends BaseRepository
     this._database = database;
   }
 
-  countByProductID = (
+  countByProductID: (productID: number, query?: Object) => Promise<number> = (
     productID: number,
     query?: Object = {},
   ): Promise<number> =>
@@ -43,16 +44,21 @@ class ProductFirmwareDatabaseRepository extends BaseRepository
       product_id: productID,
     });
 
-  create = async (model: $Shape<ProductFirmware>): Promise<ProductFirmware> =>
-    await this._database.insertOne(this._collectionName, {
+  create: (model: $Shape<ProductFirmware>) => Promise<ProductFirmware> = async (
+    model: $Shape<ProductFirmware>,
+  ): Promise<ProductFirmware> =>
+    this._database.insertOne(this._collectionName, {
       ...model,
       updated_at: new Date(),
     });
 
-  deleteByID = async (id: string): Promise<void> =>
-    await this._database.remove(this._collectionName, { _id: id });
+  deleteByID: (id: string) => Promise<void> = async (
+    id: string,
+  ): Promise<void> => this._database.remove(this._collectionName, { _id: id });
 
-  getAll = async (userID: ?string = null): Promise<Array<ProductFirmware>> => {
+  getAll: (userID: ?string) => Promise<Array<ProductFirmware>> = async (
+    userID: ?string = null,
+  ): Promise<Array<ProductFirmware>> => {
     // TODO - this should probably just query the organization
     const query = userID ? { ownerID: userID } : {};
     return (await this._database.find(this._collectionName, query)).map(
@@ -60,16 +66,24 @@ class ProductFirmwareDatabaseRepository extends BaseRepository
     );
   };
 
-  getManyByProductID = async (
+  getManyByProductID: (
+    productID: number,
+    query?: Object,
+  ) => Promise<Array<ProductFirmware>> = async (
     productID: number,
     query?: Object,
   ): Promise<Array<ProductFirmware>> =>
-    (await this._database.find(this._collectionName, {
-      ...query,
-      product_id: productID,
-    })).map(formatProductFirmwareFromDb);
+    (
+      await this._database.find(this._collectionName, {
+        ...query,
+        product_id: productID,
+      })
+    ).map(formatProductFirmwareFromDb);
 
-  getByVersionForProduct = async (
+  getByVersionForProduct: (
+    productID: number,
+    version: number,
+  ) => Promise<?ProductFirmware> = async (
     productID: number,
     version: number,
   ): Promise<?ProductFirmware> => {
@@ -82,7 +96,9 @@ class ProductFirmwareDatabaseRepository extends BaseRepository
       : null;
   };
 
-  getCurrentForProduct = async (
+  getCurrentForProduct: (
+    productID: number,
+  ) => Promise<?ProductFirmware> = async (
     productID: number,
   ): Promise<?ProductFirmware> => {
     const productFirmware = await this._database.findOne(this._collectionName, {
@@ -94,7 +110,9 @@ class ProductFirmwareDatabaseRepository extends BaseRepository
       : null;
   };
 
-  getByID = async (id: string): Promise<?ProductFirmware> => {
+  getByID: (id: string) => Promise<?ProductFirmware> = async (
+    id: string,
+  ): Promise<?ProductFirmware> => {
     const productFirmware = await this._database.findOne(this._collectionName, {
       _id: id,
     });
@@ -103,13 +121,16 @@ class ProductFirmwareDatabaseRepository extends BaseRepository
       : null;
   };
 
-  updateByID = async (
+  updateByID: (
+    productFirmwareID: string,
+    productFirmware: ProductFirmware,
+  ) => Promise<ProductFirmware> = async (
     productFirmwareID: string,
     productFirmware: ProductFirmware,
   ): Promise<ProductFirmware> => {
     const { data, ...loggingProps } = productFirmware;
     logger.info(loggingProps, 'Update Product Firmware');
-    return await this._database
+    return this._database
       .findAndModify(
         this._collectionName,
         { _id: productFirmwareID },
@@ -124,8 +145,10 @@ class ProductFirmwareDatabaseRepository extends BaseRepository
       .then(formatProductFirmwareFromDb);
   };
 
-  deleteByProductID = async (productID: number): Promise<void> =>
-    await this._database.remove(this._collectionName, {
+  deleteByProductID: (productID: number) => Promise<void> = async (
+    productID: number,
+  ): Promise<void> =>
+    this._database.remove(this._collectionName, {
       product_id: productID,
     });
 }

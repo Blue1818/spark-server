@@ -1,10 +1,9 @@
 // @flow
 
-import type { IBaseDatabase } from '../types';
-
 import EventEmitter from 'events';
-import BaseMongoDb from './BaseMongoDb';
 import { MongoClient } from 'mongodb';
+import type { IBaseDatabase } from '../types';
+import BaseMongoDb from './BaseMongoDb';
 import Logger from '../lib/logger';
 const logger = Logger.createModuleLogger(module);
 
@@ -12,39 +11,51 @@ const DB_READY_EVENT = 'dbReady';
 
 class MongoDb extends BaseMongoDb implements IBaseDatabase {
   _database: ?Object = null;
-  _statusEventEmitter = new EventEmitter();
+
+  _statusEventEmitter: EventEmitter = new EventEmitter();
 
   constructor(url: string, options?: Object = {}) {
     super();
 
-    (async (): Promise<void> => await this._init(url, options))();
+    (async () => {
+      await this._init(url, options);
+    })();
   }
 
-  count = async (
+  count: (string, query?: Object) => Promise<number> = async (
     collectionName: string,
     query?: Object = {},
   ): Promise<number> =>
-    (await this.__runForCollection(
+    this.__runForCollection(
       collectionName,
       async (collection: Object): Promise<number> =>
-        await collection.count(this.__translateQuery(query), {
+        collection.count(this.__translateQuery(query), {
           timeout: false,
         }),
-    )) || 0;
+    ) || 0;
 
-  insertOne = async (collectionName: string, entity: Object): Promise<*> =>
-    await this.__runForCollection(
+  insertOne: (
+    collectionName: string,
+    entity: Object,
+  ) => Promise<Object> = async (
+    collectionName: string,
+    entity: Object,
+  ): Promise<Object> =>
+    this.__runForCollection(
       collectionName,
-      async (collection: Object): Promise<*> => {
+      async (collection: Object): Promise<Object> => {
         const insertResult = await collection.insertOne(entity);
         return this.__translateResultItem(insertResult.ops[0]);
       },
     );
 
-  find = async (collectionName: string, query: Object): Promise<*> =>
-    await this.__runForCollection(
+  find: (collectionName: string, query: Object) => Promise<Object> = async (
+    collectionName: string,
+    query: Object,
+  ): Promise<Object> =>
+    this.__runForCollection(
       collectionName,
-      async (collection: Object): Promise<*> => {
+      async (collection: Object): Promise<Object> => {
         const { skip, take, ...otherQuery } = query;
         let result = collection.find(this.__translateQuery(otherQuery), {
           timeout: false,
@@ -63,14 +74,18 @@ class MongoDb extends BaseMongoDb implements IBaseDatabase {
       },
     );
 
-  findAndModify = async (
+  findAndModify: (
     collectionName: string,
     query: Object,
     updateQuery: Object,
-  ): Promise<*> =>
-    await this.__runForCollection(
+  ) => Promise<Object> = async (
+    collectionName: string,
+    query: Object,
+    updateQuery: Object,
+  ): Promise<Object> =>
+    this.__runForCollection(
       collectionName,
-      async (collection: Object): Promise<*> => {
+      async (collection: Object): Promise<Object> => {
         const modifyResult = await collection.findAndModify(
           this.__translateQuery(query),
           null,
@@ -81,10 +96,16 @@ class MongoDb extends BaseMongoDb implements IBaseDatabase {
       },
     );
 
-  findOne = async (collectionName: string, query: Object): Promise<*> =>
-    await this.__runForCollection(
+  findOne: <TResult>(
+    collectionName: string,
+    query: Object,
+  ) => Promise<TResult> = async <TResult>(
+    collectionName: string,
+    query: Object,
+  ): Promise<TResult> =>
+    this.__runForCollection(
       collectionName,
-      async (collection: Object): Promise<*> => {
+      async (collection: Object): Promise<Object> => {
         const resultItem = await collection.findOne(
           this.__translateQuery(query),
         );
@@ -92,49 +113,56 @@ class MongoDb extends BaseMongoDb implements IBaseDatabase {
       },
     );
 
-  remove = async (collectionName: string, query: Object): Promise<*> =>
-    await this.__runForCollection(
+  remove: (collectionName: string, query: Object) => Promise<void> = async (
+    collectionName: string,
+    query: Object,
+  ): Promise<void> =>
+    this.__runForCollection(
       collectionName,
-      async (collection: Object): Promise<*> =>
-        await collection.remove(this.__translateQuery(query)),
+      async (collection: Object): Promise<Object> =>
+        collection.remove(this.__translateQuery(query)),
     );
 
-  __runForCollection = async (
+  __runForCollection: (
     collectionName: string,
     callback: (collection: Object) => Promise<*>,
-  ): Promise<*> => {
+  ) => Promise<Object> = async (
+    collectionName: string,
+    callback: (collection: Object) => Promise<*>,
+  ): Promise<Object> => {
     await this._isDbReady();
     // hack for flow:
     if (!this._database) {
       throw new Error('database is not initialized');
     }
-    return callback(this._database.collection(collectionName)).catch(
-      (error: Error): void =>
-        logger.error({ collectionName, err: error }, 'Run for Collection'),
+    return callback(
+      this._database.collection(collectionName),
+    ).catch((error: Error): void =>
+      logger.error({ collectionName, err: error }, 'Run for Collection'),
     );
   };
 
-  _init = async (url: string, options: Object): Promise<void> => {
+  _init: (url: string, options: Object) => Promise<void> = async (
+    url: string,
+    options: Object,
+  ) => {
     const database = await MongoClient.connect(url, options);
 
-    database.on(
-      'error',
-      (error: Error): void =>
-        logger.error({ err: error, options, url }, 'DB connection Error: '),
+    database.on('error', (error: Error): void =>
+      logger.error({ err: error, options, url }, 'DB connection Error: '),
     );
 
     database.on('open', (): void => logger.info('DB connected'));
 
-    database.on(
-      'close',
-      (str: string): void => logger.info({ info: str }, 'DB disconnected: '),
+    database.on('close', (str: string): void =>
+      logger.info({ info: str }, 'DB disconnected: '),
     );
 
     this._database = database;
     this._statusEventEmitter.emit(DB_READY_EVENT);
   };
 
-  _isDbReady = async (): Promise<void> => {
+  _isDbReady: () => Promise<void> = async (): Promise<void> => {
     if (this._database) {
       return Promise.resolve();
     }

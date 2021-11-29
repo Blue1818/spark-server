@@ -15,7 +15,9 @@ let userToken;
 test.serial('should create new user', async t => {
   USER_CREDENTIALS = TestData.getUser();
 
-  const response = await request(app).post('/v1/users').send(USER_CREDENTIALS);
+  const response = await request(app)
+    .post('/v1/users')
+    .send(USER_CREDENTIALS);
 
   user = await container
     .constitute('IUserRepository')
@@ -27,7 +29,9 @@ test.serial('should create new user', async t => {
 });
 
 test.serial('should throw an error if username already in use', async t => {
-  const response = await request(app).post('/v1/users').send(USER_CREDENTIALS);
+  const response = await request(app)
+    .post('/v1/users')
+    .send(USER_CREDENTIALS);
   t.is(response.status, 400);
   t.is(response.body.error, 'user with the username already exists');
 });
@@ -81,6 +85,6 @@ test.serial('should delete the access token for the user', async t => {
   );
 });
 
-test.after.always(async (): Promise<void> => {
+test.after.always(async () => {
   await container.constitute('IUserRepository').deleteByID(user.id);
 });

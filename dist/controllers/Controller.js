@@ -1,36 +1,51 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
+var _Object$defineProperty = require("@babel/runtime-corejs3/core-js-stable/object/define-property");
+
+var _interopRequireDefault = require("@babel/runtime-corejs3/helpers/interopRequireDefault");
+
+_Object$defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+exports["default"] = void 0;
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/classCallCheck"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _createClass2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/createClass"));
 
-var Controller = function Controller() {
-  (0, _classCallCheck3.default)(this, Controller);
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/defineProperty"));
 
-  this.bad = function (message) {
-    var status = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 400;
-    return {
-      data: {
-        error: message,
-        ok: false
-      },
-      status: status
-    };
-  };
+var Controller = /*#__PURE__*/function () {
+  function Controller() {
+    (0, _classCallCheck2["default"])(this, Controller);
+    (0, _defineProperty2["default"])(this, "request", void 0);
+    (0, _defineProperty2["default"])(this, "response", void 0);
+    (0, _defineProperty2["default"])(this, "user", void 0);
+  }
 
-  this.ok = function (output) {
-    return {
-      data: output,
-      status: 200
-    };
-  };
-};
+  (0, _createClass2["default"])(Controller, [{
+    key: "bad",
+    value: function bad(message) {
+      var status = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 400;
+      return {
+        data: {
+          error: message,
+          ok: false
+        },
+        status: status
+      };
+    }
+  }, {
+    key: "ok",
+    value: function ok(output) {
+      return {
+        data: output,
+        status: 200
+      };
+    }
+  }]);
+  return Controller;
+}();
 
-exports.default = Controller;
+exports["default"] = Controller;

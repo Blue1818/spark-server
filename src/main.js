@@ -1,16 +1,19 @@
 // @flow
 
+import { Container } from 'constitute';
 import arrayFlatten from 'array-flatten';
-import createApp from './app';
 import nulltrhows from 'nullthrows';
 import fs from 'fs';
 import http from 'http';
 import https from 'https';
 import os from 'os';
+import type { DeviceServer } from 'spark-protocol';
+import createApp from './app';
 import defaultBindings from './defaultBindings';
 import settings from './settings';
-import { Container } from 'constitute';
 import Logger from './lib/logger';
+
+// $FlowIgnore[invalid-export]
 const logger = Logger.createModuleLogger(module);
 
 const NODE_PORT = process.env.NODE_PORT || settings.EXPRESS_SERVER_CONFIG.PORT;
@@ -34,7 +37,7 @@ process.on('uncaughtException', (exception: Error) => {
 const container = new Container();
 defaultBindings(container, settings);
 
-const deviceServer = container.constitute('DeviceServer');
+const deviceServer = container.constitute<DeviceServer>('DeviceServer');
 deviceServer.start();
 
 const app = createApp(container, settings);
@@ -80,7 +83,6 @@ const addresses = arrayFlatten(
         .map((address: Object): boolean => address.address),
   ),
 );
-addresses.forEach(
-  (address: string): void =>
-    logger.info({ address }, 'Server IP address found'),
+addresses.forEach((address: string): void =>
+  logger.info({ address }, 'Server IP address found'),
 );

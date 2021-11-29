@@ -28,24 +28,22 @@ cd spark-server/
 In order to download the firmware files for OTA updates, you'll need to create
 a `.env` file in the server root.
 
-For basic auth:
+You'll need to create an OAuth token under your github settings with the `public_repo` permission
+
+
+The .env file needs the following:
 
 ```
-GITHUB_AUTH_TYPE=basic
-GITHUB_AUTH_USERNAME=my-github-username
-GITHUB_AUTH_PASSWORD=password
-```
-
-For OAuth:
-
-```
-GITHUB_AUTH_TYPE=oauth
 GITHUB_AUTH_TOKEN=<github-token>
 ```
 
+Then run from the CLI:
 ```
 yarn install
 ```
+
+**You may need to run the install a few times in order to fetch all the binaries.** 
+Github limits you to 5000 requests per hour so you'd need to run it again after an hour.
 
 _At this point we will be setting up the server. You should change the default username + password in ./dist/settings.js_
 

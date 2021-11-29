@@ -20,9 +20,9 @@
  */
 
 import path from 'path';
+import type { Settings } from './types';
 
-/* eslint-disable sorting/sort-object-props */
-export default {
+const SETTINGS: Settings = {
   BUILD_DIRECTORY: path.join(process.cwd(), 'data/build'),
   DEFAULT_ADMIN_PASSWORD: 'adminPassword',
   DEFAULT_ADMIN_USERNAME: '__admin__',
@@ -47,7 +47,6 @@ export default {
   },
   DB_CONFIG: {
     PATH: path.join(process.cwd(), 'data/db'),
-    URL: null,
   },
   SHOW_VERBOSE_DEVICE_LOGS: false,
 
@@ -60,3 +59,5 @@ export default {
     // SOME_AUTH_TOKEN: '12312312',
   },
 };
+
+export default SETTINGS;

@@ -1,76 +1,70 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
+var _Object$defineProperty = require("@babel/runtime-corejs3/core-js-stable/object/define-property");
+
+var _interopRequireDefault = require("@babel/runtime-corejs3/helpers/interopRequireDefault");
+
+_Object$defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+exports["default"] = void 0;
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/classCallCheck"));
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+var _createClass2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/createClass"));
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _bunyan = _interopRequireDefault(require("bunyan"));
 
-var _bunyan = require('bunyan');
+var _path = _interopRequireDefault(require("path"));
 
-var _bunyan2 = _interopRequireDefault(_bunyan);
+var _settings = _interopRequireDefault(require("../settings"));
 
-var _path = require('path');
-
-var _path2 = _interopRequireDefault(_path);
-
-var _settings = require('../settings');
-
-var _settings2 = _interopRequireDefault(_settings);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Logger = function () {
+/**
+ *    Copyright (C) 2013-2014 Spark Labs, Inc. All rights reserved. -  https://www.spark.io/
+ *
+ *    This program is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU Affero General Public License, version 3,
+ *    as published by the Free Software Foundation.
+ *
+ *    This program is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU Affero General Public License for more details.
+ *
+ *    You should have received a copy of the GNU Affero General Public License
+ *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *    You can download the source here: https://github.com/spark/spark-server
+ *
+ * 
+ *
+ */
+var Logger = /*#__PURE__*/function () {
   function Logger() {
-    (0, _classCallCheck3.default)(this, Logger);
+    (0, _classCallCheck2["default"])(this, Logger);
   }
 
-  (0, _createClass3.default)(Logger, null, [{
-    key: 'createLogger',
+  (0, _createClass2["default"])(Logger, null, [{
+    key: "createLogger",
     value: function createLogger(applicationName) {
-      return _bunyan2.default.createLogger({
-        level: _settings2.default.LOG_LEVEL,
+      return _bunyan["default"].createLogger({
+        level: _settings["default"].LOG_LEVEL,
         name: applicationName,
-        serializers: _bunyan2.default.stdSerializers
+        serializers: _bunyan["default"].stdSerializers
       });
     }
   }, {
-    key: 'createModuleLogger',
+    key: "createModuleLogger",
     value: function createModuleLogger(applicationModule) {
-      return _bunyan2.default.createLogger({
-        level: _settings2.default.LOG_LEVEL,
-        name: _path2.default.basename(applicationModule.filename),
-        serializers: _bunyan2.default.stdSerializers
+      return _bunyan["default"].createLogger({
+        level: _settings["default"].LOG_LEVEL,
+        name: _path["default"].basename(applicationModule.filename),
+        serializers: _bunyan["default"].stdSerializers
       });
     }
   }]);
   return Logger;
-}(); /**
-      *    Copyright (C) 2013-2014 Spark Labs, Inc. All rights reserved. -  https://www.spark.io/
-      *
-      *    This program is free software: you can redistribute it and/or modify
-      *    it under the terms of the GNU Affero General Public License, version 3,
-      *    as published by the Free Software Foundation.
-      *
-      *    This program is distributed in the hope that it will be useful,
-      *    but WITHOUT ANY WARRANTY; without even the implied warranty of
-      *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-      *    GNU Affero General Public License for more details.
-      *
-      *    You should have received a copy of the GNU Affero General Public License
-      *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-      *
-      *    You can download the source here: https://github.com/spark/spark-server
-      *
-      * 
-      *
-      */
+}();
 
-exports.default = Logger;
+exports["default"] = Logger;

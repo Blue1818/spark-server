@@ -2,30 +2,29 @@
 
 import type {
   $Application,
-  $Request,
   $Response,
   Middleware,
   NextFunction,
 } from 'express';
 import type { Container } from 'constitute';
-import type { Settings } from './types';
-
 import bodyParser from 'body-parser';
 import express from 'express';
+import bunyanMiddleware from 'bunyan-middleware';
+import type { Request, Settings } from './types';
 import Logger from './lib/logger';
 import routeConfig from './RouteConfig';
-import bunyanMiddleware from 'bunyan-middleware';
+
 const logger = Logger.createModuleLogger(module);
 
-export default (
+function createApp(
   container: Container,
   settings: Settings,
-  existingApp?: express$Application,
-): $Application => {
-  const app = existingApp || express();
+  existingApp?: $Application<Request, $Response>,
+): $Application<Request, $Response> {
+  const app = existingApp || express<Request, $Response>();
 
-  const setCORSHeaders: Middleware = (
-    request: $Request,
+  const setCORSHeaders: Middleware<Request, $Response> = (
+    request: Request,
     response: $Response,
     next: NextFunction,
   ): mixed => {
@@ -90,4 +89,6 @@ export default (
   );
 
   return app;
-};
+}
+
+export default createApp;

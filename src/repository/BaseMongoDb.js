@@ -17,12 +17,18 @@ const deepToObjectIdCast = (node: any): any => {
 
 class BaseMongoDb {
   // eslint-disable-next-line no-unused-vars
-  __filterID = ({ id, ...otherProps }: Object): Object => ({ ...otherProps });
+  __filterID: Object => Object = ({ id, ...otherProps }: Object): Object => ({
+    ...otherProps,
+  });
 
-  __translateQuery = (query: Object): Object =>
+  __translateQuery: (query: Object) => Object = (query: Object): Object =>
     this.__filterID(deepToObjectIdCast(query));
 
-  __translateResultItem = (item: ?Object): ?Object => {
+  __translateResultItem: <TEntity>(item: ?Object) => ?TEntity = <
+    TEntity: Object,
+  >(
+    item: ?Object,
+  ): ?TEntity => {
     if (!item) {
       return null;
     }

@@ -1,11 +1,11 @@
 // @flow
 
 class SparkCoreMock {
-  onApiMessage = (): boolean => true;
+  onApiMessage: () => boolean = (): boolean => true;
 
-  getVariableValue = (): any => 0;
+  getVariableValue: () => any = (): any => 0;
 
-  getDescription = (): Object => ({
+  getDescription: () => Object = (): Object => ({
     firmware_version: '0.6.0',
     product_id: '6',
     state: {
@@ -14,7 +14,7 @@ class SparkCoreMock {
     },
   });
 
-  ping = (): Object => ({
+  ping: () => Object = (): Object => ({
     connected: false,
     lastPing: new Date(),
   });

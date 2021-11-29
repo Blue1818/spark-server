@@ -1,149 +1,121 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
+var _Reflect$construct = require("@babel/runtime-corejs3/core-js-stable/reflect/construct");
+
+var _Object$keys = require("@babel/runtime-corejs3/core-js-stable/object/keys");
+
+var _Object$getOwnPropertySymbols = require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-symbols");
+
+var _filterInstanceProperty = require("@babel/runtime-corejs3/core-js-stable/instance/filter");
+
+var _Object$getOwnPropertyDescriptor2 = require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-descriptor");
+
+var _forEachInstanceProperty = require("@babel/runtime-corejs3/core-js-stable/instance/for-each");
+
+var _Object$getOwnPropertyDescriptors = require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-descriptors");
+
+var _Object$defineProperties = require("@babel/runtime-corejs3/core-js-stable/object/define-properties");
+
+var _Object$defineProperty = require("@babel/runtime-corejs3/core-js-stable/object/define-property");
+
+var _interopRequireDefault = require("@babel/runtime-corejs3/helpers/interopRequireDefault");
+
+_Object$defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+exports["default"] = void 0;
 
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+var _concat = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/instance/concat"));
 
-var _stringify = require('babel-runtime/core-js/json/stringify');
+var _setInterval2 = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/set-interval"));
 
-var _stringify2 = _interopRequireDefault(_stringify);
+var _stringify = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/json/stringify"));
 
-var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+var _getOwnPropertyDescriptor = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-descriptor"));
 
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+var _regenerator = _interopRequireDefault(require("@babel/runtime-corejs3/regenerator"));
 
-var _regenerator = require('babel-runtime/regenerator');
+var _toConsumableArray2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/toConsumableArray"));
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/asyncToGenerator"));
 
-var _extends2 = require('babel-runtime/helpers/extends');
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/classCallCheck"));
 
-var _extends3 = _interopRequireDefault(_extends2);
+var _createClass2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/createClass"));
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/assertThisInitialized"));
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+var _inherits2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/inherits"));
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/possibleConstructorReturn"));
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/getPrototypeOf"));
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/defineProperty"));
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+var _applyDecoratedDescriptor2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/applyDecoratedDescriptor"));
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+var _Controller2 = _interopRequireDefault(require("./Controller"));
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _anonymous = _interopRequireDefault(require("../decorators/anonymous"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _route = _interopRequireDefault(require("../decorators/route"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _httpVerb = _interopRequireDefault(require("../decorators/httpVerb"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _serverSentEvents = _interopRequireDefault(require("../decorators/serverSentEvents"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _eventToApi = _interopRequireDefault(require("../lib/eventToApi"));
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _desc, _value, _class;
+var _logger = _interopRequireDefault(require("../lib/logger"));
 
-var _Controller2 = require('./Controller');
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _class;
 
-var _Controller3 = _interopRequireDefault(_Controller2);
+function ownKeys(object, enumerableOnly) { var keys = _Object$keys(object); if (_Object$getOwnPropertySymbols) { var symbols = _Object$getOwnPropertySymbols(object); if (enumerableOnly) { symbols = _filterInstanceProperty(symbols).call(symbols, function (sym) { return _Object$getOwnPropertyDescriptor2(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var _anonymous = require('../decorators/anonymous');
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { var _context7; _forEachInstanceProperty(_context7 = ownKeys(Object(source), true)).call(_context7, function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }); } else if (_Object$getOwnPropertyDescriptors) { _Object$defineProperties(target, _Object$getOwnPropertyDescriptors(source)); } else { var _context8; _forEachInstanceProperty(_context8 = ownKeys(Object(source))).call(_context8, function (key) { _Object$defineProperty(target, key, _Object$getOwnPropertyDescriptor2(source, key)); }); } } return target; }
 
-var _anonymous2 = _interopRequireDefault(_anonymous);
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = _Reflect$construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
 
-var _route = require('../decorators/route');
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !_Reflect$construct) return false; if (_Reflect$construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(_Reflect$construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
-var _route2 = _interopRequireDefault(_route);
-
-var _httpVerb = require('../decorators/httpVerb');
-
-var _httpVerb2 = _interopRequireDefault(_httpVerb);
-
-var _serverSentEvents = require('../decorators/serverSentEvents');
-
-var _serverSentEvents2 = _interopRequireDefault(_serverSentEvents);
-
-var _eventToApi = require('../lib/eventToApi');
-
-var _eventToApi2 = _interopRequireDefault(_eventToApi);
-
-var _logger = require('../lib/logger');
-
-var _logger2 = _interopRequireDefault(_logger);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
-
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
-
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
-
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
-
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
-
-  return desc;
-}
-
-var logger = _logger2.default.createModuleLogger(module);
+var logger = _logger["default"].createModuleLogger(module);
 
 var KEEP_ALIVE_INTERVAL = 9000;
+var EventsController = (_dec = (0, _httpVerb["default"])('post'), _dec2 = (0, _route["default"])('/v1/ping'), _dec3 = (0, _anonymous["default"])(), _dec4 = (0, _httpVerb["default"])('get'), _dec5 = (0, _route["default"])('/v1/events/:eventNamePrefix?*'), _dec6 = (0, _serverSentEvents["default"])(), _dec7 = (0, _httpVerb["default"])('get'), _dec8 = (0, _route["default"])('/v1/devices/events/:eventNamePrefix?*'), _dec9 = (0, _serverSentEvents["default"])(), _dec10 = (0, _httpVerb["default"])('get'), _dec11 = (0, _route["default"])('/v1/devices/:deviceIDorName/events/:eventNamePrefix?*'), _dec12 = (0, _serverSentEvents["default"])(), _dec13 = (0, _httpVerb["default"])('post'), _dec14 = (0, _route["default"])('/v1/devices/events'), (_class = /*#__PURE__*/function (_Controller) {
+  (0, _inherits2["default"])(EventsController, _Controller);
 
-var EventsController = (_dec = (0, _httpVerb2.default)('post'), _dec2 = (0, _route2.default)('/v1/ping'), _dec3 = (0, _anonymous2.default)(), _dec4 = (0, _httpVerb2.default)('get'), _dec5 = (0, _route2.default)('/v1/events/:eventNamePrefix?*'), _dec6 = (0, _serverSentEvents2.default)(), _dec7 = (0, _httpVerb2.default)('get'), _dec8 = (0, _route2.default)('/v1/devices/events/:eventNamePrefix?*'), _dec9 = (0, _serverSentEvents2.default)(), _dec10 = (0, _httpVerb2.default)('get'), _dec11 = (0, _route2.default)('/v1/devices/:deviceIDorName/events/:eventNamePrefix?*'), _dec12 = (0, _serverSentEvents2.default)(), _dec13 = (0, _httpVerb2.default)('post'), _dec14 = (0, _route2.default)('/v1/devices/events'), (_class = function (_Controller) {
-  (0, _inherits3.default)(EventsController, _Controller);
+  var _super = _createSuper(EventsController);
 
   function EventsController(eventManager, deviceManager) {
-    (0, _classCallCheck3.default)(this, EventsController);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (EventsController.__proto__ || (0, _getPrototypeOf2.default)(EventsController)).call(this));
-
-    _this._keepAliveIntervalID = null;
-    _this._lastEventDate = new Date();
-
-
+    (0, _classCallCheck2["default"])(this, EventsController);
+    _this = _super.call(this);
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "_eventManager", void 0);
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "_deviceManager", void 0);
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "_keepAliveIntervalID", null);
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "_lastEventDate", new Date());
     _this._eventManager = eventManager;
     _this._deviceManager = deviceManager;
     return _this;
   }
 
-  (0, _createClass3.default)(EventsController, [{
-    key: 'ping',
+  (0, _createClass2["default"])(EventsController, [{
+    key: "ping",
     value: function () {
-      var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(payload) {
-        return _regenerator2.default.wrap(function _callee$(_context) {
+      var _ping = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(payload) {
+        return _regenerator["default"].wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                return _context.abrupt('return', this.ok((0, _extends3.default)({}, payload, {
+                return _context.abrupt("return", this.ok(_objectSpread(_objectSpread({}, payload), {}, {
                   serverPayload: Math.random()
                 })));
 
               case 1:
-              case 'end':
+              case "end":
                 return _context.stop();
             }
           }
@@ -151,150 +123,165 @@ var EventsController = (_dec = (0, _httpVerb2.default)('post'), _dec2 = (0, _rou
       }));
 
       function ping(_x) {
-        return _ref.apply(this, arguments);
+        return _ping.apply(this, arguments);
       }
 
       return ping;
     }()
   }, {
-    key: 'getEvents',
+    key: "getEvents",
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(eventNamePrefix) {
-        var _eventManager;
+      var _getEvents = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(eventNamePrefix) {
+        var _this$_eventManager,
+            _context2,
+            _this2 = this;
 
         var subscriptionID, keepAliveIntervalID;
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+        return _regenerator["default"].wrap(function _callee2$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                subscriptionID = (_eventManager = this._eventManager).subscribe.apply(_eventManager, [eventNamePrefix, this._pipeEvent.bind(this)].concat((0, _toConsumableArray3.default)(this._getUserFilter())));
+                subscriptionID = (_this$_eventManager = this._eventManager).subscribe.apply(_this$_eventManager, (0, _concat["default"])(_context2 = [eventNamePrefix, // eslint-disable-next-line flowtype/require-parameter-type, flowtype/require-return-type
+                function () {
+                  return _this2._pipeEvent.apply(_this2, arguments);
+                }]).call(_context2, (0, _toConsumableArray2["default"])(this._getUserFilter())));
                 keepAliveIntervalID = this._startKeepAlive();
-
 
                 this._closeStream(subscriptionID, keepAliveIntervalID);
 
               case 3:
-              case 'end':
-                return _context2.stop();
+              case "end":
+                return _context3.stop();
             }
           }
         }, _callee2, this);
       }));
 
       function getEvents(_x2) {
-        return _ref2.apply(this, arguments);
+        return _getEvents.apply(this, arguments);
       }
 
       return getEvents;
     }()
   }, {
-    key: 'getMyEvents',
+    key: "getMyEvents",
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(eventNamePrefix) {
+      var _getMyEvents = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(eventNamePrefix) {
+        var _this3 = this;
+
         var subscriptionID, keepAliveIntervalID;
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+        return _regenerator["default"].wrap(function _callee3$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                subscriptionID = this._eventManager.subscribe(eventNamePrefix, this._pipeEvent.bind(this), (0, _extends3.default)({
+                subscriptionID = this._eventManager.subscribe(eventNamePrefix, // eslint-disable-next-line flowtype/require-parameter-type, flowtype/require-return-type
+                function () {
+                  return _this3._pipeEvent.apply(_this3, arguments);
+                }, _objectSpread({
                   mydevices: true
                 }, this._getUserFilter()));
                 keepAliveIntervalID = this._startKeepAlive();
 
-
                 this._closeStream(subscriptionID, keepAliveIntervalID);
 
               case 3:
-              case 'end':
-                return _context3.stop();
+              case "end":
+                return _context4.stop();
             }
           }
         }, _callee3, this);
       }));
 
       function getMyEvents(_x3) {
-        return _ref3.apply(this, arguments);
+        return _getMyEvents.apply(this, arguments);
       }
 
       return getMyEvents;
     }()
   }, {
-    key: 'getDeviceEvents',
+    key: "getDeviceEvents",
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(deviceIDorName, eventNamePrefix) {
+      var _getDeviceEvents = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(deviceIDorName, eventNamePrefix) {
+        var _this4 = this;
+
         var deviceID, subscriptionID, keepAliveIntervalID;
-        return _regenerator2.default.wrap(function _callee4$(_context4) {
+        return _regenerator["default"].wrap(function _callee4$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                _context4.next = 2;
+                _context5.next = 2;
                 return this._deviceManager.getDeviceID(deviceIDorName);
 
               case 2:
-                deviceID = _context4.sent;
-                subscriptionID = this._eventManager.subscribe(eventNamePrefix, this._pipeEvent.bind(this), (0, _extends3.default)({
+                deviceID = _context5.sent;
+                subscriptionID = this._eventManager.subscribe(eventNamePrefix, // eslint-disable-next-line flowtype/require-parameter-type, flowtype/require-return-type
+                function () {
+                  return _this4._pipeEvent.apply(_this4, arguments);
+                }, _objectSpread({
                   deviceID: deviceID
                 }, this._getUserFilter()));
                 keepAliveIntervalID = this._startKeepAlive();
 
-
                 this._closeStream(subscriptionID, keepAliveIntervalID);
 
               case 6:
-              case 'end':
-                return _context4.stop();
+              case "end":
+                return _context5.stop();
             }
           }
         }, _callee4, this);
       }));
 
       function getDeviceEvents(_x4, _x5) {
-        return _ref4.apply(this, arguments);
+        return _getDeviceEvents.apply(this, arguments);
       }
 
       return getDeviceEvents;
     }()
   }, {
-    key: 'publish',
+    key: "publish",
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(postBody) {
+      var _publish = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(postBody) {
         var eventData;
-        return _regenerator2.default.wrap(function _callee5$(_context5) {
+        return _regenerator["default"].wrap(function _callee5$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                eventData = (0, _extends3.default)({
+                eventData = _objectSpread({
                   data: postBody.data,
-                  isPublic: !postBody.private,
+                  isPublic: !postBody["private"],
                   name: postBody.name,
                   ttl: postBody.ttl
                 }, this._getUserFilter());
 
-
                 this._eventManager.publish(eventData);
-                return _context5.abrupt('return', this.ok({ ok: true }));
+
+                return _context6.abrupt("return", this.ok({
+                  ok: true
+                }));
 
               case 3:
-              case 'end':
-                return _context5.stop();
+              case "end":
+                return _context6.stop();
             }
           }
         }, _callee5, this);
       }));
 
       function publish(_x6) {
-        return _ref5.apply(this, arguments);
+        return _publish.apply(this, arguments);
       }
 
       return publish;
     }()
   }, {
-    key: '_closeStream',
+    key: "_closeStream",
     value: function _closeStream(subscriptionID, keepAliveIntervalID) {
-      var _this2 = this;
+      var _this5 = this;
 
       var closeStreamHandler = function closeStreamHandler() {
-        _this2._eventManager.unsubscribe(subscriptionID);
+        _this5._eventManager.unsubscribe(subscriptionID);
+
         clearInterval(keepAliveIntervalID);
       };
 
@@ -304,40 +291,49 @@ var EventsController = (_dec = (0, _httpVerb2.default)('post'), _dec2 = (0, _rou
       this.response.on('end', closeStreamHandler);
     }
   }, {
-    key: '_getUserFilter',
+    key: "_getUserFilter",
     value: function _getUserFilter() {
-      return this.user.role === 'administrator' ? {} : { userID: this.user.id };
+      return this.user.role === 'administrator' ? {} : {
+        userID: this.user.id
+      };
     }
   }, {
-    key: '_startKeepAlive',
+    key: "_startKeepAlive",
     value: function _startKeepAlive() {
-      var _this3 = this;
+      var _this6 = this;
 
-      return setInterval(function () {
-        if (new Date() - _this3._lastEventDate >= KEEP_ALIVE_INTERVAL) {
-          _this3.response.write('\n');
-          _this3._updateLastEventDate();
+      return (0, _setInterval2["default"])(function () {
+        if (new Date() - _this6._lastEventDate >= KEEP_ALIVE_INTERVAL) {
+          _this6.response.write('\n');
+
+          _this6._updateLastEventDate();
         }
       }, KEEP_ALIVE_INTERVAL);
     }
   }, {
-    key: '_pipeEvent',
+    key: "_pipeEvent",
     value: function _pipeEvent(event) {
       try {
-        this.response.write('event: ' + (event.name || '') + '\n');
-        this.response.write('data: ' + (0, _stringify2.default)((0, _eventToApi2.default)(event)) + '\n\n');
+        this.response.write("event: ".concat(event.name || '', "\n"));
+        this.response.write("data: ".concat((0, _stringify["default"])((0, _eventToApi["default"])(event)), "\n\n"));
+
         this._updateLastEventDate();
       } catch (error) {
-        logger.error({ deviceID: event.deviceID, err: error, event: event }, 'pipeEvents - write error');
+        logger.error({
+          deviceID: event.deviceID,
+          err: error,
+          event: event
+        }, 'pipeEvents - write error');
         throw error;
       }
     }
   }, {
-    key: '_updateLastEventDate',
+    key: "_updateLastEventDate",
     value: function _updateLastEventDate() {
       this._lastEventDate = new Date();
     }
   }]);
   return EventsController;
-}(_Controller3.default), (_applyDecoratedDescriptor(_class.prototype, 'ping', [_dec, _dec2, _dec3], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'ping'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'getEvents', [_dec4, _dec5, _dec6], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'getEvents'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'getMyEvents', [_dec7, _dec8, _dec9], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'getMyEvents'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'getDeviceEvents', [_dec10, _dec11, _dec12], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'getDeviceEvents'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'publish', [_dec13, _dec14], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'publish'), _class.prototype)), _class));
-exports.default = EventsController;
+}(_Controller2["default"]), ((0, _applyDecoratedDescriptor2["default"])(_class.prototype, "ping", [_dec, _dec2, _dec3], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "ping"), _class.prototype), (0, _applyDecoratedDescriptor2["default"])(_class.prototype, "getEvents", [_dec4, _dec5, _dec6], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "getEvents"), _class.prototype), (0, _applyDecoratedDescriptor2["default"])(_class.prototype, "getMyEvents", [_dec7, _dec8, _dec9], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "getMyEvents"), _class.prototype), (0, _applyDecoratedDescriptor2["default"])(_class.prototype, "getDeviceEvents", [_dec10, _dec11, _dec12], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "getDeviceEvents"), _class.prototype), (0, _applyDecoratedDescriptor2["default"])(_class.prototype, "publish", [_dec13, _dec14], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "publish"), _class.prototype)), _class));
+var _default = EventsController;
+exports["default"] = _default;

@@ -144,7 +144,7 @@ test.serial('should delete webhook', async t => {
   );
 });
 
-test.after.always(async (): Promise<void> => {
+test.after.always(async () => {
   await container.constitute('IWebhookRepository').deleteByID(testWebhook.id);
   await container.constitute('IUserRepository').deleteByID(testUser.id);
 });

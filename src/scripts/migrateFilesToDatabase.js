@@ -1,10 +1,10 @@
 // @flow
 
+import fs from 'fs';
+import { ObjectId } from 'mongodb';
 import type { DeviceKeyObject } from '../types';
 
-import fs from 'fs';
 import settings from '../settings';
-import { ObjectId } from 'mongodb';
 import NeDb from '../repository/NeDb';
 import MongoDb from '../repository/MongoDb';
 
@@ -50,12 +50,10 @@ const getFiles = (
     .readdirSync(directoryPath)
     .filter((fileName: string): boolean => fileName.endsWith(fileExtension));
 
-  return fileNames.map(
-    (fileName: string): FileObject => ({
-      fileBuffer: fs.readFileSync(`${directoryPath}/${fileName}`),
-      fileName,
-    }),
-  );
+  return fileNames.map((fileName: string): FileObject => ({
+    fileBuffer: fs.readFileSync(`${directoryPath}/${fileName}`),
+    fileName,
+  }));
 };
 
 const parseFile = (file: Buffer): Object => JSON.parse(file.toString());
@@ -81,7 +79,7 @@ const deepDateCast = (node: any): any => {
     if (node[key] === Object(node[key])) {
       deepDateCast(node[key]);
     }
-    if (!isNaN(Date.parse(node[key]))) {
+    if (!Number.isNaN(Date.parse(node[key]))) {
       // eslint-disable-next-line
       node[key] = new Date(node[key]);
     }
@@ -93,7 +91,7 @@ const insertItem = (
   database: Object,
   collectionName: string,
 ): ((item: Object) => Promise<void>) => async (item: Object): Promise<void> =>
-  await database.insertOne(collectionName, item);
+  database.insertOne(collectionName, item);
 
 const insertUsers = async (
   database: Object,
@@ -102,26 +100,24 @@ const insertUsers = async (
   const userIDsMap = new Map();
 
   await Promise.all(
-    users.map(deepDateCast).map(
-      async (user: Object): Promise<void> => {
-        const insertedUser = await database.insertOne('users', filterID(user));
-        userIDsMap.set(user.id, insertedUser.id);
-      },
-    ),
+    users.map(deepDateCast).map(async (user: Object) => {
+      const insertedUser = await database.insertOne('users', filterID(user));
+      userIDsMap.set(user.id, insertedUser.id);
+    }),
   );
 
   return userIDsMap;
 };
 
-(async (): Promise<void> => {
+(async () => {
   try {
     console.log('Setup database connection...');
     const database = await setupDatabase();
     console.log(`Start migration to ${DATABASE_TYPE}`);
 
-    const users = getFiles(settings.USERS_DIRECTORY).map(
-      ({ fileBuffer }: FileObject): Object => parseFile(fileBuffer),
-    );
+    const users = getFiles(
+      settings.USERS_DIRECTORY,
+    ).map(({ fileBuffer }: FileObject): Object => parseFile(fileBuffer));
 
     const userIDsMap = await insertUsers(database, users);
 
@@ -146,13 +142,11 @@ const insertUsers = async (
 
     await Promise.all(
       getFiles(settings.DEVICE_DIRECTORY, '.pub.pem')
-        .map(
-          ({ fileName, fileBuffer }: FileObject): DeviceKeyObject => ({
-            algorithm: 'rsa',
-            deviceID: fileName.substring(0, fileName.indexOf('.pub.pem')),
-            key: fileBuffer.toString(),
-          }),
-        )
+        .map(({ fileName, fileBuffer }: FileObject): DeviceKeyObject => ({
+          algorithm: 'rsa',
+          deviceID: fileName.substring(0, fileName.indexOf('.pub.pem')),
+          key: fileBuffer.toString(),
+        }))
         .map(insertItem(database, 'deviceKeys')),
     );
 

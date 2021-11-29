@@ -1,5 +1,6 @@
 // @flow
 
+import { HalModuleParser } from 'binary-version-reader';
 import type DeviceManager from '../managers/DeviceManager';
 import type {
   IProductDeviceRepository,
@@ -7,10 +8,8 @@ import type {
   IProductRepository,
   ProductFirmware,
 } from '../types';
-
 import Controller from './Controller';
 import httpVerb from '../decorators/httpVerb';
-import { HalModuleParser } from 'binary-version-reader';
 import allowUpload from '../decorators/allowUpload';
 import route from '../decorators/route';
 
@@ -24,8 +23,11 @@ type ProductFirmwareUpload = {
 
 class ProductFirmwaresController extends Controller {
   _deviceManager: DeviceManager;
+
   _productDeviceRepository: IProductDeviceRepository;
+
   _productFirmwareRepository: IProductFirmwareRepository;
+
   _productRepository: IProductRepository;
 
   constructor(
@@ -57,7 +59,7 @@ class ProductFirmwaresController extends Controller {
     );
 
     const mappedFirmware = await Promise.all(
-      // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line no-unused-vars, flowtype/require-return-type, flowtype/require-parameter-type
       firmwares.map(async ({ data, ...firmware }) => {
         const deviceCount = await this._productDeviceRepository.countByProductID(
           product.product_id,
@@ -93,7 +95,8 @@ class ProductFirmwaresController extends Controller {
     );
 
     const existingFirmware = firmwareList.find(
-      firmware => firmware.version === parseInt(version, 10),
+      (firmware: ProductFirmware): boolean =>
+        firmware.version === parseInt(version, 10),
     );
     if (!existingFirmware) {
       return this.bad(`Firmware version ${version} does not exist`);
@@ -122,7 +125,7 @@ class ProductFirmwaresController extends Controller {
     body: ProductFirmwareUpload,
   ): Promise<*> {
     const missingFields = ['binary', 'description', 'title', 'version'].filter(
-      key => !body[key],
+      (key: string): boolean => !body[key],
     );
     if (missingFields.length) {
       return this.bad(`Missing fields: ${missingFields.join(', ')}`);
@@ -139,10 +142,12 @@ class ProductFirmwaresController extends Controller {
     }
 
     const parser = new HalModuleParser();
-    const moduleInfo = await new Promise((resolve, reject) =>
-      parser
-        .parseBuffer({ fileBuffer: body.binary.buffer })
-        .then(resolve, reject),
+    const moduleInfo = await new Promise(
+      // eslint-disable-next-line flowtype/require-return-type
+      (resolve: any => void, reject: any => void) =>
+        parser
+          .parseBuffer({ fileBuffer: body.binary.buffer })
+          .then(resolve, reject),
     );
 
     if (moduleInfo.crc.ok !== 1) {
@@ -152,27 +157,21 @@ class ProductFirmwaresController extends Controller {
     const firmwarePlatformID = moduleInfo.prefixInfo.platformID;
     if (firmwarePlatformID !== product.platform_id) {
       return this.bad(
-        `Firmware had incorrect platform ID ${firmwarePlatformID}. Expected ${
-          product.platform_id
-        } `,
+        `Firmware had incorrect platform ID ${firmwarePlatformID}. Expected ${product.platform_id} `,
       );
     }
 
     const { productId, productVersion } = moduleInfo.suffixInfo;
     if (productId !== parseInt(product.product_id, 10)) {
       return this.bad(
-        `Firmware had incorrect product ID ${productId}. Expected  ${
-          product.product_id
-        }`,
+        `Firmware had incorrect product ID ${productId}. Expected  ${product.product_id}`,
       );
     }
 
     const version = parseInt(body.version, 10);
     if (productVersion !== version) {
       return this.bad(
-        `Firmware had incorrect product version ${productVersion}. Expected ${
-          product.product_id
-        }`,
+        `Firmware had incorrect product version ${productVersion}. Expected ${product.product_id}`,
       );
     }
 
@@ -180,7 +179,9 @@ class ProductFirmwaresController extends Controller {
       product.product_id,
     );
     const maxExistingFirmwareVersion = Math.max(
-      ...firmwareList.map(firmware => parseInt(firmware.version, 10)),
+      ...firmwareList.map((firmware: ProductFirmware): number =>
+        parseInt(firmware.version, 10),
+      ),
     );
 
     if (version <= maxExistingFirmwareVersion) {
@@ -239,7 +240,8 @@ class ProductFirmwaresController extends Controller {
     );
 
     const existingFirmware = firmwareList.find(
-      firmware => firmware.version === parseInt(version, 10),
+      (firmware: ProductFirmware): boolean =>
+        firmware.version === parseInt(version, 10),
     );
     if (!existingFirmware) {
       return this.bad(`Firmware version ${version} does not exist`);
@@ -280,7 +282,8 @@ class ProductFirmwaresController extends Controller {
     );
 
     const existingFirmware = firmwareList.find(
-      firmware => firmware.version === parseInt(version, 10),
+      (firmware: ProductFirmware): boolean =>
+        firmware.version === parseInt(version, 10),
     );
     if (!existingFirmware) {
       return this.bad(`Firmware version ${version} does not exist`);
@@ -299,12 +302,11 @@ class ProductFirmwaresController extends Controller {
         .filter(
           (firmware: ProductFirmware): boolean => firmware.current === true,
         )
-        .map(
-          (releasedFirmware: ProductFirmware): Promise<ProductFirmware> =>
-            this._productFirmwareRepository.updateByID(releasedFirmware.id, {
-              ...releasedFirmware,
-              current: false,
-            }),
+        .map((releasedFirmware: ProductFirmware): Promise<ProductFirmware> =>
+          this._productFirmwareRepository.updateByID(releasedFirmware.id, {
+            ...releasedFirmware,
+            current: false,
+          }),
         ),
     );
   }

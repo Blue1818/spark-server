@@ -1,69 +1,45 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
+var _Object$defineProperty = require("@babel/runtime-corejs3/core-js-stable/object/define-property");
+
+var _interopRequireDefault = require("@babel/runtime-corejs3/helpers/interopRequireDefault");
+
+_Object$defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+exports["default"] = void 0;
 
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+var _getOwnPropertyDescriptor = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-descriptor"));
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/classCallCheck"));
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+var _createClass2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/createClass"));
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/defineProperty"));
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _applyDecoratedDescriptor2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/applyDecoratedDescriptor"));
 
-var _dec, _desc, _value, _class;
+var _sparkProtocol = require("spark-protocol");
 
-var _sparkProtocol = require('spark-protocol');
+var _dec, _class;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
-
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
-
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
-
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
-
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
-
-  return desc;
-}
-
-var DeviceFirmwareFileRepository = (_dec = (0, _sparkProtocol.memoizeGet)([], { promise: false }), (_class = function () {
+var DeviceFirmwareFileRepository = (_dec = (0, _sparkProtocol.memoizeGet)([], {
+  promise: false
+}), (_class = /*#__PURE__*/function () {
   function DeviceFirmwareFileRepository(path) {
-    (0, _classCallCheck3.default)(this, DeviceFirmwareFileRepository);
-
+    (0, _classCallCheck2["default"])(this, DeviceFirmwareFileRepository);
+    (0, _defineProperty2["default"])(this, "_fileManager", void 0);
     this._fileManager = new _sparkProtocol.FileManager(path, false);
   }
 
-  (0, _createClass3.default)(DeviceFirmwareFileRepository, [{
-    key: 'getByName',
+  (0, _createClass2["default"])(DeviceFirmwareFileRepository, [{
+    key: "getByName",
     value: function getByName(appName) {
-      return this._fileManager.getFileBuffer(appName + '.bin');
+      return this._fileManager.getFileBuffer("".concat(appName, ".bin"));
     }
   }]);
   return DeviceFirmwareFileRepository;
-}(), (_applyDecoratedDescriptor(_class.prototype, 'getByName', [_dec], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'getByName'), _class.prototype)), _class));
-exports.default = DeviceFirmwareFileRepository;
+}(), ((0, _applyDecoratedDescriptor2["default"])(_class.prototype, "getByName", [_dec], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "getByName"), _class.prototype)), _class));
+var _default = DeviceFirmwareFileRepository;
+exports["default"] = _default;

@@ -1,116 +1,110 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
+var _Reflect$construct = require("@babel/runtime-corejs3/core-js-stable/reflect/construct");
+
+var _Object$keys = require("@babel/runtime-corejs3/core-js-stable/object/keys");
+
+var _Object$getOwnPropertySymbols = require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-symbols");
+
+var _filterInstanceProperty2 = require("@babel/runtime-corejs3/core-js-stable/instance/filter");
+
+var _Object$getOwnPropertyDescriptor2 = require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-descriptor");
+
+var _forEachInstanceProperty = require("@babel/runtime-corejs3/core-js-stable/instance/for-each");
+
+var _Object$getOwnPropertyDescriptors = require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-descriptors");
+
+var _Object$defineProperties = require("@babel/runtime-corejs3/core-js-stable/object/define-properties");
+
+var _Object$defineProperty = require("@babel/runtime-corejs3/core-js-stable/object/define-property");
+
+var _interopRequireDefault = require("@babel/runtime-corejs3/helpers/interopRequireDefault");
+
+_Object$defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+exports["default"] = void 0;
 
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+var _regenerator = _interopRequireDefault(require("@babel/runtime-corejs3/regenerator"));
 
-var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+var _toConsumableArray2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/toConsumableArray"));
 
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/objectWithoutProperties"));
 
-var _regenerator = require('babel-runtime/regenerator');
+var _promise = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/promise"));
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+var _map = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/instance/map"));
 
-var _extends2 = require('babel-runtime/helpers/extends');
+var _find = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/instance/find"));
 
-var _extends3 = _interopRequireDefault(_extends2);
+var _parseInt2 = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/parse-int"));
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+var _filter = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/instance/filter"));
 
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+var _concat = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/instance/concat"));
 
-var _promise = require('babel-runtime/core-js/promise');
+var _trim = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/instance/trim"));
 
-var _promise2 = _interopRequireDefault(_promise);
+var _getOwnPropertyDescriptor = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-descriptor"));
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/asyncToGenerator"));
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/classCallCheck"));
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+var _createClass2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/createClass"));
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/assertThisInitialized"));
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+var _inherits2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/inherits"));
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/possibleConstructorReturn"));
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/getPrototypeOf"));
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/defineProperty"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _applyDecoratedDescriptor2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/applyDecoratedDescriptor"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _binaryVersionReader = require("binary-version-reader");
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _Controller2 = _interopRequireDefault(require("./Controller"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _httpVerb = _interopRequireDefault(require("../decorators/httpVerb"));
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _desc, _value, _class;
+var _allowUpload = _interopRequireDefault(require("../decorators/allowUpload"));
 
-var _Controller2 = require('./Controller');
+var _route = _interopRequireDefault(require("../decorators/route"));
 
-var _Controller3 = _interopRequireDefault(_Controller2);
+var _excluded = ["data"],
+    _excluded2 = ["data", "id"],
+    _excluded3 = ["data", "id"],
+    _excluded4 = ["data", "id"];
 
-var _httpVerb = require('../decorators/httpVerb');
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _class;
 
-var _httpVerb2 = _interopRequireDefault(_httpVerb);
+function ownKeys(object, enumerableOnly) { var keys = _Object$keys(object); if (_Object$getOwnPropertySymbols) { var symbols = _Object$getOwnPropertySymbols(object); if (enumerableOnly) { symbols = _filterInstanceProperty2(symbols).call(symbols, function (sym) { return _Object$getOwnPropertyDescriptor2(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var _binaryVersionReader = require('binary-version-reader');
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { var _context13; _forEachInstanceProperty(_context13 = ownKeys(Object(source), true)).call(_context13, function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }); } else if (_Object$getOwnPropertyDescriptors) { _Object$defineProperties(target, _Object$getOwnPropertyDescriptors(source)); } else { var _context14; _forEachInstanceProperty(_context14 = ownKeys(Object(source))).call(_context14, function (key) { _Object$defineProperty(target, key, _Object$getOwnPropertyDescriptor2(source, key)); }); } } return target; }
 
-var _allowUpload = require('../decorators/allowUpload');
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = _Reflect$construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
 
-var _allowUpload2 = _interopRequireDefault(_allowUpload);
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !_Reflect$construct) return false; if (_Reflect$construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(_Reflect$construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
-var _route = require('../decorators/route');
+var ProductFirmwaresController = (_dec = (0, _httpVerb["default"])('get'), _dec2 = (0, _route["default"])('/v1/products/:productIDOrSlug/firmware'), _dec3 = (0, _httpVerb["default"])('get'), _dec4 = (0, _route["default"])('/v1/products/:productIDOrSlug/firmware/:version'), _dec5 = (0, _httpVerb["default"])('post'), _dec6 = (0, _route["default"])('/v1/products/:productIDOrSlug/firmware'), _dec7 = (0, _allowUpload["default"])('binary', 1), _dec8 = (0, _httpVerb["default"])('put'), _dec9 = (0, _route["default"])('/v1/products/:productIDOrSlug/firmware/:version'), _dec10 = (0, _httpVerb["default"])('delete'), _dec11 = (0, _route["default"])('/v1/products/:productIDOrSlug/firmware/:version'), (_class = /*#__PURE__*/function (_Controller) {
+  (0, _inherits2["default"])(ProductFirmwaresController, _Controller);
 
-var _route2 = _interopRequireDefault(_route);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
-
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
-
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
-
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
-
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
-
-  return desc;
-}
-
-var ProductFirmwaresController = (_dec = (0, _httpVerb2.default)('get'), _dec2 = (0, _route2.default)('/v1/products/:productIDOrSlug/firmware'), _dec3 = (0, _httpVerb2.default)('get'), _dec4 = (0, _route2.default)('/v1/products/:productIDOrSlug/firmware/:version'), _dec5 = (0, _httpVerb2.default)('post'), _dec6 = (0, _route2.default)('/v1/products/:productIDOrSlug/firmware'), _dec7 = (0, _allowUpload2.default)('binary', 1), _dec8 = (0, _httpVerb2.default)('put'), _dec9 = (0, _route2.default)('/v1/products/:productIDOrSlug/firmware/:version'), _dec10 = (0, _httpVerb2.default)('delete'), _dec11 = (0, _route2.default)('/v1/products/:productIDOrSlug/firmware/:version'), (_class = function (_Controller) {
-  (0, _inherits3.default)(ProductFirmwaresController, _Controller);
+  var _super = _createSuper(ProductFirmwaresController);
 
   function ProductFirmwaresController(deviceManager, productDeviceRepository, productFirmwareRepository, productRepository) {
-    (0, _classCallCheck3.default)(this, ProductFirmwaresController);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (ProductFirmwaresController.__proto__ || (0, _getPrototypeOf2.default)(ProductFirmwaresController)).call(this));
-
+    (0, _classCallCheck2["default"])(this, ProductFirmwaresController);
+    _this = _super.call(this);
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "_deviceManager", void 0);
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "_productDeviceRepository", void 0);
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "_productFirmwareRepository", void 0);
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "_productRepository", void 0);
     _this._deviceManager = deviceManager;
     _this._productDeviceRepository = productDeviceRepository;
     _this._productFirmwareRepository = productFirmwareRepository;
@@ -118,14 +112,14 @@ var ProductFirmwaresController = (_dec = (0, _httpVerb2.default)('get'), _dec2 =
     return _this;
   }
 
-  (0, _createClass3.default)(ProductFirmwaresController, [{
-    key: 'getFirmwares',
+  (0, _createClass2["default"])(ProductFirmwaresController, [{
+    key: "getFirmwares",
     value: function () {
-      var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(productIDOrSlug) {
+      var _getFirmwares = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(productIDOrSlug) {
         var _this2 = this;
 
         var product, firmwares, mappedFirmware;
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+        return _regenerator["default"].wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
@@ -140,7 +134,7 @@ var ProductFirmwaresController = (_dec = (0, _httpVerb2.default)('get'), _dec2 =
                   break;
                 }
 
-                return _context2.abrupt('return', this.bad('Product does not exist', 404));
+                return _context2.abrupt("return", this.bad('Product does not exist', 404));
 
               case 5:
                 _context2.next = 7;
@@ -149,34 +143,32 @@ var ProductFirmwaresController = (_dec = (0, _httpVerb2.default)('get'), _dec2 =
               case 7:
                 firmwares = _context2.sent;
                 _context2.next = 10;
-                return _promise2.default.all(
-                // eslint-disable-next-line no-unused-vars
-                firmwares.map(function () {
-                  var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref3) {
-                    var data = _ref3.data,
-                        firmware = (0, _objectWithoutProperties3.default)(_ref3, ['data']);
-                    var deviceCount;
-                    return _regenerator2.default.wrap(function _callee$(_context) {
+                return _promise["default"].all( // eslint-disable-next-line no-unused-vars, flowtype/require-return-type, flowtype/require-parameter-type
+                (0, _map["default"])(firmwares).call(firmwares, /*#__PURE__*/function () {
+                  var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(_ref) {
+                    var data, firmware, deviceCount;
+                    return _regenerator["default"].wrap(function _callee$(_context) {
                       while (1) {
                         switch (_context.prev = _context.next) {
                           case 0:
-                            _context.next = 2;
+                            data = _ref.data, firmware = (0, _objectWithoutProperties2["default"])(_ref, _excluded);
+                            _context.next = 3;
                             return _this2._productDeviceRepository.countByProductID(product.product_id, {
                               productFirmwareVersion: firmware.version
                             });
 
-                          case 2:
+                          case 3:
                             deviceCount = _context.sent;
-                            return _context.abrupt('return', (0, _extends3.default)({}, firmware, {
+                            return _context.abrupt("return", _objectSpread(_objectSpread({}, firmware), {}, {
                               device_count: deviceCount
                             }));
 
-                          case 4:
-                          case 'end':
+                          case 5:
+                          case "end":
                             return _context.stop();
                         }
                       }
-                    }, _callee, _this2);
+                    }, _callee);
                   }));
 
                   return function (_x2) {
@@ -186,10 +178,10 @@ var ProductFirmwaresController = (_dec = (0, _httpVerb2.default)('get'), _dec2 =
 
               case 10:
                 mappedFirmware = _context2.sent;
-                return _context2.abrupt('return', this.ok(mappedFirmware));
+                return _context2.abrupt("return", this.ok(mappedFirmware));
 
               case 12:
-              case 'end':
+              case "end":
                 return _context2.stop();
             }
           }
@@ -197,17 +189,17 @@ var ProductFirmwaresController = (_dec = (0, _httpVerb2.default)('get'), _dec2 =
       }));
 
       function getFirmwares(_x) {
-        return _ref.apply(this, arguments);
+        return _getFirmwares.apply(this, arguments);
       }
 
       return getFirmwares;
     }()
   }, {
-    key: 'getSingleFirmware',
+    key: "getSingleFirmware",
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(productIDOrSlug, version) {
+      var _getSingleFirmware = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(productIDOrSlug, version) {
         var product, firmwareList, existingFirmware, deviceCount, data, id, output;
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+        return _regenerator["default"].wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
@@ -222,7 +214,7 @@ var ProductFirmwaresController = (_dec = (0, _httpVerb2.default)('get'), _dec2 =
                   break;
                 }
 
-                return _context3.abrupt('return', this.bad(productIDOrSlug + ' does not exist'));
+                return _context3.abrupt("return", this.bad("".concat(productIDOrSlug, " does not exist")));
 
               case 5:
                 _context3.next = 7;
@@ -230,8 +222,8 @@ var ProductFirmwaresController = (_dec = (0, _httpVerb2.default)('get'), _dec2 =
 
               case 7:
                 firmwareList = _context3.sent;
-                existingFirmware = firmwareList.find(function (firmware) {
-                  return firmware.version === parseInt(version, 10);
+                existingFirmware = (0, _find["default"])(firmwareList).call(firmwareList, function (firmware) {
+                  return firmware.version === (0, _parseInt2["default"])(version, 10);
                 });
 
                 if (existingFirmware) {
@@ -239,7 +231,7 @@ var ProductFirmwaresController = (_dec = (0, _httpVerb2.default)('get'), _dec2 =
                   break;
                 }
 
-                return _context3.abrupt('return', this.bad('Firmware version ' + version + ' does not exist'));
+                return _context3.abrupt("return", this.bad("Firmware version ".concat(version, " does not exist")));
 
               case 11:
                 _context3.next = 13;
@@ -249,16 +241,14 @@ var ProductFirmwaresController = (_dec = (0, _httpVerb2.default)('get'), _dec2 =
 
               case 13:
                 deviceCount = _context3.sent;
-
-
                 // eslint-disable-next-line no-unused-vars
-                data = existingFirmware.data, id = existingFirmware.id, output = (0, _objectWithoutProperties3.default)(existingFirmware, ['data', 'id']);
-                return _context3.abrupt('return', this.ok((0, _extends3.default)({}, output, {
+                data = existingFirmware.data, id = existingFirmware.id, output = (0, _objectWithoutProperties2["default"])(existingFirmware, _excluded2);
+                return _context3.abrupt("return", this.ok(_objectSpread(_objectSpread({}, output), {}, {
                   device_count: deviceCount
                 })));
 
               case 16:
-              case 'end':
+              case "end":
                 return _context3.stop();
             }
           }
@@ -266,125 +256,128 @@ var ProductFirmwaresController = (_dec = (0, _httpVerb2.default)('get'), _dec2 =
       }));
 
       function getSingleFirmware(_x3, _x4) {
-        return _ref4.apply(this, arguments);
+        return _getSingleFirmware.apply(this, arguments);
       }
 
       return getSingleFirmware;
     }()
   }, {
-    key: 'addFirmware',
+    key: "addFirmware",
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(productIDOrSlug, body) {
-        var missingFields, product, parser, moduleInfo, firmwarePlatformID, _moduleInfo$suffixInf, productId, productVersion, version, firmwareList, maxExistingFirmwareVersion, firmware, data, id, output;
+      var _addFirmware = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(productIDOrSlug, body) {
+        var _context4;
 
-        return _regenerator2.default.wrap(function _callee4$(_context4) {
+        var missingFields, product, parser, moduleInfo, firmwarePlatformID, _context5, _moduleInfo$suffixInf, productId, productVersion, _context6, version, _context7, firmwareList, maxExistingFirmwareVersion, firmware, data, id, output;
+
+        return _regenerator["default"].wrap(function _callee4$(_context8) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
-                missingFields = ['binary', 'description', 'title', 'version'].filter(function (key) {
+                missingFields = (0, _filter["default"])(_context4 = ['binary', 'description', 'title', 'version']).call(_context4, function (key) {
                   return !body[key];
                 });
 
                 if (!missingFields.length) {
-                  _context4.next = 3;
+                  _context8.next = 3;
                   break;
                 }
 
-                return _context4.abrupt('return', this.bad('Missing fields: ' + missingFields.join(', ')));
+                return _context8.abrupt("return", this.bad("Missing fields: ".concat(missingFields.join(', '))));
 
               case 3:
-
                 // eslint-disable-next-line no-param-reassign
                 body.current = this._stringToBoolean(body.current);
-
-                _context4.next = 6;
+                _context8.next = 6;
                 return this._productRepository.getByIDOrSlug(productIDOrSlug);
 
               case 6:
-                product = _context4.sent;
+                product = _context8.sent;
 
                 if (product) {
-                  _context4.next = 9;
+                  _context8.next = 9;
                   break;
                 }
 
-                return _context4.abrupt('return', this.bad(productIDOrSlug + ' does not exist'));
+                return _context8.abrupt("return", this.bad("".concat(productIDOrSlug, " does not exist")));
 
               case 9:
                 parser = new _binaryVersionReader.HalModuleParser();
-                _context4.next = 12;
-                return new _promise2.default(function (resolve, reject) {
-                  return parser.parseBuffer({ fileBuffer: body.binary.buffer }).then(resolve, reject);
+                _context8.next = 12;
+                return new _promise["default"]( // eslint-disable-next-line flowtype/require-return-type
+                function (resolve, reject) {
+                  return parser.parseBuffer({
+                    fileBuffer: body.binary.buffer
+                  }).then(resolve, reject);
                 });
 
               case 12:
-                moduleInfo = _context4.sent;
+                moduleInfo = _context8.sent;
 
                 if (!(moduleInfo.crc.ok !== 1)) {
-                  _context4.next = 15;
+                  _context8.next = 15;
                   break;
                 }
 
-                return _context4.abrupt('return', this.bad('Invalid CRC. Try recompiling the firmware'));
+                return _context8.abrupt("return", this.bad('Invalid CRC. Try recompiling the firmware'));
 
               case 15:
                 firmwarePlatformID = moduleInfo.prefixInfo.platformID;
 
                 if (!(firmwarePlatformID !== product.platform_id)) {
-                  _context4.next = 18;
+                  _context8.next = 18;
                   break;
                 }
 
-                return _context4.abrupt('return', this.bad('Firmware had incorrect platform ID ' + firmwarePlatformID + '. Expected ' + product.platform_id + ' '));
+                return _context8.abrupt("return", this.bad((0, _concat["default"])(_context5 = "Firmware had incorrect platform ID ".concat(firmwarePlatformID, ". Expected ")).call(_context5, product.platform_id, " ")));
 
               case 18:
                 _moduleInfo$suffixInf = moduleInfo.suffixInfo, productId = _moduleInfo$suffixInf.productId, productVersion = _moduleInfo$suffixInf.productVersion;
 
-                if (!(productId !== parseInt(product.product_id, 10))) {
-                  _context4.next = 21;
+                if (!(productId !== (0, _parseInt2["default"])(product.product_id, 10))) {
+                  _context8.next = 21;
                   break;
                 }
 
-                return _context4.abrupt('return', this.bad('Firmware had incorrect product ID ' + productId + '. Expected  ' + product.product_id));
+                return _context8.abrupt("return", this.bad((0, _concat["default"])(_context6 = "Firmware had incorrect product ID ".concat(productId, ". Expected  ")).call(_context6, product.product_id)));
 
               case 21:
-                version = parseInt(body.version, 10);
+                version = (0, _parseInt2["default"])(body.version, 10);
 
                 if (!(productVersion !== version)) {
-                  _context4.next = 24;
+                  _context8.next = 24;
                   break;
                 }
 
-                return _context4.abrupt('return', this.bad('Firmware had incorrect product version ' + productVersion + '. Expected ' + product.product_id));
+                return _context8.abrupt("return", this.bad((0, _concat["default"])(_context7 = "Firmware had incorrect product version ".concat(productVersion, ". Expected ")).call(_context7, product.product_id)));
 
               case 24:
-                _context4.next = 26;
+                _context8.next = 26;
                 return this._productFirmwareRepository.getManyByProductID(product.product_id);
 
               case 26:
-                firmwareList = _context4.sent;
-                maxExistingFirmwareVersion = Math.max.apply(Math, (0, _toConsumableArray3.default)(firmwareList.map(function (firmware) {
-                  return parseInt(firmware.version, 10);
+                firmwareList = _context8.sent;
+                maxExistingFirmwareVersion = Math.max.apply(Math, (0, _toConsumableArray2["default"])((0, _map["default"])(firmwareList).call(firmwareList, function (firmware) {
+                  return (0, _parseInt2["default"])(firmware.version, 10);
                 })));
 
                 if (!(version <= maxExistingFirmwareVersion)) {
-                  _context4.next = 30;
+                  _context8.next = 30;
                   break;
                 }
 
-                return _context4.abrupt('return', this.bad('version must be greater than ' + maxExistingFirmwareVersion));
+                return _context8.abrupt("return", this.bad("version must be greater than ".concat(maxExistingFirmwareVersion)));
 
               case 30:
                 if (!body.current) {
-                  _context4.next = 33;
+                  _context8.next = 33;
                   break;
                 }
 
-                _context4.next = 33;
+                _context8.next = 33;
                 return this._findAndUnreleaseCurrentFirmware(firmwareList);
 
               case 33:
-                _context4.next = 35;
+                _context8.next = 35;
                 return this._productFirmwareRepository.create({
                   current: body.current,
                   data: body.binary.buffer,
@@ -398,214 +391,216 @@ var ProductFirmwaresController = (_dec = (0, _httpVerb2.default)('get'), _dec2 =
                 });
 
               case 35:
-                firmware = _context4.sent;
-
+                firmware = _context8.sent;
 
                 if (body.current) {
                   this._deviceManager.flashProductFirmware(product.product_id);
-                }
+                } // eslint-disable-next-line no-unused-vars
 
-                // eslint-disable-next-line no-unused-vars
-                data = firmware.data, id = firmware.id, output = (0, _objectWithoutProperties3.default)(firmware, ['data', 'id']);
-                return _context4.abrupt('return', this.ok(output));
+
+                data = firmware.data, id = firmware.id, output = (0, _objectWithoutProperties2["default"])(firmware, _excluded3);
+                return _context8.abrupt("return", this.ok(output));
 
               case 39:
-              case 'end':
-                return _context4.stop();
+              case "end":
+                return _context8.stop();
             }
           }
         }, _callee4, this);
       }));
 
       function addFirmware(_x5, _x6) {
-        return _ref5.apply(this, arguments);
+        return _addFirmware.apply(this, arguments);
       }
 
       return addFirmware;
     }()
   }, {
-    key: 'updateFirmware',
+    key: "updateFirmware",
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(productIDOrSlug, version, body) {
+      var _updateFirmware = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(productIDOrSlug, version, body) {
         var _body, current, description, title, product, firmwareList, existingFirmware, firmware, data, id, output;
 
-        return _regenerator2.default.wrap(function _callee5$(_context5) {
+        return _regenerator["default"].wrap(function _callee5$(_context9) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
-                _body = body, current = _body.current, description = _body.description, title = _body.title;
-                // eslint-disable-next-line no-param-reassign
+                _body = body, current = _body.current, description = _body.description, title = _body.title; // eslint-disable-next-line no-param-reassign
 
                 body = {
                   current: this._stringToBoolean(current),
                   description: description,
                   title: title
                 };
-                _context5.next = 4;
+                _context9.next = 4;
                 return this._productRepository.getByIDOrSlug(productIDOrSlug);
 
               case 4:
-                product = _context5.sent;
+                product = _context9.sent;
 
                 if (product) {
-                  _context5.next = 7;
+                  _context9.next = 7;
                   break;
                 }
 
-                return _context5.abrupt('return', this.bad(productIDOrSlug + ' does not exist'));
+                return _context9.abrupt("return", this.bad("".concat(productIDOrSlug, " does not exist")));
 
               case 7:
-                _context5.next = 9;
+                _context9.next = 9;
                 return this._productFirmwareRepository.getManyByProductID(product.product_id);
 
               case 9:
-                firmwareList = _context5.sent;
-                existingFirmware = firmwareList.find(function (firmware) {
-                  return firmware.version === parseInt(version, 10);
+                firmwareList = _context9.sent;
+                existingFirmware = (0, _find["default"])(firmwareList).call(firmwareList, function (firmware) {
+                  return firmware.version === (0, _parseInt2["default"])(version, 10);
                 });
 
                 if (existingFirmware) {
-                  _context5.next = 13;
+                  _context9.next = 13;
                   break;
                 }
 
-                return _context5.abrupt('return', this.bad('Firmware version ' + version + ' does not exist'));
+                return _context9.abrupt("return", this.bad("Firmware version ".concat(version, " does not exist")));
 
               case 13:
                 if (!body.current) {
-                  _context5.next = 16;
+                  _context9.next = 16;
                   break;
                 }
 
-                _context5.next = 16;
+                _context9.next = 16;
                 return this._findAndUnreleaseCurrentFirmware(firmwareList);
 
               case 16:
-                _context5.next = 18;
-                return this._productFirmwareRepository.updateByID(existingFirmware.id, (0, _extends3.default)({}, existingFirmware, body));
+                _context9.next = 18;
+                return this._productFirmwareRepository.updateByID(existingFirmware.id, _objectSpread(_objectSpread({}, existingFirmware), body));
 
               case 18:
-                firmware = _context5.sent;
-
-
+                firmware = _context9.sent;
                 // eslint-disable-next-line no-unused-vars
-                data = firmware.data, id = firmware.id, output = (0, _objectWithoutProperties3.default)(firmware, ['data', 'id']);
-
+                data = firmware.data, id = firmware.id, output = (0, _objectWithoutProperties2["default"])(firmware, _excluded4);
 
                 if (current) {
                   this._deviceManager.flashProductFirmware(product.product_id);
                 }
-                return _context5.abrupt('return', this.ok(output));
+
+                return _context9.abrupt("return", this.ok(output));
 
               case 22:
-              case 'end':
-                return _context5.stop();
+              case "end":
+                return _context9.stop();
             }
           }
         }, _callee5, this);
       }));
 
       function updateFirmware(_x7, _x8, _x9) {
-        return _ref6.apply(this, arguments);
+        return _updateFirmware.apply(this, arguments);
       }
 
       return updateFirmware;
     }()
   }, {
-    key: 'deleteFirmware',
+    key: "deleteFirmware",
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(productIDOrSlug, version) {
+      var _deleteFirmware = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6(productIDOrSlug, version) {
         var product, firmwareList, existingFirmware;
-        return _regenerator2.default.wrap(function _callee6$(_context6) {
+        return _regenerator["default"].wrap(function _callee6$(_context10) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
-                _context6.next = 2;
+                _context10.next = 2;
                 return this._productRepository.getByIDOrSlug(productIDOrSlug);
 
               case 2:
-                product = _context6.sent;
+                product = _context10.sent;
 
                 if (product) {
-                  _context6.next = 5;
+                  _context10.next = 5;
                   break;
                 }
 
-                return _context6.abrupt('return', this.bad(productIDOrSlug + ' does not exist'));
+                return _context10.abrupt("return", this.bad("".concat(productIDOrSlug, " does not exist")));
 
               case 5:
-                _context6.next = 7;
+                _context10.next = 7;
                 return this._productFirmwareRepository.getManyByProductID(product.product_id);
 
               case 7:
-                firmwareList = _context6.sent;
-                existingFirmware = firmwareList.find(function (firmware) {
-                  return firmware.version === parseInt(version, 10);
+                firmwareList = _context10.sent;
+                existingFirmware = (0, _find["default"])(firmwareList).call(firmwareList, function (firmware) {
+                  return firmware.version === (0, _parseInt2["default"])(version, 10);
                 });
 
                 if (existingFirmware) {
-                  _context6.next = 11;
+                  _context10.next = 11;
                   break;
                 }
 
-                return _context6.abrupt('return', this.bad('Firmware version ' + version + ' does not exist'));
+                return _context10.abrupt("return", this.bad("Firmware version ".concat(version, " does not exist")));
 
               case 11:
-                _context6.next = 13;
+                _context10.next = 13;
                 return this._productFirmwareRepository.deleteByID(existingFirmware.id);
 
               case 13:
-                return _context6.abrupt('return', this.ok());
+                return _context10.abrupt("return", this.ok());
 
               case 14:
-              case 'end':
-                return _context6.stop();
+              case "end":
+                return _context10.stop();
             }
           }
         }, _callee6, this);
       }));
 
       function deleteFirmware(_x10, _x11) {
-        return _ref7.apply(this, arguments);
+        return _deleteFirmware.apply(this, arguments);
       }
 
       return deleteFirmware;
     }()
   }, {
-    key: '_findAndUnreleaseCurrentFirmware',
+    key: "_findAndUnreleaseCurrentFirmware",
     value: function _findAndUnreleaseCurrentFirmware(productFirmwareList) {
-      var _this3 = this;
+      var _context11,
+          _this3 = this;
 
-      return _promise2.default.all(productFirmwareList.filter(function (firmware) {
+      return _promise["default"].all((0, _map["default"])(_context11 = (0, _filter["default"])(productFirmwareList).call(productFirmwareList, function (firmware) {
         return firmware.current === true;
-      }).map(function (releasedFirmware) {
-        return _this3._productFirmwareRepository.updateByID(releasedFirmware.id, (0, _extends3.default)({}, releasedFirmware, {
+      })).call(_context11, function (releasedFirmware) {
+        return _this3._productFirmwareRepository.updateByID(releasedFirmware.id, _objectSpread(_objectSpread({}, releasedFirmware), {}, {
           current: false
         }));
       }));
     }
   }, {
-    key: '_stringToBoolean',
+    key: "_stringToBoolean",
     value: function _stringToBoolean(input) {
+      var _context12;
+
       if (input === true || input === false) {
         return input;
       }
 
-      switch (input.toLowerCase().trim()) {
+      switch ((0, _trim["default"])(_context12 = input.toLowerCase()).call(_context12)) {
         case 'true':
         case 'yes':
         case '1':
           return true;
+
         case 'false':
         case 'no':
         case '0':
         case null:
           return false;
+
         default:
           return Boolean(input);
       }
     }
   }]);
   return ProductFirmwaresController;
-}(_Controller3.default), (_applyDecoratedDescriptor(_class.prototype, 'getFirmwares', [_dec, _dec2], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'getFirmwares'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'getSingleFirmware', [_dec3, _dec4], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'getSingleFirmware'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'addFirmware', [_dec5, _dec6, _dec7], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'addFirmware'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateFirmware', [_dec8, _dec9], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'updateFirmware'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'deleteFirmware', [_dec10, _dec11], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'deleteFirmware'), _class.prototype)), _class));
-exports.default = ProductFirmwaresController;
+}(_Controller2["default"]), ((0, _applyDecoratedDescriptor2["default"])(_class.prototype, "getFirmwares", [_dec, _dec2], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "getFirmwares"), _class.prototype), (0, _applyDecoratedDescriptor2["default"])(_class.prototype, "getSingleFirmware", [_dec3, _dec4], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "getSingleFirmware"), _class.prototype), (0, _applyDecoratedDescriptor2["default"])(_class.prototype, "addFirmware", [_dec5, _dec6, _dec7], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "addFirmware"), _class.prototype), (0, _applyDecoratedDescriptor2["default"])(_class.prototype, "updateFirmware", [_dec8, _dec9], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "updateFirmware"), _class.prototype), (0, _applyDecoratedDescriptor2["default"])(_class.prototype, "deleteFirmware", [_dec10, _dec11], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "deleteFirmware"), _class.prototype)), _class));
+var _default = ProductFirmwaresController;
+exports["default"] = _default;

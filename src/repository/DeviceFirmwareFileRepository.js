@@ -1,8 +1,7 @@
 // @flow
 
-import type { IDeviceFirmwareRepository } from '../types';
-
 import { FileManager, memoizeGet } from 'spark-protocol';
+import type { IDeviceFirmwareRepository } from '../types';
 
 class DeviceFirmwareFileRepository implements IDeviceFirmwareRepository {
   _fileManager: FileManager;

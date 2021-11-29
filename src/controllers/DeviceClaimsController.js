@@ -1,16 +1,16 @@
 // @flow
 
 import type { ClaimCodeManager } from 'spark-protocol';
+import nullthrows from 'nullthrows';
 import type DeviceManager from '../managers/DeviceManager';
 import type { Device } from '../types';
-
 import Controller from './Controller';
 import httpVerb from '../decorators/httpVerb';
 import route from '../decorators/route';
-import nullthrows from 'nullthrows';
 
 class DeviceClaimsController extends Controller {
   _deviceManager: DeviceManager;
+
   _claimCodeManager: ClaimCodeManager;
 
   constructor(

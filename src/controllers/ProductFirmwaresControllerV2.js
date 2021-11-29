@@ -1,16 +1,22 @@
 // @flow
 
 import type DeviceManager from '../managers/DeviceManager';
-import type { IProductFirmwareRepository, IProductRepository } from '../types';
-
+import type {
+  IProductFirmwareRepository,
+  IProductRepository,
+  IProductDeviceRepository,
+} from '../types';
 import Controller from './Controller';
 import httpVerb from '../decorators/httpVerb';
 import route from '../decorators/route';
 
 class ProductFirmwaresControllerV2 extends Controller {
   _deviceManager: DeviceManager;
+
   _productDeviceRepository: IProductDeviceRepository;
+
   _productFirmwareRepository: IProductFirmwareRepository;
+
   _productRepository: IProductRepository;
 
   constructor(
@@ -62,7 +68,7 @@ class ProductFirmwaresControllerV2 extends Controller {
     );
 
     const mappedFirmware = await Promise.all(
-      // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line no-unused-vars, flowtype/require-return-type, flowtype/require-parameter-type
       firmwares.map(async ({ data, ...firmware }) => {
         const deviceCount = await this._productDeviceRepository.countByProductID(
           product.product_id,

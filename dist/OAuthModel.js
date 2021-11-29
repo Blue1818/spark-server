@@ -1,136 +1,142 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
+var _Object$keys = require("@babel/runtime-corejs3/core-js-stable/object/keys");
+
+var _Object$getOwnPropertySymbols = require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-symbols");
+
+var _filterInstanceProperty = require("@babel/runtime-corejs3/core-js-stable/instance/filter");
+
+var _Object$getOwnPropertyDescriptor = require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-descriptor");
+
+var _forEachInstanceProperty = require("@babel/runtime-corejs3/core-js-stable/instance/for-each");
+
+var _Object$getOwnPropertyDescriptors = require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-descriptors");
+
+var _Object$defineProperties = require("@babel/runtime-corejs3/core-js-stable/object/define-properties");
+
+var _Object$defineProperty = require("@babel/runtime-corejs3/core-js-stable/object/define-property");
+
+var _interopRequireDefault = require("@babel/runtime-corejs3/helpers/interopRequireDefault");
+
+_Object$defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _regenerator = require('babel-runtime/regenerator');
+exports["default"] = void 0;
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+var _regenerator = _interopRequireDefault(require("@babel/runtime-corejs3/regenerator"));
 
-var _extends2 = require('babel-runtime/helpers/extends');
+var _find = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/instance/find"));
 
-var _extends3 = _interopRequireDefault(_extends2);
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/asyncToGenerator"));
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/classCallCheck"));
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/defineProperty"));
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+var _oauthClients = _interopRequireDefault(require("./oauthClients.json"));
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+function ownKeys(object, enumerableOnly) { var keys = _Object$keys(object); if (_Object$getOwnPropertySymbols) { var symbols = _Object$getOwnPropertySymbols(object); if (enumerableOnly) { symbols = _filterInstanceProperty(symbols).call(symbols, function (sym) { return _Object$getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var _oauthClients = require('./oauthClients.json');
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { var _context4; _forEachInstanceProperty(_context4 = ownKeys(Object(source), true)).call(_context4, function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }); } else if (_Object$getOwnPropertyDescriptors) { _Object$defineProperties(target, _Object$getOwnPropertyDescriptors(source)); } else { var _context5; _forEachInstanceProperty(_context5 = ownKeys(Object(source))).call(_context5, function (key) { _Object$defineProperty(target, key, _Object$getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-var _oauthClients2 = _interopRequireDefault(_oauthClients);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var OAUTH_CLIENTS = _oauthClients2.default;
+var OAUTH_CLIENTS = _oauthClients["default"];
 
 var OauthModel = function OauthModel(userRepository) {
   var _this = this;
 
-  (0, _classCallCheck3.default)(this, OauthModel);
+  (0, _classCallCheck2["default"])(this, OauthModel);
+  (0, _defineProperty2["default"])(this, "_userRepository", void 0);
+  (0, _defineProperty2["default"])(this, "getAccessToken", /*#__PURE__*/function () {
+    var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(bearerToken) {
+      var _context;
 
-  this.getAccessToken = function () {
-    var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(bearerToken) {
       var user, userTokenObject;
-      return _regenerator2.default.wrap(function _callee$(_context) {
+      return _regenerator["default"].wrap(function _callee$(_context2) {
         while (1) {
-          switch (_context.prev = _context.next) {
+          switch (_context2.prev = _context2.next) {
             case 0:
-              _context.next = 2;
+              _context2.next = 2;
               return _this._userRepository.getByAccessToken(bearerToken);
 
             case 2:
-              user = _context.sent;
+              user = _context2.sent;
 
               if (user) {
-                _context.next = 5;
+                _context2.next = 5;
                 break;
               }
 
-              return _context.abrupt('return', null);
+              return _context2.abrupt("return", null);
 
             case 5:
-              userTokenObject = user.accessTokens.find(function (tokenObject) {
+              userTokenObject = (0, _find["default"])(_context = user.accessTokens).call(_context, function (tokenObject) {
                 return tokenObject.accessToken === bearerToken;
               });
 
               if (userTokenObject) {
-                _context.next = 8;
+                _context2.next = 8;
                 break;
               }
 
-              return _context.abrupt('return', null);
+              return _context2.abrupt("return", null);
 
             case 8:
-              return _context.abrupt('return', (0, _extends3.default)({}, userTokenObject, {
+              return _context2.abrupt("return", _objectSpread(_objectSpread({}, userTokenObject), {}, {
                 user: user
               }));
 
             case 9:
-            case 'end':
-              return _context.stop();
+            case "end":
+              return _context2.stop();
           }
         }
-      }, _callee, _this);
+      }, _callee);
     }));
 
     return function (_x) {
       return _ref.apply(this, arguments);
     };
-  }();
-
-  this.getClient = function (clientId, clientSecret) {
-    return OAUTH_CLIENTS.find(function (client) {
+  }());
+  (0, _defineProperty2["default"])(this, "getClient", function (clientId, clientSecret) {
+    return (0, _find["default"])(OAUTH_CLIENTS).call(OAUTH_CLIENTS, function (client) {
       return client.clientId === clientId && client.clientSecret === clientSecret;
     });
-  };
-
-  this.getUser = function () {
-    var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(username, password) {
-      return _regenerator2.default.wrap(function _callee2$(_context2) {
+  });
+  (0, _defineProperty2["default"])(this, "getUser", /*#__PURE__*/function () {
+    var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(username, password) {
+      return _regenerator["default"].wrap(function _callee2$(_context3) {
         while (1) {
-          switch (_context2.prev = _context2.next) {
+          switch (_context3.prev = _context3.next) {
             case 0:
-              _context2.next = 2;
-              return _this._userRepository.validateLogin(username, password);
+              return _context3.abrupt("return", _this._userRepository.validateLogin(username, password));
 
-            case 2:
-              return _context2.abrupt('return', _context2.sent);
-
-            case 3:
-            case 'end':
-              return _context2.stop();
+            case 1:
+            case "end":
+              return _context3.stop();
           }
         }
-      }, _callee2, _this);
+      }, _callee2);
     }));
 
     return function (_x2, _x3) {
       return _ref2.apply(this, arguments);
     };
-  }();
-
-  this.saveToken = function (tokenObject, client, user) {
+  }());
+  (0, _defineProperty2["default"])(this, "saveToken", function (tokenObject, client, user) {
     _this._userRepository.saveAccessToken(user.id, tokenObject);
+
     return {
       accessToken: tokenObject.accessToken,
       client: client,
       user: user
     };
-  };
-
-  this.validateScope = function (user, client, scope) {
+  });
+  (0, _defineProperty2["default"])(this, "validateScope", function () {
     return 'true';
-  };
-
+  });
   this._userRepository = userRepository;
-}
+};
 
-// eslint-disable-next-line no-unused-vars
-;
-
-exports.default = OauthModel;
+var _default = OauthModel;
+exports["default"] = _default;

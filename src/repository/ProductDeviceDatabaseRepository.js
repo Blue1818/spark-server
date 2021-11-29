@@ -13,6 +13,7 @@ import BaseRepository from './BaseRepository';
 class ProductDeviceDatabaseRepository extends BaseRepository
   implements IProductDeviceRepository {
   _database: IBaseDatabase;
+
   _collectionName: CollectionName = COLLECTION_NAMES.PRODUCT_DEVICES;
 
   constructor(database: IBaseDatabase) {
@@ -20,7 +21,7 @@ class ProductDeviceDatabaseRepository extends BaseRepository
     this._database = database;
   }
 
-  countByProductID = (
+  countByProductID: (productID: number, query?: Object) => Promise<number> = (
     productID: number,
     query?: Object = {},
   ): Promise<number> =>
@@ -29,32 +30,44 @@ class ProductDeviceDatabaseRepository extends BaseRepository
       productID,
     });
 
-  create = async (model: $Shape<ProductDevice>): Promise<ProductDevice> =>
-    await this._database.insertOne(this._collectionName, {
+  create: (model: $Shape<ProductDevice>) => Promise<ProductDevice> = async (
+    model: $Shape<ProductDevice>,
+  ): Promise<ProductDevice> =>
+    this._database.insertOne(this._collectionName, {
       ...model,
     });
 
-  deleteByID = async (id: string): Promise<void> =>
-    await this._database.remove(this._collectionName, { _id: id });
+  deleteByID: (id: string) => Promise<void> = async (
+    id: string,
+  ): Promise<void> => this._database.remove(this._collectionName, { _id: id });
 
-  getAll = async (userID: ?string = null): Promise<Array<ProductDevice>> => {
+  getAll: (userID: ?string) => Promise<Array<ProductDevice>> = async (
+    userID: ?string = null,
+  ): Promise<Array<ProductDevice>> => {
     // TODO - this should probably just query the organization
     const query = userID ? { ownerID: userID } : {};
-    return await this._database.find(this._collectionName, query);
+    return this._database.find(this._collectionName, query);
   };
 
-  getAllByProductID = async (
+  getAllByProductID: (
+    productID: number,
+    skip: number,
+    take: number,
+  ) => Promise<Array<ProductDevice>> = async (
     productID: number,
     skip: number,
     take: number,
   ): Promise<Array<ProductDevice>> =>
-    await this._database.find(this._collectionName, {
+    this._database.find(this._collectionName, {
       productID,
       skip,
       take,
     });
 
-  getManyByProductID = async (
+  getManyByProductID: (
+    productID: number,
+    query?: Object,
+  ) => Promise<Array<ProductDevice>> = async (
     productID: number,
     query?: Object,
   ): Promise<Array<ProductDevice>> =>
@@ -63,29 +76,38 @@ class ProductDeviceDatabaseRepository extends BaseRepository
       productID,
     });
 
-  getByID = async (id: string): Promise<?ProductDevice> =>
-    await this._database.findOne(this._collectionName, { _id: id });
+  getByID: (id: string) => Promise<?ProductDevice> = async (
+    id: string,
+  ): Promise<?ProductDevice> =>
+    this._database.findOne(this._collectionName, { _id: id });
 
-  getFromDeviceID = async (deviceID: string): Promise<?ProductDevice> =>
-    await this._database.findOne(this._collectionName, {
+  getFromDeviceID: (deviceID: string) => Promise<?ProductDevice> = async (
+    deviceID: string,
+  ): Promise<?ProductDevice> =>
+    this._database.findOne(this._collectionName, {
       deviceID: deviceID.toLowerCase(),
     });
 
-  getManyFromDeviceIDs = async (
+  getManyFromDeviceIDs: (
+    deviceIDs: Array<string>,
+  ) => Promise<Array<ProductDevice>> = async (
     deviceIDs: Array<string>,
   ): Promise<Array<ProductDevice>> =>
     // todo  $in operator doesn't work for neDb(no matter with regexp or plain strings)
-    await this._database.find(this._collectionName, {
+    this._database.find(this._collectionName, {
       deviceID: {
-        $in: deviceIDs.map(id => id.toLowerCase()),
+        $in: deviceIDs.map((id: string): string => id.toLowerCase()),
       },
     });
 
-  updateByID = async (
+  updateByID: (
+    productDeviceID: string,
+    productDevice: ProductDevice,
+  ) => Promise<ProductDevice> = async (
     productDeviceID: string,
     productDevice: ProductDevice,
   ): Promise<ProductDevice> =>
-    await this._database.findAndModify(
+    this._database.findAndModify(
       this._collectionName,
       { _id: productDeviceID },
       {
@@ -98,8 +120,10 @@ class ProductDeviceDatabaseRepository extends BaseRepository
       },
     );
 
-  deleteByProductID = async (productID: number): Promise<void> =>
-    await this._database.remove(this._collectionName, {
+  deleteByProductID: (productID: number) => Promise<void> = async (
+    productID: number,
+  ): Promise<void> =>
+    this._database.remove(this._collectionName, {
       product_id: productID,
     });
 }

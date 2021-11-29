@@ -2,7 +2,7 @@
 import type { Event, RequestOptions, Webhook } from '../src/types';
 
 import test from 'ava';
-import sinon from 'sinon';
+import sinon, { assert } from 'sinon';
 
 import { EventPublisher } from 'spark-protocol';
 import WebhookFileRepository from '../src/repository/WebhookFileRepository';
@@ -371,6 +371,7 @@ test('should throw an error if wrong requestType is provided', async t => {
   });
 
   manager.runWebhook(webhook, event);
+  t.assert(true);
 });
 
 test('should publish sent event', async t => {
@@ -388,6 +389,7 @@ test('should publish sent event', async t => {
   });
 
   manager.runWebhook(WEBHOOK_BASE, event);
+  t.assert(true);
 });
 
 test('should publish default topic', async t => {

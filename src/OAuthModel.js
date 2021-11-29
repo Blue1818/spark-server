@@ -6,6 +6,8 @@ import type { Client, IUserRepository, TokenObject, User } from './types';
 
 const OAUTH_CLIENTS = oauthClients;
 
+type AccessToken = ?TokenObject & User;
+
 class OauthModel {
   _userRepository: IUserRepository;
 
@@ -13,8 +15,10 @@ class OauthModel {
     this._userRepository = userRepository;
   }
 
-  getAccessToken = async (bearerToken: string): ?Object => {
-    const user = await this._userRepository.getByAccessToken(bearerToken);
+  getAccessToken: string => Promise<?AccessToken> = async (
+    bearerToken: string,
+  ): Promise<?AccessToken> => {
+    const user: any = await this._userRepository.getByAccessToken(bearerToken);
     if (!user) {
       return null;
     }
@@ -34,16 +38,25 @@ class OauthModel {
     };
   };
 
-  getClient = (clientId: string, clientSecret: string): ?Client =>
+  getClient: (clientId: string, clientSecret: string) => ?Client = (
+    clientId: string,
+    clientSecret: string,
+  ): ?Client =>
     OAUTH_CLIENTS.find(
       (client: Client): boolean =>
         client.clientId === clientId && client.clientSecret === clientSecret,
     );
 
-  getUser = async (username: string, password: string): Promise<User> =>
-    await this._userRepository.validateLogin(username, password);
+  getUser: (username: string, password: string) => Promise<User> = async (
+    username: string,
+    password: string,
+  ): Promise<User> => this._userRepository.validateLogin(username, password);
 
-  saveToken = (
+  saveToken: (
+    tokenObject: TokenObject,
+    client: Client,
+    user: User,
+  ) => Object = (
     tokenObject: TokenObject,
     client: Client,
     user: User,
@@ -57,7 +70,11 @@ class OauthModel {
   };
 
   // eslint-disable-next-line no-unused-vars
-  validateScope = (user: User, client: Client, scope: string): string => 'true';
+  validateScope: (
+    user: User,
+    client: Client,
+    scope: string,
+  ) => string = (): string => 'true';
 }
 
 export default OauthModel;

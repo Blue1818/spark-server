@@ -1,10 +1,12 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
+var _Object$defineProperty = require("@babel/runtime-corejs3/core-js-stable/object/define-property");
+
+_Object$defineProperty(exports, "__esModule", {
   value: true
 });
 
-
+exports["default"] = void 0;
 var COLLECTION_NAMES = {
   DEVICE_ATTRIBUTES: 'deviceAttributes',
   DEVICE_KEYS: 'deviceKeys',
@@ -16,5 +18,5 @@ var COLLECTION_NAMES = {
   USERS: 'users',
   WEBHOOKS: 'webhooks'
 };
-
-exports.default = COLLECTION_NAMES;
+var _default = COLLECTION_NAMES;
+exports["default"] = _default;

@@ -1,13 +1,19 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
+var _Object$defineProperty = require("@babel/runtime-corejs3/core-js-stable/object/define-property");
+
+_Object$defineProperty(exports, "__esModule", {
   value: true
 });
 
+exports["default"] = void 0;
+
 /* eslint-disable no-param-reassign */
-exports.default = function (httpVerb) {
+var _default = function _default(httpVerb) {
   return function (target, name, descriptor) {
     target[name].httpVerb = httpVerb;
     return descriptor;
   };
 };
+
+exports["default"] = _default;

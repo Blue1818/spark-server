@@ -1,10 +1,9 @@
 // @flow
 
-import type { IWebhookRepository, Webhook, WebhookMutator } from '../types';
-
 import uuid from 'uuid';
 import { JSONFileManager, memoizeGet, memoizeSet } from 'spark-protocol';
 import HttpError from '../lib/HttpError';
+import type { IWebhookRepository, Webhook } from '../types';
 
 class WebhookFileRepository implements IWebhookRepository {
   _fileManager: JSONFileManager;
@@ -13,11 +12,14 @@ class WebhookFileRepository implements IWebhookRepository {
     this._fileManager = new JSONFileManager(path);
   }
 
-  count = async (): Promise<number> => this._fileManager.count();
+  count: () => Promise<number> = async (): Promise<number> =>
+    this._fileManager.count();
 
   @memoizeSet()
-  async create(model: WebhookMutator): Promise<Webhook> {
+  async create(model: $Shape<Webhook>): Promise<Webhook> {
     let id = uuid();
+
+    // eslint-disable-next-line no-await-in-loop
     while (await this._fileManager.hasFile(`${id}.json`)) {
       id = uuid();
     }
@@ -33,11 +35,13 @@ class WebhookFileRepository implements IWebhookRepository {
   }
 
   @memoizeSet(['id'])
-  async deleteByID(id: string): Promise<void> {
+  async deleteByID(id: string) {
     this._fileManager.deleteFile(`${id}.json`);
   }
 
-  getAll = async (userID: ?string = null): Promise<Array<Webhook>> => {
+  getAll: (userID: ?string) => Promise<Array<Webhook>> = async (
+    userID: ?string = null,
+  ): Promise<Array<Webhook>> => {
     const allData = await this._getAll();
 
     if (userID) {
@@ -54,7 +58,7 @@ class WebhookFileRepository implements IWebhookRepository {
   }
 
   // eslint-disable-next-line no-unused-vars
-  updateByID = async (): Promise<Webhook> => {
+  updateByID: () => Promise<Webhook> = async (): Promise<Webhook> => {
     throw new HttpError('Not implemented');
   };
 

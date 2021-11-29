@@ -13,7 +13,7 @@ const eventToApi = (event: Event): EventAPIType => ({
   coreid: event.deviceID || null,
   data: event.data || null,
   published_at: event.publishedAt,
-  ttl: event.ttl,
+  ttl: event.ttl || 0,
 });
 
 export default eventToApi;

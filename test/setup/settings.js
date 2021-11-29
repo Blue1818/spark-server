@@ -2,8 +2,7 @@
 
 import path from 'path';
 
-/* eslint-disable sorting/sort-object-props */
-export default {
+const SETTINGS: any = {
   BUILD_DIRECTORY: path.join(__dirname, '../__test_data__/build'),
   CUSTOM_FIRMWARE_DIRECTORY: path.join(__dirname, '../__test_data__'),
   DEFAULT_ADMIN_PASSWORD: 'adminPassword',
@@ -42,3 +41,5 @@ export default {
   },
   WEBHOOK_TEMPLATE_PARAMETERS: {},
 };
+
+export default SETTINGS;

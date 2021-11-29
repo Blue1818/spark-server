@@ -9,6 +9,7 @@ import BaseRepository from './BaseRepository';
 class ProductDatabaseRepository extends BaseRepository
   implements IProductRepository {
   _database: IBaseDatabase;
+
   _collectionName: CollectionName = COLLECTION_NAMES.PRODUCTS;
 
   constructor(database: IBaseDatabase) {
@@ -16,42 +17,53 @@ class ProductDatabaseRepository extends BaseRepository
     this._database = database;
   }
 
-  create = async (model: $Shape<Product>): Promise<Product> =>
-    await this._database.insertOne(this._collectionName, {
+  create: (model: $Shape<Product>) => Promise<Product> = async (
+    model: $Shape<Product>,
+  ): Promise<Product> =>
+    this._database.insertOne(this._collectionName, {
       ...(await this._formatProduct(model)),
       created_at: new Date(),
       product_id: (await this._database.count(this._collectionName)) + 1,
     });
 
-  deleteByID = async (id: string): Promise<void> =>
-    await this._database.remove(this._collectionName, { _id: id });
+  deleteByID: (id: number) => Promise<void> = async (
+    id: number,
+  ): Promise<void> => this._database.remove(this._collectionName, { _id: id });
 
-  getMany = async (
+  getMany: (userID: ?string, query: Object) => Promise<Array<Product>> = async (
     userID: ?string = null,
     query: Object = {},
   ): Promise<Array<Product>> => {
     // TODO - this should probably just query the organization
     const userQuery = userID ? { ownerID: userID } : {};
-    return await this._database.find(this._collectionName, {
+    return this._database.find(this._collectionName, {
       ...query,
       ...userQuery,
     });
   };
 
-  getAll = async (userID: ?string = null): Promise<Array<Product>> => {
+  getAll: (userID: ?string) => Promise<Array<Product>> = async (
+    userID: ?string = null,
+  ): Promise<Array<Product>> => {
     // TODO - this should probably just query the organization
     const query = userID ? { ownerID: userID } : {};
-    return await this._database.find(this._collectionName, query);
+    return this._database.find(this._collectionName, query);
   };
 
-  getByID = async (id: string): Promise<?Product> =>
-    await this._database.findOne(this._collectionName, { _id: id });
+  getByID: (id: number) => Promise<?Product> = async (
+    id: number,
+  ): Promise<?Product> =>
+    this._database.findOne(this._collectionName, { _id: id });
 
-  getByIDOrSlug = async (productIDOrSlug: string): Promise<?Product> =>
-    await this._database.findOne(this._collectionName, {
+  getByIDOrSlug: (
+    productIDOrSlug: string | number,
+  ) => Promise<?Product> = async (
+    productIDOrSlug: string | number,
+  ): Promise<?Product> =>
+    this._database.findOne(this._collectionName, {
       $or: [
         {
-          product_id: !isNaN(productIDOrSlug)
+          product_id: !Number.isNaN(productIDOrSlug)
             ? parseInt(productIDOrSlug, 10)
             : null,
         },
@@ -59,14 +71,19 @@ class ProductDatabaseRepository extends BaseRepository
       ],
     });
 
-  updateByID = async (id: string, product: Product): Promise<Product> =>
-    await this._database.findAndModify(
+  updateByID: (id: number, product: Product) => Promise<Product> = async (
+    id: number,
+    product: Product,
+  ): Promise<Product> =>
+    this._database.findAndModify(
       this._collectionName,
       { _id: id },
       { $set: { ...(await this._formatProduct(product)) } },
     );
 
-  _formatProduct = async (
+  _formatProduct: (
+    product: $Shape<Product>,
+  ) => Promise<$Shape<Product>> = async (
     product: $Shape<Product>,
   ): Promise<$Shape<Product>> => {
     const slug = `${product.name.trim()} ${product.hardware_version.trim()}`

@@ -17,7 +17,9 @@ import HttpError from '../lib/HttpError';
 
 class UserDatabaseRepository extends BaseRepository implements IUserRepository {
   _database: IBaseDatabase;
+
   _collectionName: CollectionName = COLLECTION_NAMES.USERS;
+
   _currentUser: User;
 
   constructor(database: IBaseDatabase) {
@@ -26,10 +28,14 @@ class UserDatabaseRepository extends BaseRepository implements IUserRepository {
   }
 
   // eslint-disable-next-line no-unused-vars
-  create = async (user: $Shape<User>): Promise<User> =>
-    await this._database.insertOne(this._collectionName, user);
+  create: (user: $Shape<User>) => Promise<User> = async (
+    user: $Shape<User>,
+  ): Promise<User> => this._database.insertOne(this._collectionName, user);
 
-  createWithCredentials = async (
+  createWithCredentials: (
+    userCredentials: UserCredentials,
+    userRole: ?UserRole,
+  ) => Promise<User> = async (
     userCredentials: UserCredentials,
     userRole: ?UserRole = null,
   ): Promise<User> => {
@@ -46,27 +52,33 @@ class UserDatabaseRepository extends BaseRepository implements IUserRepository {
       username,
     };
 
-    return await this._database.insertOne(this._collectionName, modelToSave);
+    return this._database.insertOne(this._collectionName, modelToSave);
   };
 
-  deleteAccessToken = async (
+  deleteAccessToken: (
+    userID: string,
+    accessToken: string,
+  ) => Promise<User> = async (
     userID: string,
     accessToken: string,
   ): Promise<User> =>
-    await this._database.findAndModify(
+    this._database.findAndModify(
       this._collectionName,
       { _id: userID },
       { $pull: { accessTokens: { accessToken } } },
     );
 
-  deleteByID = async (id: string): Promise<void> =>
-    await this._database.remove(this._collectionName, { _id: id });
+  deleteByID: (id: string) => Promise<void> = async (
+    id: string,
+  ): Promise<void> => this._database.remove(this._collectionName, { _id: id });
 
-  getAll = async (): Promise<Array<User>> => {
+  getAll: () => Promise<Array<User>> = async (): Promise<Array<User>> => {
     throw new Error('The method is not implemented');
   };
 
-  getByAccessToken = async (accessToken: string): Promise<?User> => {
+  getByAccessToken: (accessToken: string) => Promise<?User> = async (
+    accessToken: string,
+  ): Promise<?User> => {
     let user = await this._database.findOne(this._collectionName, {
       accessTokens: { $elemMatch: { accessToken } },
     });
@@ -82,58 +94,66 @@ class UserDatabaseRepository extends BaseRepository implements IUserRepository {
   };
 
   // eslint-disable-next-line no-unused-vars
-  getByID = async (id: string): Promise<?User> => {
+  getByID: (id: string) => Promise<?User> = async (): Promise<?User> => {
     throw new Error('The method is not implemented');
   };
 
-  getByUsername = async (username: string): Promise<?User> =>
-    await this._database.findOne(this._collectionName, { username });
+  getByUsername: (username: string) => Promise<?User> = async (
+    username: string,
+  ): Promise<?User> =>
+    this._database.findOne(this._collectionName, { username });
 
-  getCurrentUser = (): User => this._currentUser;
+  getCurrentUser: () => User = (): User => this._currentUser;
 
-  isUserNameInUse = async (username: string): Promise<boolean> =>
-    !!await this.getByUsername(username);
+  isUserNameInUse: (username: string) => Promise<boolean> = async (
+    username: string,
+  ): Promise<boolean> => !!(await this.getByUsername(username));
 
-  saveAccessToken = async (
+  saveAccessToken: (
     userID: string,
     tokenObject: TokenObject,
-  ): Promise<*> =>
-    await this._database.findAndModify(
+  ) => Promise<User> = async (
+    userID: string,
+    tokenObject: TokenObject,
+  ): Promise<User> =>
+    this._database.findAndModify(
       this._collectionName,
       { _id: userID },
       { $push: { accessTokens: tokenObject } },
     );
 
-  setCurrentUser = (user: User) => {
+  setCurrentUser: User => void = (user: User) => {
     this._currentUser = user;
   };
 
-  updateByID = async (id: string, props: $Shape<User>): Promise<User> =>
-    await this._database.findAndModify(
+  updateByID: (id: string, props: $Shape<User>) => Promise<User> = async (
+    id: string,
+    props: $Shape<User>,
+  ): Promise<User> =>
+    this._database.findAndModify(
       this._collectionName,
       { _id: id },
       { $set: { ...props } },
     );
 
-  validateLogin = async (username: string, password: string): Promise<User> => {
-    try {
-      const user = await this._database.findOne(this._collectionName, {
-        username,
-      });
+  validateLogin: (username: string, password: string) => Promise<User> = async (
+    username: string,
+    password: string,
+  ): Promise<User> => {
+    const user = await this._database.findOne(this._collectionName, {
+      username,
+    });
 
-      if (!user) {
-        throw new HttpError("User doesn't exist", 404);
-      }
-
-      const hash = await PasswordHasher.hash(password, user.salt);
-      if (hash !== user.passwordHash) {
-        throw new HttpError('Wrong password');
-      }
-
-      return user;
-    } catch (error) {
-      throw error;
+    if (!user) {
+      throw new HttpError("User doesn't exist", 404);
     }
+
+    const hash = await PasswordHasher.hash(password, user.salt);
+    if (hash !== user.passwordHash) {
+      throw new HttpError('Wrong password');
+    }
+
+    return user;
   };
 }
 

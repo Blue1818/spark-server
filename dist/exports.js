@@ -1,36 +1,53 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
+var _Object$defineProperty = require("@babel/runtime-corejs3/core-js-stable/object/define-property");
+
+var _interopRequireDefault = require("@babel/runtime-corejs3/helpers/interopRequireDefault");
+
+_Object$defineProperty(exports, "__esModule", {
   value: true
 });
-exports.settings = exports.logger = exports.defaultBindings = exports.createApp = exports.MongoDb = undefined;
 
-var _app = require('./app');
+_Object$defineProperty(exports, "MongoDb", {
+  enumerable: true,
+  get: function get() {
+    return _MongoDb["default"];
+  }
+});
 
-var _app2 = _interopRequireDefault(_app);
+_Object$defineProperty(exports, "createApp", {
+  enumerable: true,
+  get: function get() {
+    return _app["default"];
+  }
+});
 
-var _defaultBindings = require('./defaultBindings');
+_Object$defineProperty(exports, "defaultBindings", {
+  enumerable: true,
+  get: function get() {
+    return _defaultBindings["default"];
+  }
+});
 
-var _defaultBindings2 = _interopRequireDefault(_defaultBindings);
+exports.logger = void 0;
 
-var _settings = require('./settings');
+_Object$defineProperty(exports, "settings", {
+  enumerable: true,
+  get: function get() {
+    return _settings["default"];
+  }
+});
 
-var _settings2 = _interopRequireDefault(_settings);
+var _app = _interopRequireDefault(require("./app"));
 
-var _MongoDb = require('./repository/MongoDb');
+var _defaultBindings = _interopRequireDefault(require("./defaultBindings"));
 
-var _MongoDb2 = _interopRequireDefault(_MongoDb);
+var _settings = _interopRequireDefault(require("./settings"));
 
-var _logger = require('./lib/logger');
+var _MongoDb = _interopRequireDefault(require("./repository/MongoDb"));
 
-var _logger2 = _interopRequireDefault(_logger);
+var _logger = _interopRequireDefault(require("./lib/logger"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var logger = _logger["default"].createModuleLogger(module);
 
-var logger = _logger2.default.createModuleLogger(module);
-
-exports.MongoDb = _MongoDb2.default;
-exports.createApp = _app2.default;
-exports.defaultBindings = _defaultBindings2.default;
 exports.logger = logger;
-exports.settings = _settings2.default;

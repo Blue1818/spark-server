@@ -1,122 +1,112 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
+var _Object$keys = require("@babel/runtime-corejs3/core-js-stable/object/keys");
+
+var _Object$getOwnPropertySymbols = require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-symbols");
+
+var _filterInstanceProperty2 = require("@babel/runtime-corejs3/core-js-stable/instance/filter");
+
+var _Object$getOwnPropertyDescriptor2 = require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-descriptor");
+
+var _forEachInstanceProperty = require("@babel/runtime-corejs3/core-js-stable/instance/for-each");
+
+var _Object$getOwnPropertyDescriptors = require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-descriptors");
+
+var _Object$defineProperties = require("@babel/runtime-corejs3/core-js-stable/object/define-properties");
+
+var _Object$defineProperty = require("@babel/runtime-corejs3/core-js-stable/object/define-property");
+
+var _interopRequireDefault = require("@babel/runtime-corejs3/helpers/interopRequireDefault");
+
+_Object$defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+exports["default"] = void 0;
 
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+var _filter = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/instance/filter"));
 
-var _extends2 = require('babel-runtime/helpers/extends');
+var _find = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/instance/find"));
 
-var _extends3 = _interopRequireDefault(_extends2);
+var _some = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/instance/some"));
 
-var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+var _concat = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/instance/concat"));
 
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+var _getOwnPropertyDescriptor = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-descriptor"));
 
-var _regenerator = require('babel-runtime/regenerator');
+var _regenerator = _interopRequireDefault(require("@babel/runtime-corejs3/regenerator"));
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+var _toConsumableArray2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/toConsumableArray"));
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/asyncToGenerator"));
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/classCallCheck"));
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+var _createClass2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/createClass"));
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/defineProperty"));
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+var _applyDecoratedDescriptor2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/applyDecoratedDescriptor"));
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _uuid = _interopRequireDefault(require("uuid"));
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _desc, _value, _class;
+var _sparkProtocol = require("spark-protocol");
 
-var _uuid = require('uuid');
+var _PasswordHasher = _interopRequireDefault(require("../lib/PasswordHasher"));
 
-var _uuid2 = _interopRequireDefault(_uuid);
+var _HttpError = _interopRequireDefault(require("../lib/HttpError"));
 
-var _sparkProtocol = require('spark-protocol');
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _class;
 
-var _PasswordHasher = require('../lib/PasswordHasher');
+function ownKeys(object, enumerableOnly) { var keys = _Object$keys(object); if (_Object$getOwnPropertySymbols) { var symbols = _Object$getOwnPropertySymbols(object); if (enumerableOnly) { symbols = _filterInstanceProperty2(symbols).call(symbols, function (sym) { return _Object$getOwnPropertyDescriptor2(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-var _PasswordHasher2 = _interopRequireDefault(_PasswordHasher);
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { var _context20; _forEachInstanceProperty(_context20 = ownKeys(Object(source), true)).call(_context20, function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }); } else if (_Object$getOwnPropertyDescriptors) { _Object$defineProperties(target, _Object$getOwnPropertyDescriptors(source)); } else { var _context21; _forEachInstanceProperty(_context21 = ownKeys(Object(source))).call(_context21, function (key) { _Object$defineProperty(target, key, _Object$getOwnPropertyDescriptor2(source, key)); }); } } return target; }
 
-var _HttpError = require('../lib/HttpError');
-
-var _HttpError2 = _interopRequireDefault(_HttpError);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
-
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
-
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
-
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
-
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
-
-  return desc;
-}
-
-var UserFileRepository = (_dec = (0, _sparkProtocol.memoizeSet)(), _dec2 = (0, _sparkProtocol.memoizeSet)(['id']), _dec3 = (0, _sparkProtocol.memoizeGet)(), _dec4 = (0, _sparkProtocol.memoizeGet)(['id']), _dec5 = (0, _sparkProtocol.memoizeGet)(['username']), _dec6 = (0, _sparkProtocol.memoizeGet)(['username']), _dec7 = (0, _sparkProtocol.memoizeSet)(), (_class = function () {
+var UserFileRepository = (_dec = (0, _sparkProtocol.memoizeSet)(), _dec2 = (0, _sparkProtocol.memoizeSet)(['id']), _dec3 = (0, _sparkProtocol.memoizeGet)(), _dec4 = (0, _sparkProtocol.memoizeGet)(['id']), _dec5 = (0, _sparkProtocol.memoizeGet)(['username']), _dec6 = (0, _sparkProtocol.memoizeGet)(['username']), _dec7 = (0, _sparkProtocol.memoizeSet)(), (_class = /*#__PURE__*/function () {
   function UserFileRepository(path) {
     var _this = this;
 
-    (0, _classCallCheck3.default)(this, UserFileRepository);
-    this.count = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-      return _regenerator2.default.wrap(function _callee$(_context) {
+    (0, _classCallCheck2["default"])(this, UserFileRepository);
+    (0, _defineProperty2["default"])(this, "_fileManager", void 0);
+    (0, _defineProperty2["default"])(this, "_currentUser", void 0);
+    (0, _defineProperty2["default"])(this, "count", /*#__PURE__*/(0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
+      return _regenerator["default"].wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              return _context.abrupt('return', _this._fileManager.count());
+              return _context.abrupt("return", _this._fileManager.count());
 
             case 1:
-            case 'end':
+            case "end":
               return _context.stop();
           }
         }
-      }, _callee, _this);
-    }));
-
-    this.createWithCredentials = function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(userCredentials) {
-        var userRole = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-        var username, password, salt, passwordHash, modelToSave;
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+      }, _callee);
+    })));
+    (0, _defineProperty2["default"])(this, "createWithCredentials", /*#__PURE__*/function () {
+      var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(userCredentials) {
+        var userRole,
+            username,
+            password,
+            salt,
+            passwordHash,
+            modelToSave,
+            _args2 = arguments;
+        return _regenerator["default"].wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
+                userRole = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : null;
                 username = userCredentials.username, password = userCredentials.password;
-                _context2.next = 3;
-                return _PasswordHasher2.default.generateSalt();
+                _context2.next = 4;
+                return _PasswordHasher["default"].generateSalt();
 
-              case 3:
+              case 4:
                 salt = _context2.sent;
-                _context2.next = 6;
-                return _PasswordHasher2.default.hash(password, salt);
+                _context2.next = 7;
+                return _PasswordHasher["default"].hash(password, salt);
 
-              case 6:
+              case 7:
                 passwordHash = _context2.sent;
                 modelToSave = {
                   accessTokens: [],
@@ -125,434 +115,420 @@ var UserFileRepository = (_dec = (0, _sparkProtocol.memoizeSet)(), _dec2 = (0, _
                   salt: salt,
                   username: username
                 };
-                _context2.next = 10;
-                return _this.create(modelToSave);
+                return _context2.abrupt("return", _this.create(modelToSave));
 
               case 10:
-                return _context2.abrupt('return', _context2.sent);
-
-              case 11:
-              case 'end':
+              case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, _this);
+        }, _callee2);
       }));
 
       return function (_x) {
         return _ref2.apply(this, arguments);
       };
-    }();
+    }());
+    (0, _defineProperty2["default"])(this, "deleteAccessToken", /*#__PURE__*/function () {
+      var _ref3 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(userID, token) {
+        var _context3;
 
-    this.deleteAccessToken = function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(userID, token) {
         var user;
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _context3.next = 2;
-                return _this.getByID(userID);
-
-              case 2:
-                user = _context3.sent;
-
-                if (user) {
-                  _context3.next = 5;
-                  break;
-                }
-
-                throw new Error("User doesn't exist");
-
-              case 5:
-                _context3.next = 7;
-                return _this.updateByID(userID, {
-                  accessTokens: user.accessTokens.filter(function (tokenObject) {
-                    return tokenObject.accessToken !== token;
-                  })
-                });
-
-              case 7:
-                return _context3.abrupt('return', _context3.sent);
-
-              case 8:
-              case 'end':
-                return _context3.stop();
-            }
-          }
-        }, _callee3, _this);
-      }));
-
-      return function (_x3, _x4) {
-        return _ref3.apply(this, arguments);
-      };
-    }();
-
-    this.getByAccessToken = function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(accessToken) {
-        return _regenerator2.default.wrap(function _callee4$(_context4) {
+        return _regenerator["default"].wrap(function _callee3$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 _context4.next = 2;
-                return _this.getAll();
-
-              case 2:
-                _context4.t0 = function (user) {
-                  return user.accessTokens.some(function (tokenObject) {
-                    return tokenObject.accessToken === accessToken;
-                  });
-                };
-
-                return _context4.abrupt('return', _context4.sent.find(_context4.t0));
-
-              case 4:
-              case 'end':
-                return _context4.stop();
-            }
-          }
-        }, _callee4, _this);
-      }));
-
-      return function (_x5) {
-        return _ref4.apply(this, arguments);
-      };
-    }();
-
-    this.getCurrentUser = function () {
-      return _this._currentUser;
-    };
-
-    this.saveAccessToken = function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(userID, tokenObject) {
-        var user;
-        return _regenerator2.default.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                _context5.next = 2;
                 return _this.getByID(userID);
 
               case 2:
-                user = _context5.sent;
+                user = _context4.sent;
 
                 if (user) {
-                  _context5.next = 5;
-                  break;
-                }
-
-                throw new _HttpError2.default('Could not find user for user ID');
-
-              case 5:
-                _context5.next = 7;
-                return _this.updateByID(userID, {
-                  accessTokens: [].concat((0, _toConsumableArray3.default)(user.accessTokens), [tokenObject])
-                });
-
-              case 7:
-                return _context5.abrupt('return', _context5.sent);
-
-              case 8:
-              case 'end':
-                return _context5.stop();
-            }
-          }
-        }, _callee5, _this);
-      }));
-
-      return function (_x6, _x7) {
-        return _ref5.apply(this, arguments);
-      };
-    }();
-
-    this.setCurrentUser = function (user) {
-      _this._currentUser = user;
-    };
-
-    this.validateLogin = function () {
-      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(username, password) {
-        var user, hash;
-        return _regenerator2.default.wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                _context6.prev = 0;
-                _context6.next = 3;
-                return _this.getByUsername(username);
-
-              case 3:
-                user = _context6.sent;
-
-                if (user) {
-                  _context6.next = 6;
+                  _context4.next = 5;
                   break;
                 }
 
                 throw new Error("User doesn't exist");
 
-              case 6:
-                _context6.next = 8;
-                return _PasswordHasher2.default.hash(password, user.salt);
+              case 5:
+                return _context4.abrupt("return", _this.updateByID(userID, {
+                  accessTokens: (0, _filter["default"])(_context3 = user.accessTokens).call(_context3, function (tokenObject) {
+                    return tokenObject.accessToken !== token;
+                  })
+                }));
 
-              case 8:
-                hash = _context6.sent;
+              case 6:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee3);
+      }));
+
+      return function (_x2, _x3) {
+        return _ref3.apply(this, arguments);
+      };
+    }());
+    (0, _defineProperty2["default"])(this, "getByAccessToken", /*#__PURE__*/function () {
+      var _ref4 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(accessToken) {
+        var _context5;
+
+        return _regenerator["default"].wrap(function _callee4$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                _context7.t0 = _find["default"];
+                _context7.next = 3;
+                return _this.getAll();
+
+              case 3:
+                _context7.t1 = _context5 = _context7.sent;
+                return _context7.abrupt("return", (0, _context7.t0)(_context7.t1).call(_context5, function (user) {
+                  var _context6;
+
+                  return (0, _some["default"])(_context6 = user.accessTokens).call(_context6, function (tokenObject) {
+                    return tokenObject.accessToken === accessToken;
+                  });
+                }));
+
+              case 5:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee4);
+      }));
+
+      return function (_x4) {
+        return _ref4.apply(this, arguments);
+      };
+    }());
+    (0, _defineProperty2["default"])(this, "getCurrentUser", function () {
+      return _this._currentUser;
+    });
+    (0, _defineProperty2["default"])(this, "saveAccessToken", /*#__PURE__*/function () {
+      var _ref5 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(userID, tokenObject) {
+        var _context8;
+
+        var user;
+        return _regenerator["default"].wrap(function _callee5$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                _context9.next = 2;
+                return _this.getByID(userID);
+
+              case 2:
+                user = _context9.sent;
+
+                if (user) {
+                  _context9.next = 5;
+                  break;
+                }
+
+                throw new _HttpError["default"]('Could not find user for user ID');
+
+              case 5:
+                return _context9.abrupt("return", _this.updateByID(userID, {
+                  accessTokens: (0, _concat["default"])(_context8 = []).call(_context8, (0, _toConsumableArray2["default"])(user.accessTokens), [tokenObject])
+                }));
+
+              case 6:
+              case "end":
+                return _context9.stop();
+            }
+          }
+        }, _callee5);
+      }));
+
+      return function (_x5, _x6) {
+        return _ref5.apply(this, arguments);
+      };
+    }());
+    (0, _defineProperty2["default"])(this, "setCurrentUser", function (user) {
+      _this._currentUser = user;
+    });
+    (0, _defineProperty2["default"])(this, "validateLogin", /*#__PURE__*/function () {
+      var _ref6 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6(username, password) {
+        var user, hash;
+        return _regenerator["default"].wrap(function _callee6$(_context10) {
+          while (1) {
+            switch (_context10.prev = _context10.next) {
+              case 0:
+                _context10.next = 2;
+                return _this.getByUsername(username);
+
+              case 2:
+                user = _context10.sent;
+
+                if (user) {
+                  _context10.next = 5;
+                  break;
+                }
+
+                throw new Error("User doesn't exist");
+
+              case 5:
+                _context10.next = 7;
+                return _PasswordHasher["default"].hash(password, user.salt);
+
+              case 7:
+                hash = _context10.sent;
 
                 if (!(hash !== user.passwordHash)) {
-                  _context6.next = 11;
+                  _context10.next = 10;
                   break;
                 }
 
                 throw new Error('Wrong password');
 
+              case 10:
+                return _context10.abrupt("return", user);
+
               case 11:
-                return _context6.abrupt('return', user);
-
-              case 14:
-                _context6.prev = 14;
-                _context6.t0 = _context6['catch'](0);
-                throw _context6.t0;
-
-              case 17:
-              case 'end':
-                return _context6.stop();
+              case "end":
+                return _context10.stop();
             }
           }
-        }, _callee6, _this, [[0, 14]]);
+        }, _callee6);
       }));
 
-      return function (_x8, _x9) {
+      return function (_x7, _x8) {
         return _ref6.apply(this, arguments);
       };
-    }();
-
+    }());
     this._fileManager = new _sparkProtocol.JSONFileManager(path);
   }
 
-  (0, _createClass3.default)(UserFileRepository, [{
-    key: 'create',
+  (0, _createClass2["default"])(UserFileRepository, [{
+    key: "create",
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(user) {
+      var _create = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee7(user) {
         var id, modelToSave;
-        return _regenerator2.default.wrap(function _callee7$(_context7) {
+        return _regenerator["default"].wrap(function _callee7$(_context11) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context11.prev = _context11.next) {
               case 0:
-                id = (0, _uuid2.default)();
+                id = (0, _uuid["default"])(); // eslint-disable-next-line no-await-in-loop
 
               case 1:
-                _context7.next = 3;
-                return this._fileManager.hasFile(id + '.json');
+                _context11.next = 3;
+                return this._fileManager.hasFile("".concat(id, ".json"));
 
               case 3:
-                if (!_context7.sent) {
-                  _context7.next = 7;
+                if (!_context11.sent) {
+                  _context11.next = 7;
                   break;
                 }
 
-                id = (0, _uuid2.default)();
-                _context7.next = 1;
+                id = (0, _uuid["default"])();
+                _context11.next = 1;
                 break;
 
               case 7:
-                modelToSave = (0, _extends3.default)({}, user, {
+                modelToSave = _objectSpread(_objectSpread({}, user), {}, {
                   created_at: new Date(),
                   created_by: null,
                   id: id
                 });
 
+                this._fileManager.createFile("".concat(modelToSave.id, ".json"), modelToSave);
 
-                this._fileManager.createFile(modelToSave.id + '.json', modelToSave);
-                return _context7.abrupt('return', modelToSave);
+                return _context11.abrupt("return", modelToSave);
 
               case 10:
-              case 'end':
-                return _context7.stop();
+              case "end":
+                return _context11.stop();
             }
           }
         }, _callee7, this);
       }));
 
-      function create(_x10) {
-        return _ref7.apply(this, arguments);
+      function create(_x9) {
+        return _create.apply(this, arguments);
       }
 
       return create;
     }()
   }, {
-    key: 'deleteByID',
+    key: "deleteByID",
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(id) {
-        return _regenerator2.default.wrap(function _callee8$(_context8) {
+      var _deleteByID = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee8(id) {
+        return _regenerator["default"].wrap(function _callee8$(_context12) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context12.prev = _context12.next) {
               case 0:
-                this._fileManager.deleteFile(id + '.json');
+                this._fileManager.deleteFile("".concat(id, ".json"));
 
               case 1:
-              case 'end':
-                return _context8.stop();
+              case "end":
+                return _context12.stop();
             }
           }
         }, _callee8, this);
       }));
 
-      function deleteByID(_x11) {
-        return _ref8.apply(this, arguments);
+      function deleteByID(_x10) {
+        return _deleteByID.apply(this, arguments);
       }
 
       return deleteByID;
     }()
   }, {
-    key: 'getAll',
+    key: "getAll",
     value: function () {
-      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9() {
-        return _regenerator2.default.wrap(function _callee9$(_context9) {
+      var _getAll = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee9() {
+        return _regenerator["default"].wrap(function _callee9$(_context13) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context13.prev = _context13.next) {
               case 0:
-                return _context9.abrupt('return', this._fileManager.getAllData());
+                return _context13.abrupt("return", this._fileManager.getAllData());
 
               case 1:
-              case 'end':
-                return _context9.stop();
+              case "end":
+                return _context13.stop();
             }
           }
         }, _callee9, this);
       }));
 
       function getAll() {
-        return _ref9.apply(this, arguments);
+        return _getAll.apply(this, arguments);
       }
 
       return getAll;
-    }()
-
-    // This isn't a good one to memoize as we can't key off user ID and there
+    }() // This isn't a good one to memoize as we can't key off user ID and there
     // isn't a good way to clear the cache.
 
   }, {
-    key: 'getByID',
+    key: "getByID",
     value: function () {
-      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10(id) {
-        return _regenerator2.default.wrap(function _callee10$(_context10) {
+      var _getByID = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee10(id) {
+        return _regenerator["default"].wrap(function _callee10$(_context14) {
           while (1) {
-            switch (_context10.prev = _context10.next) {
+            switch (_context14.prev = _context14.next) {
               case 0:
-                return _context10.abrupt('return', this._fileManager.getFile(id + '.json'));
+                return _context14.abrupt("return", this._fileManager.getFile("".concat(id, ".json")));
 
               case 1:
-              case 'end':
-                return _context10.stop();
+              case "end":
+                return _context14.stop();
             }
           }
         }, _callee10, this);
       }));
 
-      function getByID(_x12) {
-        return _ref10.apply(this, arguments);
+      function getByID(_x11) {
+        return _getByID.apply(this, arguments);
       }
 
       return getByID;
     }()
   }, {
-    key: 'getByUsername',
+    key: "getByUsername",
     value: function () {
-      var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(username) {
-        return _regenerator2.default.wrap(function _callee11$(_context11) {
+      var _getByUsername = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee11(username) {
+        var _context15;
+
+        return _regenerator["default"].wrap(function _callee11$(_context16) {
           while (1) {
-            switch (_context11.prev = _context11.next) {
+            switch (_context16.prev = _context16.next) {
               case 0:
-                _context11.next = 2;
+                _context16.t0 = _find["default"];
+                _context16.next = 3;
                 return this.getAll();
 
-              case 2:
-                _context11.t0 = function (user) {
+              case 3:
+                _context16.t1 = _context15 = _context16.sent;
+                return _context16.abrupt("return", (0, _context16.t0)(_context16.t1).call(_context15, function (user) {
                   return user.username === username;
-                };
+                }));
 
-                return _context11.abrupt('return', _context11.sent.find(_context11.t0));
-
-              case 4:
-              case 'end':
-                return _context11.stop();
+              case 5:
+              case "end":
+                return _context16.stop();
             }
           }
         }, _callee11, this);
       }));
 
-      function getByUsername(_x13) {
-        return _ref11.apply(this, arguments);
+      function getByUsername(_x12) {
+        return _getByUsername.apply(this, arguments);
       }
 
       return getByUsername;
     }()
   }, {
-    key: 'isUserNameInUse',
+    key: "isUserNameInUse",
     value: function () {
-      var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee12(username) {
-        return _regenerator2.default.wrap(function _callee12$(_context12) {
+      var _isUserNameInUse = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee12(username) {
+        var _context17;
+
+        return _regenerator["default"].wrap(function _callee12$(_context18) {
           while (1) {
-            switch (_context12.prev = _context12.next) {
+            switch (_context18.prev = _context18.next) {
               case 0:
-                _context12.next = 2;
+                _context18.t0 = _some["default"];
+                _context18.next = 3;
                 return this.getAll();
 
-              case 2:
-                _context12.t0 = function (user) {
+              case 3:
+                _context18.t1 = _context17 = _context18.sent;
+                return _context18.abrupt("return", (0, _context18.t0)(_context18.t1).call(_context17, function (user) {
                   return user.username === username;
-                };
+                }));
 
-                return _context12.abrupt('return', _context12.sent.some(_context12.t0));
-
-              case 4:
-              case 'end':
-                return _context12.stop();
+              case 5:
+              case "end":
+                return _context18.stop();
             }
           }
         }, _callee12, this);
       }));
 
-      function isUserNameInUse(_x14) {
-        return _ref12.apply(this, arguments);
+      function isUserNameInUse(_x13) {
+        return _isUserNameInUse.apply(this, arguments);
       }
 
       return isUserNameInUse;
     }()
   }, {
-    key: 'updateByID',
+    key: "updateByID",
     value: function () {
-      var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee13(id, props) {
+      var _updateByID = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee13(id, props) {
         var user, modelToSave;
-        return _regenerator2.default.wrap(function _callee13$(_context13) {
+        return _regenerator["default"].wrap(function _callee13$(_context19) {
           while (1) {
-            switch (_context13.prev = _context13.next) {
+            switch (_context19.prev = _context19.next) {
               case 0:
-                _context13.next = 2;
+                _context19.next = 2;
                 return this.getByID(id);
 
               case 2:
-                user = _context13.sent;
-                modelToSave = (0, _extends3.default)({}, user || {}, props);
+                user = _context19.sent;
+                modelToSave = _objectSpread(_objectSpread({}, user || {}), props);
 
+                this._fileManager.writeFile("".concat(id, ".json"), modelToSave);
 
-                this._fileManager.writeFile(id + '.json', modelToSave);
-                return _context13.abrupt('return', modelToSave);
+                return _context19.abrupt("return", modelToSave);
 
               case 6:
-              case 'end':
-                return _context13.stop();
+              case "end":
+                return _context19.stop();
             }
           }
         }, _callee13, this);
       }));
 
-      function updateByID(_x15, _x16) {
-        return _ref13.apply(this, arguments);
+      function updateByID(_x14, _x15) {
+        return _updateByID.apply(this, arguments);
       }
 
       return updateByID;
     }()
   }]);
   return UserFileRepository;
-}(), (_applyDecoratedDescriptor(_class.prototype, 'create', [_dec], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'create'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'deleteByID', [_dec2], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'deleteByID'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'getAll', [_dec3], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'getAll'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'getByID', [_dec4], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'getByID'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'getByUsername', [_dec5], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'getByUsername'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'isUserNameInUse', [_dec6], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'isUserNameInUse'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateByID', [_dec7], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'updateByID'), _class.prototype)), _class));
-exports.default = UserFileRepository;
+}(), ((0, _applyDecoratedDescriptor2["default"])(_class.prototype, "create", [_dec], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "create"), _class.prototype), (0, _applyDecoratedDescriptor2["default"])(_class.prototype, "deleteByID", [_dec2], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "deleteByID"), _class.prototype), (0, _applyDecoratedDescriptor2["default"])(_class.prototype, "getAll", [_dec3], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "getAll"), _class.prototype), (0, _applyDecoratedDescriptor2["default"])(_class.prototype, "getByID", [_dec4], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "getByID"), _class.prototype), (0, _applyDecoratedDescriptor2["default"])(_class.prototype, "getByUsername", [_dec5], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "getByUsername"), _class.prototype), (0, _applyDecoratedDescriptor2["default"])(_class.prototype, "isUserNameInUse", [_dec6], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "isUserNameInUse"), _class.prototype), (0, _applyDecoratedDescriptor2["default"])(_class.prototype, "updateByID", [_dec7], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "updateByID"), _class.prototype)), _class));
+var _default = UserFileRepository;
+exports["default"] = _default;

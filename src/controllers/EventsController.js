@@ -17,8 +17,11 @@ const KEEP_ALIVE_INTERVAL = 9000;
 
 class EventsController extends Controller {
   _eventManager: EventManager;
+
   _deviceManager: DeviceManager;
+
   _keepAliveIntervalID: ?string = null;
+
   _lastEventDate: Date = new Date();
 
   constructor(eventManager: EventManager, deviceManager: DeviceManager) {
@@ -44,7 +47,8 @@ class EventsController extends Controller {
   async getEvents(eventNamePrefix: ?string): Promise<*> {
     const subscriptionID = this._eventManager.subscribe(
       eventNamePrefix,
-      this._pipeEvent.bind(this),
+      // eslint-disable-next-line flowtype/require-parameter-type, flowtype/require-return-type
+      (...params) => this._pipeEvent(...params),
       ...this._getUserFilter(),
     );
     const keepAliveIntervalID = this._startKeepAlive();
@@ -58,7 +62,8 @@ class EventsController extends Controller {
   async getMyEvents(eventNamePrefix: ?string): Promise<*> {
     const subscriptionID = this._eventManager.subscribe(
       eventNamePrefix,
-      this._pipeEvent.bind(this),
+      // eslint-disable-next-line flowtype/require-parameter-type, flowtype/require-return-type
+      (...params) => this._pipeEvent(...params),
       {
         mydevices: true,
         ...this._getUserFilter(),
@@ -79,7 +84,8 @@ class EventsController extends Controller {
     const deviceID = await this._deviceManager.getDeviceID(deviceIDorName);
     const subscriptionID = this._eventManager.subscribe(
       eventNamePrefix,
-      this._pipeEvent.bind(this),
+      // eslint-disable-next-line flowtype/require-parameter-type, flowtype/require-return-type
+      (...params) => this._pipeEvent(...params),
       {
         deviceID,
         ...this._getUserFilter(),
@@ -110,7 +116,7 @@ class EventsController extends Controller {
     return this.ok({ ok: true });
   }
 
-  _closeStream(subscriptionID: string, keepAliveIntervalID: IntervalID): void {
+  _closeStream(subscriptionID: string, keepAliveIntervalID: IntervalID) {
     const closeStreamHandler = () => {
       this._eventManager.unsubscribe(subscriptionID);
       clearInterval(keepAliveIntervalID);

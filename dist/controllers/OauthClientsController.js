@@ -1,171 +1,133 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
+var _Reflect$construct = require("@babel/runtime-corejs3/core-js-stable/reflect/construct");
+
+var _Object$defineProperty = require("@babel/runtime-corejs3/core-js-stable/object/define-property");
+
+var _interopRequireDefault = require("@babel/runtime-corejs3/helpers/interopRequireDefault");
+
+_Object$defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+exports["default"] = void 0;
 
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+var _getOwnPropertyDescriptor = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-descriptor"));
 
-var _regenerator = require('babel-runtime/regenerator');
+var _regenerator = _interopRequireDefault(require("@babel/runtime-corejs3/regenerator"));
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/asyncToGenerator"));
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/classCallCheck"));
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+var _createClass2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/createClass"));
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+var _inherits2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/inherits"));
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/possibleConstructorReturn"));
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/getPrototypeOf"));
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+var _applyDecoratedDescriptor2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/applyDecoratedDescriptor"));
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+var _Controller2 = _interopRequireDefault(require("./Controller"));
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _HttpError = _interopRequireDefault(require("../lib/HttpError"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _httpVerb = _interopRequireDefault(require("../decorators/httpVerb"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _route = _interopRequireDefault(require("../decorators/route"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _class;
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = _Reflect$construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _desc, _value, _class;
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !_Reflect$construct) return false; if (_Reflect$construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(_Reflect$construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
-var _Controller2 = require('./Controller');
+var OauthClientsController = (_dec = (0, _httpVerb["default"])('post'), _dec2 = (0, _route["default"])('/v1/products/:productIDorSlug/clients/'), _dec3 = (0, _httpVerb["default"])('put'), _dec4 = (0, _route["default"])('/v1/products/:productIDorSlug/clients/:clientID'), _dec5 = (0, _httpVerb["default"])('delete'), _dec6 = (0, _route["default"])('/v1/products/:productIDorSlug/clients/:clientID'), (_class = /*#__PURE__*/function (_Controller) {
+  (0, _inherits2["default"])(OauthClientsController, _Controller);
 
-var _Controller3 = _interopRequireDefault(_Controller2);
-
-var _HttpError = require('../lib/HttpError');
-
-var _HttpError2 = _interopRequireDefault(_HttpError);
-
-var _httpVerb = require('../decorators/httpVerb');
-
-var _httpVerb2 = _interopRequireDefault(_httpVerb);
-
-var _route = require('../decorators/route');
-
-var _route2 = _interopRequireDefault(_route);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
-
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
-
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
-
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
-
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
-
-  return desc;
-}
-
-var OauthClientsController = (_dec = (0, _httpVerb2.default)('post'), _dec2 = (0, _route2.default)('/v1/products/:productIDorSlug/clients/'), _dec3 = (0, _httpVerb2.default)('put'), _dec4 = (0, _route2.default)('/v1/products/:productIDorSlug/clients/:clientID'), _dec5 = (0, _httpVerb2.default)('delete'), _dec6 = (0, _route2.default)('/v1/products/:productIDorSlug/clients/:clientID'), (_class = function (_Controller) {
-  (0, _inherits3.default)(OauthClientsController, _Controller);
+  var _super = _createSuper(OauthClientsController);
 
   function OauthClientsController() {
-    (0, _classCallCheck3.default)(this, OauthClientsController);
-    return (0, _possibleConstructorReturn3.default)(this, (OauthClientsController.__proto__ || (0, _getPrototypeOf2.default)(OauthClientsController)).apply(this, arguments));
+    (0, _classCallCheck2["default"])(this, OauthClientsController);
+    return _super.apply(this, arguments);
   }
 
-  (0, _createClass3.default)(OauthClientsController, [{
-    key: 'createClient',
+  (0, _createClass2["default"])(OauthClientsController, [{
+    key: "createClient",
     value: function () {
-      var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-        return _regenerator2.default.wrap(function _callee$(_context) {
+      var _createClient = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
+        return _regenerator["default"].wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                throw new _HttpError2.default('not supported in the current server version');
+                throw new _HttpError["default"]('not supported in the current server version');
 
               case 1:
-              case 'end':
+              case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this);
+        }, _callee);
       }));
 
       function createClient() {
-        return _ref.apply(this, arguments);
+        return _createClient.apply(this, arguments);
       }
 
       return createClient;
     }()
   }, {
-    key: 'editClient',
+    key: "editClient",
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+      var _editClient = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2() {
+        return _regenerator["default"].wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                throw new _HttpError2.default('not supported in the current server version');
+                throw new _HttpError["default"]('not supported in the current server version');
 
               case 1:
-              case 'end':
+              case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee2);
       }));
 
       function editClient() {
-        return _ref2.apply(this, arguments);
+        return _editClient.apply(this, arguments);
       }
 
       return editClient;
     }()
   }, {
-    key: 'deleteClient',
+    key: "deleteClient",
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+      var _deleteClient = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3() {
+        return _regenerator["default"].wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                throw new _HttpError2.default('not supported in the current server version');
+                throw new _HttpError["default"]('not supported in the current server version');
 
               case 1:
-              case 'end':
+              case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee3);
       }));
 
       function deleteClient() {
-        return _ref3.apply(this, arguments);
+        return _deleteClient.apply(this, arguments);
       }
 
       return deleteClient;
     }()
   }]);
   return OauthClientsController;
-}(_Controller3.default), (_applyDecoratedDescriptor(_class.prototype, 'createClient', [_dec, _dec2], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'createClient'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'editClient', [_dec3, _dec4], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'editClient'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'deleteClient', [_dec5, _dec6], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'deleteClient'), _class.prototype)), _class));
-exports.default = OauthClientsController;
+}(_Controller2["default"]), ((0, _applyDecoratedDescriptor2["default"])(_class.prototype, "createClient", [_dec, _dec2], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "createClient"), _class.prototype), (0, _applyDecoratedDescriptor2["default"])(_class.prototype, "editClient", [_dec3, _dec4], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "editClient"), _class.prototype), (0, _applyDecoratedDescriptor2["default"])(_class.prototype, "deleteClient", [_dec5, _dec6], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "deleteClient"), _class.prototype)), _class));
+var _default = OauthClientsController;
+exports["default"] = _default;

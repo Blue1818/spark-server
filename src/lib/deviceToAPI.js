@@ -5,7 +5,7 @@ import type { Device, DeviceAttributes } from '../types';
 export type DeviceAPIType = {|
   cellular: boolean,
   connected: boolean,
-  current_build_target: string,
+  current_build_target: number,
   functions?: ?Array<string>,
   id: string,
   imei?: string,
@@ -52,7 +52,10 @@ const deviceToAPI = (
   return {
     cellular: mergedDevice.isCellular,
     connected: (mergedDevice: any).connected || false,
-    current_build_target: mergedDevice.currentBuildTarget,
+    current_build_target:
+      mergedDevice.currentBuildTarget != null
+        ? mergedDevice.currentBuildTarget
+        : mergedDevice.current_build_target,
     functions: mergedDevice.functions || null,
     id: mergedDevice.deviceID,
     imei: mergedDevice.imei,

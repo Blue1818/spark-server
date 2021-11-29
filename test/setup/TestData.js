@@ -1,12 +1,11 @@
 // @flow
 
-import type { UserCredentials } from '../../src/types';
-
 import crypto from 'crypto';
 import uuid from 'uuid';
 import NodeRSA from 'node-rsa';
 import fs from 'fs';
 import settings from './settings';
+import type { UserCredentials } from '../../src/types';
 
 const uuidSet = new Set();
 
@@ -16,7 +15,7 @@ type CreateCustomFirmwareResult = {
 };
 
 class TestData {
-  static createCustomFirmwareBinary = (): Promise<CreateCustomFirmwareResult> =>
+  static createCustomFirmwareBinary: () => Promise<CreateCustomFirmwareResult> = (): Promise<CreateCustomFirmwareResult> =>
     new Promise(
       (
         resolve: (result: CreateCustomFirmwareResult) => void,
@@ -37,7 +36,9 @@ class TestData {
       },
     );
 
-  static deleteCustomFirmwareBinary = (filePath: string): Promise<void> =>
+  static deleteCustomFirmwareBinary: (filePath: string) => Promise<void> = (
+    filePath: string,
+  ): Promise<void> =>
     new Promise((resolve: () => void, reject: (error: Error) => void) => {
       fs.unlink(filePath, (error: ?Error) => {
         if (error) {
@@ -49,12 +50,12 @@ class TestData {
       });
     });
 
-  static getUser = (): UserCredentials => ({
+  static getUser: () => UserCredentials = (): UserCredentials => ({
     password: 'password',
     username: `testUser+${TestData.getID()}@test.com`,
   });
 
-  static getID = (): string => {
+  static getID: () => string = (): string => {
     let newID = uuid().toLowerCase();
     while (uuidSet.has(newID)) {
       newID = uuid().toLowerCase();
@@ -63,7 +64,7 @@ class TestData {
     return newID;
   };
 
-  static getPublicKey = (): string => {
+  static getPublicKey: () => string = (): string => {
     const key = new NodeRSA({ b: 1024 });
 
     return key.exportKey('pkcs8-public-pem');

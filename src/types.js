@@ -1,8 +1,8 @@
 // @flow
-/* eslint-disable */
 
-import type File from 'File';
-import bunyan from 'bunyan';
+import type { $Request } from 'express';
+
+export type Request = $Request & { files: File[] };
 
 export type Webhook = {
   auth?: { password: string, username: string },
@@ -17,7 +17,7 @@ export type Webhook = {
   mydevices?: boolean,
   noDefaults?: boolean,
   ownerID: string,
-  productIdOrSlug?: string,
+  productIdOrSlug?: string | number,
   query?: { [key: string]: Object },
   rejectUnauthorized?: boolean,
   requestType: string,
@@ -44,6 +44,7 @@ export type WebhookMutator = {
   responseTemplate?: string,
   responseTopic?: string,
   url: string,
+  id?: string,
 };
 
 export type RequestType = 'DELETE' | 'GET' | 'POST' | 'PUT';
@@ -61,7 +62,7 @@ export type Device = {
 
 export type DeviceAttributes = {
   appHash: ?string,
-  currentBuildTarget: string,
+  currentBuildTarget: number,
   deviceID: string,
   functions?: ?Array<string>,
   imei?: string,
@@ -90,7 +91,9 @@ export type Event = {
   ...EventData,
   broadcasted?: boolean,
   publishedAt: Date,
-  ttl: number,
+  ttl?: number,
+  isPublic: boolean,
+  isInternal: boolean,
 };
 
 export type EventData = {
@@ -134,6 +137,7 @@ export type ProtectedEntityName = 'deviceAttributes' | 'webhook';
 
 export type Settings = {
   ACCESS_TOKEN_LIFETIME: number,
+  CONNECTED_DEVICES_LOGGING_INTERVAL?: number,
   API_TIMEOUT: number,
   BINARIES_DIRECTORY?: string,
   BUILD_DIRECTORY: string,
@@ -160,6 +164,7 @@ export type Settings = {
   SERVER_KEY_FILENAME: string,
   SERVER_KEY_PASSWORD?: string,
   SERVER_KEYS_DIRECTORY: string,
+  SHOW_VERBOSE_DEVICE_LOGS?: boolean,
   TCP_DEVICE_SERVER_CONFIG: {
     HOST: string,
     PORT: number,
@@ -193,11 +198,11 @@ export type PlatformType =
   | 88 // Duo
   | 103; // Bluz
 
-export type Product = {|
+export type Product = {
   config_id: string,
   description: string,
   hardware_version: string,
-  id: string, // This should always be swapped out with product_id when sent to the client
+  id: number, // This should always be swapped out with product_id when sent to the client
   latest_firmware_version: number,
   name: string,
   organization: string,
@@ -205,9 +210,9 @@ export type Product = {|
   product_id: number,
   slug: string,
   type: 'Consumer' | 'Hobbyist' | 'Industrial',
-|};
+};
 
-export type ProductFirmware = {|
+export type ProductFirmware = {
   current: boolean,
   data: Buffer,
   description: string,
@@ -218,21 +223,22 @@ export type ProductFirmware = {|
   title: string,
   updated_at: Date,
   version: number,
-|};
+  device_count: number,
+};
 
-export type Organization = {|
+export type Organization = {
   id: string,
   name: string,
   user_ids: Array<string>,
-|};
+};
 
-export type ProductConfig = {|
+export type ProductConfig = {
   id: string,
   org_id: string,
-  product_id: string,
-|};
+  product_id: number,
+};
 
-export type ProductDevice = {|
+export type ProductDevice = {
   denied: boolean,
   development: boolean,
   deviceID: string,
@@ -242,27 +248,27 @@ export type ProductDevice = {|
   productFirmwareVersion: number,
   productID: number,
   quarantined: boolean,
-|};
+};
 
-export interface IBaseRepository<TModel> {
+export interface IBaseRepository<TModel, TKey = string> {
   count(...filters: Array<any>): Promise<number>;
   create(model: $Shape<TModel>): Promise<TModel>;
-  deleteByID(id: string): Promise<void>;
+  deleteByID(id: TKey): Promise<void>;
   getAll(): Promise<Array<TModel>>;
-  getByID(id: string): Promise<?TModel>;
-  updateByID(id: string, props: $Shape<TModel>): Promise<TModel>;
+  getByID(id: TKey): Promise<?TModel>;
+  updateByID(id: TKey, props: $Shape<TModel>): Promise<TModel>;
 }
 
 export interface IWebhookRepository extends IBaseRepository<Webhook> {}
 
-export interface IProductRepository extends IBaseRepository<Product> {
-  getByIDOrSlug(productIDOrSlug: string): Promise<?Product>;
+export interface IProductRepository extends IBaseRepository<Product, number> {
+  getByIDOrSlug(productIDOrSlug: string | number): Promise<?Product>;
   getMany(userID: ?string, query?: Object): Promise<Array<Product>>;
 }
 
 export interface IProductConfigRepository
   extends IBaseRepository<ProductConfig> {
-  getByProductID(productID: string): Promise<?ProductConfig>;
+  getByProductID(productID: number): Promise<?ProductConfig>;
 }
 
 export interface IProductDeviceRepository
@@ -298,7 +304,7 @@ export interface IOrganizationRepository extends IBaseRepository<Organization> {
 
 export interface IDeviceAttributeRepository
   extends IBaseRepository<DeviceAttributes> {
-  getByName(deviceName: string): Promise<DeviceAttributes>;
+  getByName(deviceName: string): Promise<?DeviceAttributes>;
   getManyFromIDs(
     deviceIDs: Array<string>,
     ownerID?: string,

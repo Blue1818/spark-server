@@ -1,35 +1,29 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
+var _Object$defineProperty = require("@babel/runtime-corejs3/core-js-stable/object/define-property");
+
+var _interopRequireDefault = require("@babel/runtime-corejs3/helpers/interopRequireDefault");
+
+_Object$defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _bodyParser = require('body-parser');
+exports["default"] = void 0;
 
-var _bodyParser2 = _interopRequireDefault(_bodyParser);
+var _bodyParser = _interopRequireDefault(require("body-parser"));
 
-var _express = require('express');
+var _express = _interopRequireDefault(require("express"));
 
-var _express2 = _interopRequireDefault(_express);
+var _bunyanMiddleware = _interopRequireDefault(require("bunyan-middleware"));
 
-var _logger = require('./lib/logger');
+var _logger = _interopRequireDefault(require("./lib/logger"));
 
-var _logger2 = _interopRequireDefault(_logger);
+var _RouteConfig = _interopRequireDefault(require("./RouteConfig"));
 
-var _RouteConfig = require('./RouteConfig');
+var logger = _logger["default"].createModuleLogger(module);
 
-var _RouteConfig2 = _interopRequireDefault(_RouteConfig);
-
-var _bunyanMiddleware = require('bunyan-middleware');
-
-var _bunyanMiddleware2 = _interopRequireDefault(_bunyanMiddleware);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var logger = _logger2.default.createModuleLogger(module);
-
-exports.default = function (container, settings, existingApp) {
-  var app = existingApp || (0, _express2.default)();
+function createApp(container, settings, existingApp) {
+  var app = existingApp || (0, _express["default"])();
 
   var setCORSHeaders = function setCORSHeaders(request, response, next) {
     if (request.method === 'OPTIONS') {
@@ -41,6 +35,7 @@ exports.default = function (container, settings, existingApp) {
       });
       return response.sendStatus(204);
     }
+
     response.set({
       'Access-Control-Allow-Origin': '*'
     });
@@ -48,7 +43,7 @@ exports.default = function (container, settings, existingApp) {
   };
 
   if (logger.debug()) {
-    app.use((0, _bunyanMiddleware2.default)({
+    app.use((0, _bunyanMiddleware["default"])({
       headerName: 'X-Request-Id',
       level: 'debug',
       logger: logger,
@@ -59,16 +54,16 @@ exports.default = function (container, settings, existingApp) {
     logger.warn('Request logging enabled');
   }
 
-  app.use(_bodyParser2.default.json());
-  app.use(_bodyParser2.default.urlencoded({
+  app.use(_bodyParser["default"].json());
+  app.use(_bodyParser["default"].urlencoded({
     extended: true
   }));
   app.use(setCORSHeaders);
-
-  (0, _RouteConfig2.default)(app, container, ['DeviceClaimsController',
-  // to avoid routes collisions EventsController should be placed
+  (0, _RouteConfig["default"])(app, container, ['DeviceClaimsController', // to avoid routes collisions EventsController should be placed
   // before DevicesController
   'EventsController', 'EventsControllerV2', 'DevicesController', 'OauthClientsController', 'ProductsController', 'ProductsControllerV2', 'ProductFirmwaresController', 'ProductFirmwaresControllerV2', 'ProvisioningController', 'UsersController', 'WebhooksController'], settings);
-
   return app;
-};
+}
+
+var _default = createApp;
+exports["default"] = _default;

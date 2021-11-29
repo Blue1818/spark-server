@@ -1,11 +1,10 @@
 // @flow
 
 import type { Container } from 'constitute';
-import type { Settings } from './types';
-
-import OAuthServer from 'express-oauth-server';
-import OAuthModel from './OAuthModel';
 import { defaultBindings } from 'spark-protocol';
+import OAuthServer from 'express-oauth-server';
+import type { Settings } from './types';
+import OAuthModel from './OAuthModel';
 import DeviceClaimsController from './controllers/DeviceClaimsController';
 import DevicesController from './controllers/DevicesController';
 import EventsController from './controllers/EventsController';
@@ -41,8 +40,29 @@ export default (container: Container, newSettings: Settings) => {
     settings[key] = newSettings[key];
   });
 
+  const {
+    BINARIES_DIRECTORY,
+    CONNECTED_DEVICES_LOGGING_INTERVAL,
+    DEVICE_DIRECTORY,
+    ENABLE_SYSTEM_FIRWMARE_AUTOUPDATES,
+    SERVER_KEY_FILENAME,
+    SERVER_KEY_PASSWORD,
+    SERVER_KEYS_DIRECTORY,
+    TCP_DEVICE_SERVER_CONFIG,
+  } = newSettings;
+
   // spark protocol container bindings
-  defaultBindings(container, newSettings);
+  defaultBindings(container, {
+    BINARIES_DIRECTORY,
+    CONNECTED_DEVICES_LOGGING_INTERVAL:
+      CONNECTED_DEVICES_LOGGING_INTERVAL || 15000,
+    DEVICE_DIRECTORY,
+    ENABLE_SYSTEM_FIRWMARE_AUTOUPDATES,
+    SERVER_KEY_FILENAME,
+    SERVER_KEY_PASSWORD,
+    SERVER_KEYS_DIRECTORY,
+    TCP_DEVICE_SERVER_CONFIG,
+  });
 
   // settings
   container.bindValue('DATABASE_PATH', settings.DB_CONFIG.PATH);

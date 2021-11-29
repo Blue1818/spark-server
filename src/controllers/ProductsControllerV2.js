@@ -1,7 +1,6 @@
 // @flow
 /* eslint-disable */
 
-import type { File } from 'express';
 import type DeviceManager from '../managers/DeviceManager';
 import type {
   IDeviceAttributeRepository,
@@ -76,7 +75,7 @@ class ProductsControllerV2 extends Controller {
       skip,
       take,
     });
-    return this.ok(products.map(this._formatProduct));
+    return this.ok(products.map(product => this._formatProduct(product)));
   }
 
   @httpVerb('post')
@@ -225,7 +224,7 @@ class ProductsControllerV2 extends Controller {
 
   _formatProduct(product: Product): $Shape<Product> {
     const { product_id, ...output } = product;
-    output.id = product_id.toString();
+    output.id = product_id;
     return output;
   }
 
@@ -237,12 +236,11 @@ class ProductsControllerV2 extends Controller {
         .filter(
           (firmware: ProductFirmware): boolean => firmware.current === true,
         )
-        .map(
-          (releasedFirmware: ProductFirmware): Promise<ProductFirmware> =>
-            this._productFirmwareRepository.updateByID(releasedFirmware.id, {
-              ...releasedFirmware,
-              current: false,
-            }),
+        .map((releasedFirmware: ProductFirmware): Promise<ProductFirmware> =>
+          this._productFirmwareRepository.updateByID(releasedFirmware.id, {
+            ...releasedFirmware,
+            current: false,
+          }),
         ),
     );
   }

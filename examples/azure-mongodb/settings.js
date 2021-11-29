@@ -21,8 +21,43 @@
 
 import path from 'path';
 
-/* eslint-disable sorting/sort-object-props */
-export default {
+type ConfigType = {
+  BUILD_DIRECTORY: string,
+  DEFAULT_ADMIN_PASSWORD: string,
+  DEFAULT_ADMIN_USERNAME: string,
+  DEVICE_DIRECTORY: string,
+  ENABLE_SYSTEM_FIRWMARE_AUTOUPDATES: boolean,
+  FIRMWARE_DIRECTORY: string,
+  FIRMWARE_REPOSITORY_DIRECTORY: string,
+  SERVER_KEY_FILENAME: string,
+  SERVER_KEYS_DIRECTORY: string,
+  USERS_DIRECTORY: string,
+  WEBHOOKS_DIRECTORY: string,
+  ACCESS_TOKEN_LIFETIME: number,
+  API_TIMEOUT: number,
+  CRYPTO_ALGORITHM: string,
+  LOG_REQUESTS: boolean,
+  LOGIN_ROUTE: string,
+  EXPRESS_SERVER_CONFIG: {
+    PORT: number,
+    SSL_CERTIFICATE_FILEPATH: string | null,
+    SSL_PRIVATE_KEY_FILEPATH: string | null,
+    USE_SSL: boolean,
+  },
+  DB_CONFIG: {
+    OPTIONS: Object,
+    URL: string,
+  },
+  SHOW_VERBOSE_DEVICE_LOGS: boolean,
+
+  TCP_DEVICE_SERVER_CONFIG: {
+    HOST: string,
+    PORT: number,
+  },
+  WEBHOOK_TEMPLATE_PARAMETERS: Object,
+};
+
+const CONFIG: ConfigType = {
   BUILD_DIRECTORY: path.join(__dirname, '../data/build'),
   DEFAULT_ADMIN_PASSWORD: 'adminPassword',
   DEFAULT_ADMIN_USERNAME: '__admin__',
@@ -67,3 +102,5 @@ export default {
     // SOME_AUTH_TOKEN: '12312312',
   },
 };
+
+export default CONFIG;

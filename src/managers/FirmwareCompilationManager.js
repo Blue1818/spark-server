@@ -1,7 +1,5 @@
 // @flow
 
-import type { File } from 'express';
-
 import crypto from 'crypto';
 import fs from 'fs';
 import path from 'path';
@@ -47,10 +45,11 @@ const getUniqueKey = (): string => {
 };
 
 class FirmwareCompilationManager {
-  static firmwareDirectoryExists = (): boolean =>
-    fs.existsSync(settings.FIRMWARE_REPOSITORY_DIRECTORY);
+  static firmwareDirectoryExists(): boolean {
+    return fs.existsSync(settings.FIRMWARE_REPOSITORY_DIRECTORY);
+  }
 
-  static getBinaryForID = (id: string): ?Buffer => {
+  static getBinaryForID: string => ?Buffer = (id: string): ?Buffer => {
     if (!FirmwareCompilationManager.firmwareDirectoryExists()) {
       return null;
     }
@@ -71,7 +70,10 @@ class FirmwareCompilationManager {
     return fs.readFileSync(path.join(binaryPath, binFileName));
   };
 
-  static compileSource = async (
+  static compileSource: (
+    string,
+    Array<File>,
+  ) => Promise<?CompilationResponse> = async (
     platformID: string,
     files: Array<File>,
   ): Promise<?CompilationResponse> => {
@@ -162,10 +164,10 @@ class FirmwareCompilationManager {
     return config;
   };
 
-  static addFirmwareCleanupTask = (
+  static addFirmwareCleanupTask(
     appFolderPath: string,
     config: CompilationResponse,
-  ) => {
+  ) {
     const configPath = path.join(appFolderPath, 'config.json');
     if (!fs.existsSync(configPath)) {
       fs.writeFileSync(configPath, JSON.stringify(config));
@@ -174,7 +176,7 @@ class FirmwareCompilationManager {
     const difference =
       new Date(config.expires_at).getTime() - currentDate.getTime();
     setTimeout((): void => rmfr(appFolderPath), difference);
-  };
+  }
 }
 
 if (IS_COMPILATION_ENABLED) {

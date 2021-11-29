@@ -14,6 +14,7 @@ import BaseRepository from './BaseRepository';
 class DeviceKeyDatabaseRepository extends BaseRepository
   implements IDeviceKeyRepository {
   _database: IBaseDatabase;
+
   _collectionName: CollectionName = COLLECTION_NAMES.DEVICE_KEYS;
 
   constructor(database: IBaseDatabase) {
@@ -21,32 +22,41 @@ class DeviceKeyDatabaseRepository extends BaseRepository
     this._database = database;
   }
 
-  create = async (model: DeviceKeyObject): Promise<DeviceKeyObject> =>
-    await this._database.insertOne(this._collectionName, {
+  create: DeviceKeyObject => Promise<DeviceKeyObject> = async (
+    model: DeviceKeyObject,
+  ): Promise<DeviceKeyObject> =>
+    this._database.insertOne(this._collectionName, {
       _id: model.deviceID.toLowerCase(),
       ...model,
       deviceID: model.deviceID.toLowerCase(),
     });
 
-  deleteByID = async (deviceID: string): Promise<void> =>
-    await this._database.remove(this._collectionName, {
+  deleteByID: (deviceID: string) => Promise<void> = async (
+    deviceID: string,
+  ): Promise<void> =>
+    this._database.remove(this._collectionName, {
       deviceID: deviceID.toLowerCase(),
     });
 
-  getAll = async (): Promise<Array<DeviceKeyObject>> => {
+  async getAll(): Promise<Array<DeviceKeyObject>> {
     throw new Error('The method is not implemented.');
-  };
+  }
 
-  getByID = async (deviceID: string): Promise<?DeviceKeyObject> =>
-    await this._database.findOne(this._collectionName, {
+  getByID: (deviceID: string) => Promise<?DeviceKeyObject> = async (
+    deviceID: string,
+  ): Promise<?DeviceKeyObject> =>
+    this._database.findOne(this._collectionName, {
       deviceID: deviceID.toLowerCase(),
     });
 
-  updateByID = async (
+  updateByID: (
+    deviceID: string,
+    props: $Shape<DeviceKeyObject>,
+  ) => Promise<DeviceKeyObject> = async (
     deviceID: string,
     props: $Shape<DeviceKeyObject>,
   ): Promise<DeviceKeyObject> =>
-    await this._database.findAndModify(
+    this._database.findAndModify(
       this._collectionName,
       { deviceID: deviceID.toLowerCase() },
       { $set: { ...props, deviceID: deviceID.toLowerCase() } },

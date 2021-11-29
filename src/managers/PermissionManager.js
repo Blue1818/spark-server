@@ -1,5 +1,7 @@
 // @flow
 
+import nullthrows from 'nullthrows';
+import { Request, Response } from 'oauth2-server';
 import type {
   IDeviceAttributeRepository,
   IOrganizationRepository,
@@ -7,18 +9,19 @@ import type {
   IWebhookRepository,
   ProtectedEntityName,
 } from '../types';
-
-import nullthrows from 'nullthrows';
-import { Request, Response } from 'oauth2-server';
 import HttpError from '../lib/HttpError';
 import settings from '../settings';
 import Logger from '../lib/logger';
+
 const logger = Logger.createModuleLogger(module);
 
 class PermissionManager {
   _organizationRepository: IOrganizationRepository;
+
   _userRepository: IUserRepository;
+
   _repositoriesByEntityName: Map<string, Object> = new Map();
+
   _oauthServer: Object;
 
   constructor(
@@ -37,32 +40,37 @@ class PermissionManager {
     this._repositoriesByEntityName.set('webhook', webhookRepository);
     this._oauthServer = oauthServer;
 
-    (async (): Promise<void> => await this._init())();
+    (async () => {
+      await this._init();
+    })();
   }
 
-  checkPermissionsForEntityByID = async (
+  checkPermissionsForEntityByID: (
+    entityName: ProtectedEntityName,
+    id: string,
+  ) => Promise<boolean> = async (
     entityName: ProtectedEntityName,
     id: string,
   ): Promise<boolean> => !!(await this.getEntityByID(entityName, id));
 
-  getAllEntitiesForCurrentUser = async (
+  async getAllEntitiesForCurrentUser<TResult>(
     entityName: ProtectedEntityName,
-  ): Promise<*> => {
+  ): Promise<Array<TResult>> {
     const currentUser = this._userRepository.getCurrentUser();
-    return await nullthrows(
-      this._repositoriesByEntityName.get(entityName),
-    ).getAll(currentUser.id);
-  };
+    return nullthrows(this._repositoriesByEntityName.get(entityName)).getAll(
+      currentUser.id,
+    );
+  }
 
-  getEntityByID = async (
+  async getEntityByID<TResult>(
     entityName: ProtectedEntityName,
     id: string,
-  ): Promise<*> => {
+  ): Promise<TResult> {
     const entity = await nullthrows(
       this._repositoriesByEntityName.get(entityName),
     ).getByID(id);
     if (!entity) {
-      return null;
+      throw new HttpError('Entity does not exist');
     }
 
     if (!this.doesUserHaveAccess(entity)) {
@@ -70,9 +78,9 @@ class PermissionManager {
     }
 
     return entity;
-  };
+  }
 
-  _createDefaultAdminUser = async (): Promise<void> => {
+  async _createDefaultAdminUser() {
     try {
       await this._userRepository.createWithCredentials(
         {
@@ -88,14 +96,14 @@ class PermissionManager {
     } catch (error) {
       logger.error({ err: error }, 'Error during default admin user creating');
     }
-  };
+  }
 
-  doesUserHaveAccess = ({ ownerID }: Object): boolean => {
+  doesUserHaveAccess({ ownerID }: Object): boolean {
     const currentUser = this._userRepository.getCurrentUser();
     return currentUser.role === 'administrator' || currentUser.id === ownerID;
-  };
+  }
 
-  _generateAdminToken = async (): Promise<string> => {
+  async _generateAdminToken(): Promise<string> {
     const request = new Request({
       body: {
         client_id: 'spark-server',
@@ -123,9 +131,9 @@ class PermissionManager {
     );
 
     return tokenPayload.accessToken;
-  };
+  }
 
-  _init = async (): Promise<void> => {
+  async _init() {
     let defaultAdminUser = await this._userRepository.getByUsername(
       settings.DEFAULT_ADMIN_USERNAME,
     );
@@ -149,7 +157,7 @@ class PermissionManager {
         user_ids: [defaultAdminUser.id],
       });
     }
-  };
+  }
 }
 
 export default PermissionManager;

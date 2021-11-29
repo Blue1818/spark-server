@@ -19,20 +19,27 @@ class EventManager {
     this._eventPublisher = eventPublisher;
   }
 
-  subscribe = (
+  subscribe(
     eventNamePrefix: ?string,
     eventHandler: (event: Event) => void,
     filterOptions: FilterOptions,
-  ): string =>
-    this._eventPublisher.subscribe(eventNamePrefix || undefined, eventHandler, {
-      filterOptions,
-    });
+  ): string {
+    return this._eventPublisher.subscribe(
+      eventNamePrefix || undefined,
+      eventHandler,
+      {
+        filterOptions,
+      },
+    );
+  }
 
-  unsubscribe = (subscriptionID: string): void =>
+  unsubscribe(subscriptionID: string) {
     this._eventPublisher.unsubscribe(subscriptionID);
+  }
 
-  publish = (eventData: EventData): void =>
+  publish(eventData: EventData) {
     this._eventPublisher.publish(eventData);
+  }
 }
 
 export default EventManager;

@@ -2,23 +2,24 @@
 
 import type {
   $Application,
-  $Request,
   $Response,
   Middleware,
   NextFunction,
 } from 'express';
 import type { Container } from 'constitute';
-import type { Settings } from './types';
-
 import nullthrows from 'nullthrows';
 import multer from 'multer';
 import HttpError from './lib/HttpError';
+import type { Request, Settings } from './types';
 
-const maybe = (middleware: Middleware, condition: boolean): Middleware => (
-  request: $Request,
+const maybe = (
+  middleware: (req: Request, res: $Response, next: NextFunction) => mixed,
+  condition: boolean,
+): Middleware<Request, $Response> => (
+  request: Request,
   response: $Response,
   next: NextFunction,
-) => {
+): mixed => {
   if (condition) {
     middleware(request, response, next);
   } else {
@@ -26,14 +27,16 @@ const maybe = (middleware: Middleware, condition: boolean): Middleware => (
   }
 };
 
-const injectUserMiddleware = (container: Container): Middleware => (
-  request: $Request,
+const injectUserMiddleware = (
+  container: Container,
+): Middleware<Request, $Response> => (
+  request: Request,
   response: $Response,
   next: NextFunction,
 ) => {
   const oauthInfo = response.locals.oauth;
   if (oauthInfo) {
-    const token = (oauthInfo: any).token;
+    const { token } = (oauthInfo: any);
     const user = token && token.user;
     // eslint-disable-next-line no-param-reassign
     (request: any).user = user;
@@ -42,11 +45,11 @@ const injectUserMiddleware = (container: Container): Middleware => (
   next();
 };
 
-const serverSentEventsMiddleware = (): Middleware => (
-  request: $Request,
-  response: $Response,
+const serverSentEventsMiddleware = (): ((
+  req: Request,
+  res: $Response,
   next: NextFunction,
-) => {
+) => mixed) => (request: Request, response: $Response, next: NextFunction) => {
   request.socket.setNoDelay();
   response.writeHead(200, {
     'Cache-Control': 'no-cache',
@@ -59,7 +62,7 @@ const serverSentEventsMiddleware = (): Middleware => (
 };
 
 export default (
-  app: $Application,
+  app: $Application<Request, $Response>,
   container: Container,
   controllers: Array<string>,
   settings: Settings,
@@ -69,7 +72,7 @@ export default (
       maxCount: number,
       name: string,
     }> = [],
-  ): Middleware =>
+  ): ((req: Request, res: $Response, next: NextFunction) => mixed) =>
     nullthrows(allowedUploads).length
       ? multer().fields(allowedUploads)
       : multer().any();
@@ -101,9 +104,11 @@ export default (
         maybe(serverSentEventsMiddleware(), serverSentEvents),
         injectUserMiddleware(container),
         maybe(filesMiddleware(allowedUploads), allowedUploads),
-        async (request: $Request, response: $Response): Promise<void> => {
-          const argumentNames = (route.match(/:[\w]*/g) || []).map(
-            (argumentName: string): string => argumentName.replace(':', ''),
+        async (request: Request, response: $Response) => {
+          const argumentNames = (
+            route.match(/:[\w]*/g) || []
+          ).map((argumentName: string): string =>
+            argumentName.replace(':', ''),
           );
           const values = argumentNames.map(
             (argument: string): string => request.params[argument],
@@ -125,10 +130,7 @@ export default (
           controllerInstance.user = (request: any).user;
 
           // Take access token out if it's posted.
-          const {
-            access_token, // eslint-disable-line no-unused-vars
-            ...body
-          } = request.body;
+          const { access_token: _, ...body } = (request.body: any);
 
           try {
             (allowedUploads || []).forEach(
@@ -189,20 +191,22 @@ export default (
     });
   });
 
-  app.all('*', (request: $Request, response: $Response) => {
+  app.all('*', (request: Request, response: $Response) => {
     response.sendStatus(404);
   });
 
-  (app: any).use((
-    error: Error | {| code: number |},
-    request: $Request,
-    response: $Response,
-    // eslint-disable-next-line no-unused-vars
-    next: NextFunction,
-  ) => {
-    response.status(400).json({
-      error: error.code ? error.code : error,
-      ok: false,
-    });
-  });
+  (app: any).use(
+    (
+      error: Error | {| code: number |},
+      request: Request,
+      response: $Response,
+      // eslint-disable-next-line no-unused-vars
+      next: NextFunction,
+    ) => {
+      response.status(400).json({
+        error: error.code ? error.code : error,
+        ok: false,
+      });
+    },
+  );
 };

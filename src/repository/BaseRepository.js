@@ -5,6 +5,7 @@ import type { IBaseDatabase } from '../types';
 
 class BaseRepository {
   _database: IBaseDatabase;
+
   _collectionName: CollectionName;
 
   constructor(database: IBaseDatabase, collectionName: CollectionName) {
@@ -12,8 +13,10 @@ class BaseRepository {
     this._collectionName = collectionName;
   }
 
-  count = async (...filters: Array<any>): Promise<number> =>
-    await this._database.count(
+  count: (Array<any>) => Promise<number> = async (
+    ...filters: Array<any>
+  ): Promise<number> =>
+    this._database.count(
       this._collectionName,
       ...(filters.length ? filters : [{}]),
     );

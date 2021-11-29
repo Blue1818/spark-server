@@ -1,35 +1,48 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
+var _Object$defineProperty = require("@babel/runtime-corejs3/core-js-stable/object/define-property");
+
+var _interopRequireDefault = require("@babel/runtime-corejs3/helpers/interopRequireDefault");
+
+_Object$defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+exports["default"] = void 0;
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/classCallCheck"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _createClass2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/createClass"));
 
-var EventManager = function EventManager(eventPublisher) {
-  var _this = this;
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/defineProperty"));
 
-  (0, _classCallCheck3.default)(this, EventManager);
+var EventManager = /*#__PURE__*/function () {
+  function EventManager(eventPublisher) {
+    (0, _classCallCheck2["default"])(this, EventManager);
+    (0, _defineProperty2["default"])(this, "_eventPublisher", void 0);
+    this._eventPublisher = eventPublisher;
+  }
 
-  this.subscribe = function (eventNamePrefix, eventHandler, filterOptions) {
-    return _this._eventPublisher.subscribe(eventNamePrefix || undefined, eventHandler, {
-      filterOptions: filterOptions
-    });
-  };
+  (0, _createClass2["default"])(EventManager, [{
+    key: "subscribe",
+    value: function subscribe(eventNamePrefix, eventHandler, filterOptions) {
+      return this._eventPublisher.subscribe(eventNamePrefix || undefined, eventHandler, {
+        filterOptions: filterOptions
+      });
+    }
+  }, {
+    key: "unsubscribe",
+    value: function unsubscribe(subscriptionID) {
+      this._eventPublisher.unsubscribe(subscriptionID);
+    }
+  }, {
+    key: "publish",
+    value: function publish(eventData) {
+      this._eventPublisher.publish(eventData);
+    }
+  }]);
+  return EventManager;
+}();
 
-  this.unsubscribe = function (subscriptionID) {
-    return _this._eventPublisher.unsubscribe(subscriptionID);
-  };
-
-  this.publish = function (eventData) {
-    return _this._eventPublisher.publish(eventData);
-  };
-
-  this._eventPublisher = eventPublisher;
-};
-
-exports.default = EventManager;
+var _default = EventManager;
+exports["default"] = _default;

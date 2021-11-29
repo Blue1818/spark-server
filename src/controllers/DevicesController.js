@@ -1,10 +1,9 @@
 // @flow
 
+import nullthrows from 'nullthrows';
 import type DeviceManager from '../managers/DeviceManager';
 import type { Device } from '../types';
 import type { DeviceAPIType } from '../lib/deviceToAPI';
-
-import nullthrows from 'nullthrows';
 import Controller from './Controller';
 import HttpError from '../lib/HttpError';
 import FirmwareCompilationManager from '../managers/FirmwareCompilationManager';
@@ -175,12 +174,13 @@ class DevicesController extends Controller {
     }
 
     // 4 flash device with custom application
-    const file = postBody.file;
+    const { file } = postBody;
     if (!file) {
       throw new Error('Firmware file not provided');
     }
 
-    if (file.originalname === 'binary' || file.originalname.endsWith('.bin')) {
+    const { originalname } = (file: any);
+    if (originalname === 'binary' || originalname.endsWith('.bin')) {
       const flashResult = await this._deviceManager.flashBinary(deviceID, file);
 
       return this.ok({ id: deviceID, status: flashResult.status });

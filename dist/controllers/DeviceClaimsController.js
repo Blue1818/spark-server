@@ -1,109 +1,78 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
+var _Reflect$construct = require("@babel/runtime-corejs3/core-js-stable/reflect/construct");
+
+var _Object$defineProperty = require("@babel/runtime-corejs3/core-js-stable/object/define-property");
+
+var _interopRequireDefault = require("@babel/runtime-corejs3/helpers/interopRequireDefault");
+
+_Object$defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+exports["default"] = void 0;
 
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+var _regenerator = _interopRequireDefault(require("@babel/runtime-corejs3/regenerator"));
 
-var _regenerator = require('babel-runtime/regenerator');
+var _map = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/instance/map"));
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+var _getOwnPropertyDescriptor = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-descriptor"));
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/asyncToGenerator"));
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/classCallCheck"));
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+var _createClass2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/createClass"));
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/assertThisInitialized"));
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+var _inherits2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/inherits"));
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/possibleConstructorReturn"));
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/getPrototypeOf"));
 
-var _createClass3 = _interopRequireDefault(_createClass2);
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/defineProperty"));
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _applyDecoratedDescriptor2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/applyDecoratedDescriptor"));
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _nullthrows = _interopRequireDefault(require("nullthrows"));
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _Controller2 = _interopRequireDefault(require("./Controller"));
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _httpVerb = _interopRequireDefault(require("../decorators/httpVerb"));
 
-var _dec, _dec2, _desc, _value, _class;
+var _route = _interopRequireDefault(require("../decorators/route"));
 
-var _Controller2 = require('./Controller');
+var _dec, _dec2, _class;
 
-var _Controller3 = _interopRequireDefault(_Controller2);
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = _Reflect$construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
 
-var _httpVerb = require('../decorators/httpVerb');
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !_Reflect$construct) return false; if (_Reflect$construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(_Reflect$construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
-var _httpVerb2 = _interopRequireDefault(_httpVerb);
+var DeviceClaimsController = (_dec = (0, _httpVerb["default"])('post'), _dec2 = (0, _route["default"])('/v1/device_claims'), (_class = /*#__PURE__*/function (_Controller) {
+  (0, _inherits2["default"])(DeviceClaimsController, _Controller);
 
-var _route = require('../decorators/route');
-
-var _route2 = _interopRequireDefault(_route);
-
-var _nullthrows = require('nullthrows');
-
-var _nullthrows2 = _interopRequireDefault(_nullthrows);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
-
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
-
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
-
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
-
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
-
-  return desc;
-}
-
-var DeviceClaimsController = (_dec = (0, _httpVerb2.default)('post'), _dec2 = (0, _route2.default)('/v1/device_claims'), (_class = function (_Controller) {
-  (0, _inherits3.default)(DeviceClaimsController, _Controller);
+  var _super = _createSuper(DeviceClaimsController);
 
   function DeviceClaimsController(deviceManager, claimCodeManager) {
-    (0, _classCallCheck3.default)(this, DeviceClaimsController);
+    var _this;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (DeviceClaimsController.__proto__ || (0, _getPrototypeOf2.default)(DeviceClaimsController)).call(this));
-
+    (0, _classCallCheck2["default"])(this, DeviceClaimsController);
+    _this = _super.call(this);
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "_deviceManager", void 0);
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "_claimCodeManager", void 0);
     _this._deviceManager = deviceManager;
     _this._claimCodeManager = claimCodeManager;
     return _this;
   }
 
-  (0, _createClass3.default)(DeviceClaimsController, [{
-    key: 'createClaimCode',
+  (0, _createClass2["default"])(DeviceClaimsController, [{
+    key: "createClaimCode",
     value: function () {
-      var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+      var _createClaimCode = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
         var claimCode, devices, deviceIDs;
-        return _regenerator2.default.wrap(function _callee$(_context) {
+        return _regenerator["default"].wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -113,13 +82,16 @@ var DeviceClaimsController = (_dec = (0, _httpVerb2.default)('post'), _dec2 = (0
 
               case 3:
                 devices = _context.sent;
-                deviceIDs = devices.map(function (device) {
-                  return (0, _nullthrows2.default)(device.deviceID);
+                deviceIDs = (0, _map["default"])(devices).call(devices, function (device) {
+                  return (0, _nullthrows["default"])(device.deviceID);
                 });
-                return _context.abrupt('return', this.ok({ claim_code: claimCode, device_ids: deviceIDs }));
+                return _context.abrupt("return", this.ok({
+                  claim_code: claimCode,
+                  device_ids: deviceIDs
+                }));
 
               case 6:
-              case 'end':
+              case "end":
                 return _context.stop();
             }
           }
@@ -127,12 +99,13 @@ var DeviceClaimsController = (_dec = (0, _httpVerb2.default)('post'), _dec2 = (0
       }));
 
       function createClaimCode() {
-        return _ref.apply(this, arguments);
+        return _createClaimCode.apply(this, arguments);
       }
 
       return createClaimCode;
     }()
   }]);
   return DeviceClaimsController;
-}(_Controller3.default), (_applyDecoratedDescriptor(_class.prototype, 'createClaimCode', [_dec, _dec2], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'createClaimCode'), _class.prototype)), _class));
-exports.default = DeviceClaimsController;
+}(_Controller2["default"]), ((0, _applyDecoratedDescriptor2["default"])(_class.prototype, "createClaimCode", [_dec, _dec2], (0, _getOwnPropertyDescriptor["default"])(_class.prototype, "createClaimCode"), _class.prototype)), _class));
+var _default = DeviceClaimsController;
+exports["default"] = _default;
