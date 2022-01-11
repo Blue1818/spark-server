@@ -1,15 +1,11 @@
 // @flow
 
-import type {
-  $Application,
-  $Response,
-  Middleware,
-  NextFunction,
-} from 'express';
+import type { $Application, $Response } from 'express';
 import type { Container } from 'constitute';
 import bodyParser from 'body-parser';
 import express from 'express';
 import bunyanMiddleware from 'bunyan-middleware';
+import cors from 'cors';
 import type { Request, Settings } from './types';
 import Logger from './lib/logger';
 import routeConfig from './RouteConfig';
@@ -23,26 +19,26 @@ function createApp(
 ): $Application<Request, $Response> {
   const app = existingApp || express<Request, $Response>();
 
-  const setCORSHeaders: Middleware<Request, $Response> = (
-    request: Request,
-    response: $Response,
-    next: NextFunction,
-  ): mixed => {
-    if (request.method === 'OPTIONS') {
-      response.set({
-        'Access-Control-Allow-Headers':
-          'X-Requested-With, Content-Type, Accept, Authorization',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Max-Age': '300',
-      });
-      return response.sendStatus(204);
-    }
-    response.set({
-      'Access-Control-Allow-Origin': '*',
-    });
-    return next();
-  };
+  // const setCORSHeaders: Middleware<Request, $Response> = (
+  //   request: Request,
+  //   response: $Response,
+  //   next: NextFunction,
+  // ): mixed => {
+  //   if (request.method === 'OPTIONS') {
+  //     response.set({
+  //       'Access-Control-Allow-Headers':
+  //         'X-Requested-With, Content-Type, Accept, Authorization',
+  //       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  //       'Access-Control-Allow-Origin': '*',
+  //       'Access-Control-Max-Age': '300',
+  //     });
+  //     return response.sendStatus(204);
+  //   }
+  //   response.set({
+  //     'Access-Control-Allow-Origin': '*',
+  //   });
+  //   return next();
+  // };
 
   if (logger.debug()) {
     app.use(
@@ -64,7 +60,7 @@ function createApp(
       extended: true,
     }),
   );
-  app.use(setCORSHeaders);
+  app.use(cors());
 
   routeConfig(
     app,

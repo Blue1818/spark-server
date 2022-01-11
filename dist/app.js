@@ -16,6 +16,8 @@ var _express = _interopRequireDefault(require("express"));
 
 var _bunyanMiddleware = _interopRequireDefault(require("bunyan-middleware"));
 
+var _cors = _interopRequireDefault(require("cors"));
+
 var _logger = _interopRequireDefault(require("./lib/logger"));
 
 var _RouteConfig = _interopRequireDefault(require("./RouteConfig"));
@@ -23,24 +25,26 @@ var _RouteConfig = _interopRequireDefault(require("./RouteConfig"));
 var logger = _logger["default"].createModuleLogger(module);
 
 function createApp(container, settings, existingApp) {
-  var app = existingApp || (0, _express["default"])();
-
-  var setCORSHeaders = function setCORSHeaders(request, response, next) {
-    if (request.method === 'OPTIONS') {
-      response.set({
-        'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type, Accept, Authorization',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Max-Age': '300'
-      });
-      return response.sendStatus(204);
-    }
-
-    response.set({
-      'Access-Control-Allow-Origin': '*'
-    });
-    return next();
-  };
+  var app = existingApp || (0, _express["default"])(); // const setCORSHeaders: Middleware<Request, $Response> = (
+  //   request: Request,
+  //   response: $Response,
+  //   next: NextFunction,
+  // ): mixed => {
+  //   if (request.method === 'OPTIONS') {
+  //     response.set({
+  //       'Access-Control-Allow-Headers':
+  //         'X-Requested-With, Content-Type, Accept, Authorization',
+  //       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  //       'Access-Control-Allow-Origin': '*',
+  //       'Access-Control-Max-Age': '300',
+  //     });
+  //     return response.sendStatus(204);
+  //   }
+  //   response.set({
+  //     'Access-Control-Allow-Origin': '*',
+  //   });
+  //   return next();
+  // };
 
   if (logger.debug()) {
     app.use((0, _bunyanMiddleware["default"])({
@@ -58,7 +62,7 @@ function createApp(container, settings, existingApp) {
   app.use(_bodyParser["default"].urlencoded({
     extended: true
   }));
-  app.use(setCORSHeaders);
+  app.use((0, _cors["default"])());
   (0, _RouteConfig["default"])(app, container, ['DeviceClaimsController', // to avoid routes collisions EventsController should be placed
   // before DevicesController
   'EventsController', 'EventsControllerV2', 'DevicesController', 'OauthClientsController', 'ProductsController', 'ProductsControllerV2', 'ProductFirmwaresController', 'ProductFirmwaresControllerV2', 'ProvisioningController', 'UsersController', 'WebhooksController'], settings);
