@@ -340,6 +340,25 @@ var ProductFirmwareDatabaseRepository = /*#__PURE__*/function (_BaseRepository) 
       };
     }());
     _this._database = database;
+
+    _this.tryCreateIndex({
+      product_id: 1
+    });
+
+    _this.tryCreateIndex({
+      ownerID: 1
+    });
+
+    _this.tryCreateIndex({
+      product_id: 1,
+      version: 1
+    });
+
+    _this.tryCreateIndex({
+      product_id: 1,
+      current: 1
+    });
+
     return _this;
   }
 

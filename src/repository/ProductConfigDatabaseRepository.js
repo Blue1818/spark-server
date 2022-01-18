@@ -19,6 +19,9 @@ class ProductConfigDatabaseRepository extends BaseRepository
   constructor(database: IBaseDatabase) {
     super(database, COLLECTION_NAMES.PRODUCT_CONFIGS);
     this._database = database;
+
+    this.tryCreateIndex({ ownerID: 1 });
+    this.tryCreateIndex({ product_id: 1 });
   }
 
   create: (model: $Shape<ProductConfig>) => Promise<ProductConfig> = async (

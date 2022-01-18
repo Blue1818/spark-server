@@ -15,6 +15,9 @@ class ProductDatabaseRepository extends BaseRepository
   constructor(database: IBaseDatabase) {
     super(database, COLLECTION_NAMES.PRODUCTS);
     this._database = database;
+
+    this.tryCreateIndex({ ownerID: 1 });
+    this.tryCreateIndex({ slug: 1 });
   }
 
   create: (model: $Shape<Product>) => Promise<Product> = async (

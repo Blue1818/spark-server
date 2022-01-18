@@ -22,6 +22,19 @@ class MongoDb extends BaseMongoDb implements IBaseDatabase {
     })();
   }
 
+  tryCreateIndex: (
+    collectionName: string,
+    indexConfig: Object,
+  ) => Promise<void> = async (
+    collectionName: string,
+    indexConfig: Object,
+  ): Promise<void> =>
+    this.__runForCollection(
+      collectionName,
+      async (collection: Object): Promise<number> =>
+        collection.createIndex(indexConfig),
+    );
+
   count: (string, query?: Object) => Promise<number> = async (
     collectionName: string,
     query?: Object = {},

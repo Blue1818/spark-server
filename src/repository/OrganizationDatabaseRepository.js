@@ -19,6 +19,9 @@ class OrganizationDatabaseRepository extends BaseRepository
   constructor(database: IBaseDatabase) {
     super(database, COLLECTION_NAMES.ORGANIZATIONS);
     this._database = database;
+
+    this.tryCreateIndex({ ownerID: 1 });
+    this.tryCreateIndex({ user_ids: 1 });
   }
 
   create: (model: $Shape<Organization>) => Promise<Organization> = async (

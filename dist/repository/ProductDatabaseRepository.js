@@ -324,6 +324,15 @@ var ProductDatabaseRepository = /*#__PURE__*/function (_BaseRepository) {
       };
     }());
     _this._database = database;
+
+    _this.tryCreateIndex({
+      ownerID: 1
+    });
+
+    _this.tryCreateIndex({
+      slug: 1
+    });
+
     return _this;
   }
 

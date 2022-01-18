@@ -193,6 +193,15 @@ var ProductConfigDatabaseRepository = /*#__PURE__*/function (_BaseRepository) {
       }, _callee6);
     })));
     _this._database = database;
+
+    _this.tryCreateIndex({
+      ownerID: 1
+    });
+
+    _this.tryCreateIndex({
+      product_id: 1
+    });
+
     return _this;
   }
 

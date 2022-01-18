@@ -13,6 +13,11 @@ class BaseRepository {
     this._collectionName = collectionName;
   }
 
+  tryCreateIndex: (indexConfig: Object) => Promise<void> = async (
+    indexConfig: Object,
+  ): Promise<void> =>
+    this._database.tryCreateIndex(this._collectionName, indexConfig);
+
   count: (Array<any>) => Promise<number> = async (
     ...filters: Array<any>
   ): Promise<number> =>

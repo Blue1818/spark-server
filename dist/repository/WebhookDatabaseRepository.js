@@ -172,6 +172,11 @@ var WebhookDatabaseRepository = /*#__PURE__*/function (_BaseRepository) {
       }, _callee5);
     })));
     _this._database = database;
+
+    _this.tryCreateIndex({
+      ownerID: 1
+    });
+
     return _this;
   }
 

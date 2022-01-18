@@ -417,6 +417,19 @@ var UserDatabaseRepository = /*#__PURE__*/function (_BaseRepository) {
       };
     }());
     _this._database = database;
+
+    _this.tryCreateIndex({
+      accessTokens: 1
+    });
+
+    _this.tryCreateIndex({
+      'accessTokens.accessToken': 1
+    });
+
+    _this.tryCreateIndex({
+      username: 1
+    });
+
     return _this;
   } // eslint-disable-next-line no-unused-vars
 

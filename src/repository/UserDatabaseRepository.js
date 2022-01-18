@@ -25,6 +25,10 @@ class UserDatabaseRepository extends BaseRepository implements IUserRepository {
   constructor(database: IBaseDatabase) {
     super(database, COLLECTION_NAMES.USERS);
     this._database = database;
+
+    this.tryCreateIndex({ accessTokens: 1 });
+    this.tryCreateIndex({ 'accessTokens.accessToken': 1 });
+    this.tryCreateIndex({ username: 1 });
   }
 
   // eslint-disable-next-line no-unused-vars

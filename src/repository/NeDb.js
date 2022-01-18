@@ -30,6 +30,17 @@ class NeDb extends BaseMongoDb implements IBaseDatabase {
     });
   }
 
+  tryCreateIndex: (
+    collectionName: string,
+    indexConfig: Object,
+  ) => Promise<void> = async (
+    collectionName: string,
+    indexConfig: Object,
+  ): Promise<void> =>
+    this.__runForCollection(collectionName, async (collection: Object) => {
+      collection.ensureIndex(indexConfig);
+    });
+
   count: (collectionName: string, query: Object) => Promise<number> = async (
     collectionName: string,
     query: Object,
@@ -133,13 +144,13 @@ class NeDb extends BaseMongoDb implements IBaseDatabase {
         promisify(collection, 'remove', query),
     );
 
-  __runForCollection: <TEntity>(
+  __runForCollection: <TResult>(
     collectionName: string,
-    callback: (collection: Object) => Promise<?TEntity>,
-  ) => Promise<?TEntity> = async <TEntity>(
+    callback: (collection: Object) => Promise<TResult>,
+  ) => Promise<TResult> = async <TResult>(
     collectionName: string,
-    callback: (collection: Object) => Promise<?TEntity>,
-  ): Promise<?TEntity> => callback(this._database[collectionName]);
+    callback: (collection: Object) => Promise<TResult>,
+  ): Promise<TResult> => callback(this._database[collectionName]);
 }
 
 export default NeDb;

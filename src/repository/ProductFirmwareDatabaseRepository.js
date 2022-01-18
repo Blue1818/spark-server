@@ -33,6 +33,11 @@ class ProductFirmwareDatabaseRepository extends BaseRepository
   constructor(database: IBaseDatabase) {
     super(database, COLLECTION_NAMES.PRODUCT_FIRMWARE);
     this._database = database;
+
+    this.tryCreateIndex({ product_id: 1 });
+    this.tryCreateIndex({ ownerID: 1 });
+    this.tryCreateIndex({ product_id: 1, version: 1 });
+    this.tryCreateIndex({ product_id: 1, current: 1 });
   }
 
   countByProductID: (productID: number, query?: Object) => Promise<number> = (

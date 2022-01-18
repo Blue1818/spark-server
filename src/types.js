@@ -340,4 +340,6 @@ export interface IBaseDatabase {
   findOne(collectionName: string, ...args: Array<any>): Promise<*>;
   insertOne(collectionName: string, ...args: Array<any>): Promise<*>;
   remove(collectionName: string, query: Object): Promise<*>;
+
+  tryCreateIndex(collectionName: string, index: Object): Promise<void>;
 }

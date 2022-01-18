@@ -20,6 +20,8 @@ class DeviceKeyDatabaseRepository extends BaseRepository
   constructor(database: IBaseDatabase) {
     super(database, COLLECTION_NAMES.DEVICE_KEYS);
     this._database = database;
+
+    this.tryCreateIndex({ deviceID: 1 });
   }
 
   create: DeviceKeyObject => Promise<DeviceKeyObject> = async (

@@ -307,6 +307,19 @@ var DeviceAttributeDatabaseRepository = /*#__PURE__*/function (_BaseRepository) 
     });
     _this._database = database;
     _this._productDeviceRepository = productDeviceRepository;
+
+    _this.tryCreateIndex({
+      ownerID: 1
+    });
+
+    _this.tryCreateIndex({
+      deviceID: 1
+    });
+
+    _this.tryCreateIndex({
+      name: 1
+    });
+
     return _this;
   }
 

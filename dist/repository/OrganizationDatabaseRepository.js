@@ -195,6 +195,15 @@ var OrganizationDatabaseRepository = /*#__PURE__*/function (_BaseRepository) {
       }, _callee6);
     })));
     _this._database = database;
+
+    _this.tryCreateIndex({
+      ownerID: 1
+    });
+
+    _this.tryCreateIndex({
+      user_ids: 1
+    });
+
     return _this;
   }
 

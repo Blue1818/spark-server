@@ -314,6 +314,28 @@ var ProductDeviceDatabaseRepository = /*#__PURE__*/function (_BaseRepository) {
       };
     }());
     _this._database = database;
+
+    _this.tryCreateIndex({
+      productID: 1
+    });
+
+    _this.tryCreateIndex({
+      productID: 1,
+      productFirmwareVersion: 1
+    });
+
+    _this.tryCreateIndex({
+      ownerID: 1
+    });
+
+    _this.tryCreateIndex({
+      deviceID: 1
+    });
+
+    _this.tryCreateIndex({
+      product_id: 1
+    });
+
     return _this;
   }
 

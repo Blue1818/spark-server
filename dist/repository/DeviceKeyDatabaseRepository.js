@@ -164,6 +164,11 @@ var DeviceKeyDatabaseRepository = /*#__PURE__*/function (_BaseRepository) {
       };
     }());
     _this._database = database;
+
+    _this.tryCreateIndex({
+      deviceID: 1
+    });
+
     return _this;
   }
 

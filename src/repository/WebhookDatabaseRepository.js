@@ -15,6 +15,8 @@ class WebhookDatabaseRepository extends BaseRepository
   constructor(database: IBaseDatabase) {
     super(database, COLLECTION_NAMES.WEBHOOKS);
     this._database = database;
+
+    this.tryCreateIndex({ ownerID: 1 });
   }
 
   create: (model: $Shape<Webhook>) => Promise<Webhook> = async (

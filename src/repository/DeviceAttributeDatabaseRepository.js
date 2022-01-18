@@ -27,6 +27,10 @@ class DeviceAttributeDatabaseRepository extends BaseRepository
     super(database, COLLECTION_NAMES.DEVICE_ATTRIBUTES);
     this._database = database;
     this._productDeviceRepository = productDeviceRepository;
+
+    this.tryCreateIndex({ ownerID: 1 });
+    this.tryCreateIndex({ deviceID: 1 });
+    this.tryCreateIndex({ name: 1 });
   }
 
   create: () => Promise<DeviceAttributes> = async (): Promise<DeviceAttributes> => {

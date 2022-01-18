@@ -19,6 +19,12 @@ class ProductDeviceDatabaseRepository extends BaseRepository
   constructor(database: IBaseDatabase) {
     super(database, COLLECTION_NAMES.PRODUCT_DEVICES);
     this._database = database;
+
+    this.tryCreateIndex({ productID: 1 });
+    this.tryCreateIndex({ productID: 1, productFirmwareVersion: 1 });
+    this.tryCreateIndex({ ownerID: 1 });
+    this.tryCreateIndex({ deviceID: 1 });
+    this.tryCreateIndex({ product_id: 1 });
   }
 
   countByProductID: (productID: number, query?: Object) => Promise<number> = (
