@@ -35,3 +35,5 @@ __test_data__
 *.pub.pem
 build
 .env
+
+settings.json

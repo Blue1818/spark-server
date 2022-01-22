@@ -23,6 +23,7 @@ import EventManager from './managers/EventManager';
 import PermissionManager from './managers/PermissionManager';
 import DeviceFirmwareFileRepository from './repository/DeviceFirmwareFileRepository';
 import NeDb from './repository/NeDb';
+import MongoDb from './repository/MongoDb';
 import DeviceAttributeDatabaseRepository from './repository/DeviceAttributeDatabaseRepository';
 import DeviceKeyDatabaseRepository from './repository/DeviceKeyDatabaseRepository';
 import OrganizationDatabaseRepository from './repository/OrganizationDatabaseRepository';
@@ -65,7 +66,6 @@ export default (container: Container, newSettings: Settings) => {
   });
 
   // settings
-  container.bindValue('DATABASE_PATH', settings.DB_CONFIG.PATH);
   container.bindValue('DEVICE_DIRECTORY', settings.DEVICE_DIRECTORY);
   container.bindValue('FIRMWARE_DIRECTORY', settings.FIRMWARE_DIRECTORY);
   container.bindValue('SERVER_KEY_FILENAME', settings.SERVER_KEY_FILENAME);
@@ -86,7 +86,17 @@ export default (container: Container, newSettings: Settings) => {
 
   container.bindClass('OAuthServer', OAuthServer, ['OAUTH_SETTINGS']);
 
-  container.bindClass('IDatabase', NeDb, ['DATABASE_PATH']);
+  if (settings.DB_CONFIG.DB_TYPE === 'mongodb') {
+    container.bindValue('DATABASE_URL', settings.DB_CONFIG.URL);
+    container.bindValue('DATABASE_OPTIONS', settings.DB_CONFIG.OPTIONS);
+    container.bindClass('IDatabase', MongoDb, [
+      'DATABASE_URL',
+      'DATABASE_OPTIONS',
+    ]);
+  } else {
+    container.bindValue('DATABASE_PATH', settings.DB_CONFIG.PATH);
+    container.bindClass('IDatabase', NeDb, ['DATABASE_PATH']);
+  }
 
   // controllers
   container.bindClass('DeviceClaimsController', DeviceClaimsController, [

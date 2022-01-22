@@ -20,7 +20,15 @@
  */
 
 import path from 'path';
+import fs from 'fs';
 import type { Settings } from './types';
+
+const SETTINGS_OVERRIDE_PATH = path.join(process.cwd(), 'settings.json');
+let settingsOverrides = {};
+if (fs.existsSync(SETTINGS_OVERRIDE_PATH)) {
+  settingsOverrides = JSON.parse(fs.readFileSync(SETTINGS_OVERRIDE_PATH));
+  console.log('Loading settings overrides: ', settingsOverrides);
+}
 
 const SETTINGS: Settings = {
   BUILD_DIRECTORY: path.join(process.cwd(), 'data/build'),
@@ -46,6 +54,7 @@ const SETTINGS: Settings = {
     USE_SSL: false,
   },
   DB_CONFIG: {
+    DB_TYPE: 'nedb',
     PATH: path.join(process.cwd(), 'data/db'),
   },
   SHOW_VERBOSE_DEVICE_LOGS: false,
@@ -58,6 +67,7 @@ const SETTINGS: Settings = {
   WEBHOOK_TEMPLATE_PARAMETERS: {
     // SOME_AUTH_TOKEN: '12312312',
   },
+  ...settingsOverrides,
 };
 
 export default SETTINGS;
