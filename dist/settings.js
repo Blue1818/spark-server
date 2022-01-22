@@ -1,5 +1,19 @@
 "use strict";
 
+var _Object$keys = require("@babel/runtime-corejs3/core-js-stable/object/keys");
+
+var _Object$getOwnPropertySymbols = require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-symbols");
+
+var _filterInstanceProperty = require("@babel/runtime-corejs3/core-js-stable/instance/filter");
+
+var _Object$getOwnPropertyDescriptor = require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-descriptor");
+
+var _forEachInstanceProperty = require("@babel/runtime-corejs3/core-js-stable/instance/for-each");
+
+var _Object$getOwnPropertyDescriptors = require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-descriptors");
+
+var _Object$defineProperties = require("@babel/runtime-corejs3/core-js-stable/object/define-properties");
+
 var _Object$defineProperty = require("@babel/runtime-corejs3/core-js-stable/object/define-property");
 
 var _interopRequireDefault = require("@babel/runtime-corejs3/helpers/interopRequireDefault");
@@ -10,29 +24,26 @@ _Object$defineProperty(exports, "__esModule", {
 
 exports["default"] = void 0;
 
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/defineProperty"));
+
 var _path = _interopRequireDefault(require("path"));
 
-/**
- *    Copyright (C) 2013-2014 Spark Labs, Inc. All rights reserved. -  https://www.spark.io/
- *
- *    This program is free software: you can redistribute it and/or modify
- *    it under the terms of the GNU Affero General Public License, version 3,
- *    as published by the Free Software Foundation.
- *
- *    This program is distributed in the hope that it will be useful,
- *    but WITHOUT ANY WARRANTY; without even the implied warranty of
- *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *    GNU Affero General Public License for more details.
- *
- *    You should have received a copy of the GNU Affero General Public License
- *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- *    You can download the source here: https://github.com/spark/spark-server
- *
- * 
- *
- */
-var SETTINGS = {
+var _fs = _interopRequireDefault(require("fs"));
+
+function ownKeys(object, enumerableOnly) { var keys = _Object$keys(object); if (_Object$getOwnPropertySymbols) { var symbols = _Object$getOwnPropertySymbols(object); if (enumerableOnly) { symbols = _filterInstanceProperty(symbols).call(symbols, function (sym) { return _Object$getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { var _context; _forEachInstanceProperty(_context = ownKeys(Object(source), true)).call(_context, function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }); } else if (_Object$getOwnPropertyDescriptors) { _Object$defineProperties(target, _Object$getOwnPropertyDescriptors(source)); } else { var _context2; _forEachInstanceProperty(_context2 = ownKeys(Object(source))).call(_context2, function (key) { _Object$defineProperty(target, key, _Object$getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+var SETTINGS_OVERRIDE_PATH = _path["default"].join(process.cwd(), 'settings.json');
+
+var settingsOverrides = {};
+
+if (_fs["default"].existsSync(SETTINGS_OVERRIDE_PATH)) {
+  settingsOverrides = JSON.parse(_fs["default"].readFileSync(SETTINGS_OVERRIDE_PATH));
+  console.log('Loading settings overrides: ', settingsOverrides);
+}
+
+var SETTINGS = _objectSpread({
   BUILD_DIRECTORY: _path["default"].join(process.cwd(), 'data/build'),
   DEFAULT_ADMIN_PASSWORD: 'adminPassword',
   DEFAULT_ADMIN_USERNAME: '__admin__',
@@ -58,6 +69,7 @@ var SETTINGS = {
     USE_SSL: false
   },
   DB_CONFIG: {
+    DB_TYPE: 'nedb',
     PATH: _path["default"].join(process.cwd(), 'data/db')
   },
   SHOW_VERBOSE_DEVICE_LOGS: false,
@@ -68,6 +80,7 @@ var SETTINGS = {
   // Override template parameters in webhooks with this object
   WEBHOOK_TEMPLATE_PARAMETERS: {// SOME_AUTH_TOKEN: '12312312',
   }
-};
+}, settingsOverrides);
+
 var _default = SETTINGS;
 exports["default"] = _default;

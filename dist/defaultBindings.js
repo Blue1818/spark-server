@@ -56,6 +56,8 @@ var _DeviceFirmwareFileRepository = _interopRequireDefault(require("./repository
 
 var _NeDb = _interopRequireDefault(require("./repository/NeDb"));
 
+var _MongoDb = _interopRequireDefault(require("./repository/MongoDb"));
+
 var _DeviceAttributeDatabaseRepository = _interopRequireDefault(require("./repository/DeviceAttributeDatabaseRepository"));
 
 var _DeviceKeyDatabaseRepository = _interopRequireDefault(require("./repository/DeviceKeyDatabaseRepository"));
@@ -103,7 +105,6 @@ var _default = function _default(container, newSettings) {
     TCP_DEVICE_SERVER_CONFIG: TCP_DEVICE_SERVER_CONFIG
   }); // settings
 
-  container.bindValue('DATABASE_PATH', _settings["default"].DB_CONFIG.PATH);
   container.bindValue('DEVICE_DIRECTORY', _settings["default"].DEVICE_DIRECTORY);
   container.bindValue('FIRMWARE_DIRECTORY', _settings["default"].FIRMWARE_DIRECTORY);
   container.bindValue('SERVER_KEY_FILENAME', _settings["default"].SERVER_KEY_FILENAME);
@@ -119,7 +120,16 @@ var _default = function _default(container, newSettings) {
   }, ['OAuthModel']);
   container.bindClass('OAuthModel', _OAuthModel["default"], ['IUserRepository']);
   container.bindClass('OAuthServer', _expressOauthServer["default"], ['OAUTH_SETTINGS']);
-  container.bindClass('IDatabase', _NeDb["default"], ['DATABASE_PATH']); // controllers
+
+  if (_settings["default"].DB_CONFIG.DB_TYPE === 'mongodb') {
+    container.bindValue('DATABASE_URL', _settings["default"].DB_CONFIG.URL);
+    container.bindValue('DATABASE_OPTIONS', _settings["default"].DB_CONFIG.OPTIONS);
+    container.bindClass('IDatabase', _MongoDb["default"], ['DATABASE_URL', 'DATABASE_OPTIONS']);
+  } else {
+    container.bindValue('DATABASE_PATH', _settings["default"].DB_CONFIG.PATH);
+    container.bindClass('IDatabase', _NeDb["default"], ['DATABASE_PATH']);
+  } // controllers
+
 
   container.bindClass('DeviceClaimsController', _DeviceClaimsController["default"], ['DeviceManager', 'ClaimCodeManager']);
   container.bindClass('DevicesController', _DevicesController["default"], ['DeviceManager']);

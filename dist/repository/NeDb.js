@@ -68,134 +68,162 @@ var NeDb = /*#__PURE__*/function (_BaseMongoDb) {
   var _super = _createSuper(NeDb);
 
   function NeDb(path) {
-    var _context15;
+    var _context16;
 
     var _this;
 
     (0, _classCallCheck2["default"])(this, NeDb);
     _this = _super.call(this);
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "_database", void 0);
-    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "tryCreateIndex", /*#__PURE__*/(0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
-      return _regenerator["default"].wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee);
-    })));
-    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "count", /*#__PURE__*/function () {
-      var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(collectionName, query) {
-        return _regenerator["default"].wrap(function _callee3$(_context3) {
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "tryCreateIndex", /*#__PURE__*/function () {
+      var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(collectionName, indexConfig) {
+        return _regenerator["default"].wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _context3.next = 2;
-                return _this.__runForCollection(collectionName, /*#__PURE__*/function () {
-                  var _ref3 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(collection) {
-                    return _regenerator["default"].wrap(function _callee2$(_context2) {
+                return _context2.abrupt("return", _this.__runForCollection(collectionName, /*#__PURE__*/function () {
+                  var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(collection) {
+                    return _regenerator["default"].wrap(function _callee$(_context) {
                       while (1) {
-                        switch (_context2.prev = _context2.next) {
+                        switch (_context.prev = _context.next) {
                           case 0:
-                            return _context2.abrupt("return", (0, _promisify.promisify)(collection, 'count', query));
+                            collection.ensureIndex(indexConfig);
 
                           case 1:
                           case "end":
-                            return _context2.stop();
+                            return _context.stop();
                         }
                       }
-                    }, _callee2);
+                    }, _callee);
                   }));
 
                   return function (_x3) {
-                    return _ref3.apply(this, arguments);
-                  };
-                }());
-
-              case 2:
-                _context3.t0 = _context3.sent;
-
-                if (_context3.t0) {
-                  _context3.next = 5;
-                  break;
-                }
-
-                _context3.t0 = 0;
-
-              case 5:
-                return _context3.abrupt("return", _context3.t0);
-
-              case 6:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }));
-
-      return function (_x, _x2) {
-        return _ref2.apply(this, arguments);
-      };
-    }());
-    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "insertOne", /*#__PURE__*/function () {
-      var _ref4 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(collectionName, entity) {
-        return _regenerator["default"].wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                return _context5.abrupt("return", _this.__runForCollection(collectionName, /*#__PURE__*/function () {
-                  var _ref5 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(collection) {
-                    var insertResult;
-                    return _regenerator["default"].wrap(function _callee4$(_context4) {
-                      while (1) {
-                        switch (_context4.prev = _context4.next) {
-                          case 0:
-                            _context4.next = 2;
-                            return (0, _promisify.promisify)(collection, 'insert', entity);
-
-                          case 2:
-                            insertResult = _context4.sent;
-                            return _context4.abrupt("return", _this.__translateResultItem(insertResult));
-
-                          case 4:
-                          case "end":
-                            return _context4.stop();
-                        }
-                      }
-                    }, _callee4);
-                  }));
-
-                  return function (_x6) {
-                    return _ref5.apply(this, arguments);
+                    return _ref2.apply(this, arguments);
                   };
                 }()));
 
               case 1:
               case "end":
-                return _context5.stop();
+                return _context2.stop();
             }
           }
-        }, _callee5);
+        }, _callee2);
+      }));
+
+      return function (_x, _x2) {
+        return _ref.apply(this, arguments);
+      };
+    }());
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "count", /*#__PURE__*/function () {
+      var _ref3 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(collectionName, query) {
+        return _regenerator["default"].wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return _this.__runForCollection(collectionName, /*#__PURE__*/function () {
+                  var _ref4 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(collection) {
+                    return _regenerator["default"].wrap(function _callee3$(_context3) {
+                      while (1) {
+                        switch (_context3.prev = _context3.next) {
+                          case 0:
+                            return _context3.abrupt("return", (0, _promisify.promisify)(collection, 'count', query));
+
+                          case 1:
+                          case "end":
+                            return _context3.stop();
+                        }
+                      }
+                    }, _callee3);
+                  }));
+
+                  return function (_x6) {
+                    return _ref4.apply(this, arguments);
+                  };
+                }());
+
+              case 2:
+                _context4.t0 = _context4.sent;
+
+                if (_context4.t0) {
+                  _context4.next = 5;
+                  break;
+                }
+
+                _context4.t0 = 0;
+
+              case 5:
+                return _context4.abrupt("return", _context4.t0);
+
+              case 6:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
       }));
 
       return function (_x4, _x5) {
-        return _ref4.apply(this, arguments);
+        return _ref3.apply(this, arguments);
+      };
+    }());
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "insertOne", /*#__PURE__*/function () {
+      var _ref5 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6(collectionName, entity) {
+        return _regenerator["default"].wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                return _context6.abrupt("return", _this.__runForCollection(collectionName, /*#__PURE__*/function () {
+                  var _ref6 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(collection) {
+                    var insertResult;
+                    return _regenerator["default"].wrap(function _callee5$(_context5) {
+                      while (1) {
+                        switch (_context5.prev = _context5.next) {
+                          case 0:
+                            _context5.next = 2;
+                            return (0, _promisify.promisify)(collection, 'insert', entity);
+
+                          case 2:
+                            insertResult = _context5.sent;
+                            return _context5.abrupt("return", _this.__translateResultItem(insertResult));
+
+                          case 4:
+                          case "end":
+                            return _context5.stop();
+                        }
+                      }
+                    }, _callee5);
+                  }));
+
+                  return function (_x9) {
+                    return _ref6.apply(this, arguments);
+                  };
+                }()));
+
+              case 1:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }));
+
+      return function (_x7, _x8) {
+        return _ref5.apply(this, arguments);
       };
     }());
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "find", /*#__PURE__*/function () {
-      var _ref6 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee7(collectionName, query) {
-        return _regenerator["default"].wrap(function _callee7$(_context7) {
+      var _ref7 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee8(collectionName, query) {
+        return _regenerator["default"].wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
-                return _context7.abrupt("return", _this.__runForCollection(collectionName, /*#__PURE__*/function () {
-                  var _ref7 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6(collection) {
+                return _context8.abrupt("return", _this.__runForCollection(collectionName, /*#__PURE__*/function () {
+                  var _ref8 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee7(collection) {
                     var skip, take, otherQuery, result, resultItems;
-                    return _regenerator["default"].wrap(function _callee6$(_context6) {
+                    return _regenerator["default"].wrap(function _callee7$(_context7) {
                       while (1) {
-                        switch (_context6.prev = _context6.next) {
+                        switch (_context7.prev = _context7.next) {
                           case 0:
                             skip = query.skip, take = query.take, otherQuery = (0, _objectWithoutProperties2["default"])(query, _excluded);
                             result = (0, _find["default"])(collection).call(collection, otherQuery);
@@ -208,182 +236,162 @@ var NeDb = /*#__PURE__*/function (_BaseMongoDb) {
                               result = result.limit(take);
                             }
 
-                            _context6.next = 6;
+                            _context7.next = 6;
                             return (0, _promisify.promisify)(result, 'exec');
 
                           case 6:
-                            resultItems = _context6.sent;
-                            return _context6.abrupt("return", (0, _map["default"])(resultItems).call(resultItems, _this.__translateResultItem));
+                            resultItems = _context7.sent;
+                            return _context7.abrupt("return", (0, _map["default"])(resultItems).call(resultItems, _this.__translateResultItem));
 
                           case 8:
                           case "end":
-                            return _context6.stop();
+                            return _context7.stop();
                         }
                       }
-                    }, _callee6);
+                    }, _callee7);
                   }));
 
-                  return function (_x9) {
-                    return _ref7.apply(this, arguments);
+                  return function (_x12) {
+                    return _ref8.apply(this, arguments);
                   };
                 }()));
 
               case 1:
               case "end":
-                return _context7.stop();
+                return _context8.stop();
             }
           }
-        }, _callee7);
+        }, _callee8);
       }));
 
-      return function (_x7, _x8) {
-        return _ref6.apply(this, arguments);
+      return function (_x10, _x11) {
+        return _ref7.apply(this, arguments);
       };
     }());
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "findAndModify", /*#__PURE__*/function () {
-      var _ref8 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee9(collectionName, query, updateQuery) {
-        return _regenerator["default"].wrap(function _callee9$(_context9) {
+      var _ref9 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee10(collectionName, query, updateQuery) {
+        return _regenerator["default"].wrap(function _callee10$(_context10) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
-                return _context9.abrupt("return", _this.__runForCollection(collectionName, /*#__PURE__*/function () {
-                  var _ref9 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee8(collection) {
+                return _context10.abrupt("return", _this.__runForCollection(collectionName, /*#__PURE__*/function () {
+                  var _ref10 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee9(collection) {
                     var _yield$promisify, _yield$promisify2, count, resultItem;
 
-                    return _regenerator["default"].wrap(function _callee8$(_context8) {
+                    return _regenerator["default"].wrap(function _callee9$(_context9) {
                       while (1) {
-                        switch (_context8.prev = _context8.next) {
+                        switch (_context9.prev = _context9.next) {
                           case 0:
-                            _context8.next = 2;
+                            _context9.next = 2;
                             return (0, _promisify.promisify)(collection, 'update', query, updateQuery, {
                               returnUpdatedDocs: true,
                               upsert: true
                             });
 
                           case 2:
-                            _yield$promisify = _context8.sent;
+                            _yield$promisify = _context9.sent;
                             _yield$promisify2 = (0, _slicedToArray2["default"])(_yield$promisify, 2);
                             count = _yield$promisify2[0];
                             // eslint-disable-line no-unused-vars
                             resultItem = _yield$promisify2[1];
-                            return _context8.abrupt("return", _this.__translateResultItem(resultItem));
+                            return _context9.abrupt("return", _this.__translateResultItem(resultItem));
 
                           case 7:
                           case "end":
-                            return _context8.stop();
+                            return _context9.stop();
                         }
                       }
-                    }, _callee8);
-                  }));
-
-                  return function (_x13) {
-                    return _ref9.apply(this, arguments);
-                  };
-                }()));
-
-              case 1:
-              case "end":
-                return _context9.stop();
-            }
-          }
-        }, _callee9);
-      }));
-
-      return function (_x10, _x11, _x12) {
-        return _ref8.apply(this, arguments);
-      };
-    }());
-    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "findOne", /*#__PURE__*/function () {
-      var _ref10 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee11(collectionName, query) {
-        return _regenerator["default"].wrap(function _callee11$(_context11) {
-          while (1) {
-            switch (_context11.prev = _context11.next) {
-              case 0:
-                return _context11.abrupt("return", _this.__runForCollection(collectionName, /*#__PURE__*/function () {
-                  var _ref11 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee10(collection) {
-                    var resultItem;
-                    return _regenerator["default"].wrap(function _callee10$(_context10) {
-                      while (1) {
-                        switch (_context10.prev = _context10.next) {
-                          case 0:
-                            _context10.next = 2;
-                            return (0, _promisify.promisify)(collection, 'findOne', query);
-
-                          case 2:
-                            resultItem = _context10.sent;
-                            return _context10.abrupt("return", _this.__translateResultItem(resultItem));
-
-                          case 4:
-                          case "end":
-                            return _context10.stop();
-                        }
-                      }
-                    }, _callee10);
+                    }, _callee9);
                   }));
 
                   return function (_x16) {
-                    return _ref11.apply(this, arguments);
+                    return _ref10.apply(this, arguments);
                   };
                 }()));
 
               case 1:
               case "end":
-                return _context11.stop();
+                return _context10.stop();
             }
           }
-        }, _callee11);
+        }, _callee10);
       }));
 
-      return function (_x14, _x15) {
-        return _ref10.apply(this, arguments);
+      return function (_x13, _x14, _x15) {
+        return _ref9.apply(this, arguments);
       };
     }());
-    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "remove", /*#__PURE__*/function () {
-      var _ref12 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee13(collectionName, query) {
-        return _regenerator["default"].wrap(function _callee13$(_context13) {
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "findOne", /*#__PURE__*/function () {
+      var _ref11 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee12(collectionName, query) {
+        return _regenerator["default"].wrap(function _callee12$(_context12) {
           while (1) {
-            switch (_context13.prev = _context13.next) {
+            switch (_context12.prev = _context12.next) {
               case 0:
-                return _context13.abrupt("return", _this.__runForCollection(collectionName, /*#__PURE__*/function () {
-                  var _ref13 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee12(collection) {
-                    return _regenerator["default"].wrap(function _callee12$(_context12) {
+                return _context12.abrupt("return", _this.__runForCollection(collectionName, /*#__PURE__*/function () {
+                  var _ref12 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee11(collection) {
+                    var resultItem;
+                    return _regenerator["default"].wrap(function _callee11$(_context11) {
                       while (1) {
-                        switch (_context12.prev = _context12.next) {
+                        switch (_context11.prev = _context11.next) {
                           case 0:
-                            return _context12.abrupt("return", (0, _promisify.promisify)(collection, 'remove', query));
+                            _context11.next = 2;
+                            return (0, _promisify.promisify)(collection, 'findOne', query);
 
-                          case 1:
+                          case 2:
+                            resultItem = _context11.sent;
+                            return _context11.abrupt("return", _this.__translateResultItem(resultItem));
+
+                          case 4:
                           case "end":
-                            return _context12.stop();
+                            return _context11.stop();
                         }
                       }
-                    }, _callee12);
+                    }, _callee11);
                   }));
 
                   return function (_x19) {
-                    return _ref13.apply(this, arguments);
+                    return _ref12.apply(this, arguments);
                   };
                 }()));
 
               case 1:
               case "end":
-                return _context13.stop();
+                return _context12.stop();
             }
           }
-        }, _callee13);
+        }, _callee12);
       }));
 
       return function (_x17, _x18) {
-        return _ref12.apply(this, arguments);
+        return _ref11.apply(this, arguments);
       };
     }());
-    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "__runForCollection", /*#__PURE__*/function () {
-      var _ref14 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee14(collectionName, callback) {
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "remove", /*#__PURE__*/function () {
+      var _ref13 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee14(collectionName, query) {
         return _regenerator["default"].wrap(function _callee14$(_context14) {
           while (1) {
             switch (_context14.prev = _context14.next) {
               case 0:
-                return _context14.abrupt("return", callback(_this._database[collectionName]));
+                return _context14.abrupt("return", _this.__runForCollection(collectionName, /*#__PURE__*/function () {
+                  var _ref14 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee13(collection) {
+                    return _regenerator["default"].wrap(function _callee13$(_context13) {
+                      while (1) {
+                        switch (_context13.prev = _context13.next) {
+                          case 0:
+                            return _context13.abrupt("return", (0, _promisify.promisify)(collection, 'remove', query));
+
+                          case 1:
+                          case "end":
+                            return _context13.stop();
+                        }
+                      }
+                    }, _callee13);
+                  }));
+
+                  return function (_x22) {
+                    return _ref14.apply(this, arguments);
+                  };
+                }()));
 
               case 1:
               case "end":
@@ -394,7 +402,27 @@ var NeDb = /*#__PURE__*/function (_BaseMongoDb) {
       }));
 
       return function (_x20, _x21) {
-        return _ref14.apply(this, arguments);
+        return _ref13.apply(this, arguments);
+      };
+    }());
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "__runForCollection", /*#__PURE__*/function () {
+      var _ref15 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee15(collectionName, callback) {
+        return _regenerator["default"].wrap(function _callee15$(_context15) {
+          while (1) {
+            switch (_context15.prev = _context15.next) {
+              case 0:
+                return _context15.abrupt("return", callback(_this._database[collectionName]));
+
+              case 1:
+              case "end":
+                return _context15.stop();
+            }
+          }
+        }, _callee15);
+      }));
+
+      return function (_x23, _x24) {
+        return _ref15.apply(this, arguments);
       };
     }());
 
@@ -403,13 +431,13 @@ var NeDb = /*#__PURE__*/function (_BaseMongoDb) {
     }
 
     _this._database = {};
-    (0, _forEach["default"])(_context15 = (0, _values["default"])(_collectionNames["default"])).call(_context15, function (collectionName) {
-      var _context16;
+    (0, _forEach["default"])(_context16 = (0, _values["default"])(_collectionNames["default"])).call(_context16, function (collectionName) {
+      var _context17;
 
       var colName = collectionName;
       _this._database[collectionName] = new _nedbCore["default"]({
         autoload: true,
-        filename: (0, _concat["default"])(_context16 = "".concat(path, "/")).call(_context16, colName, ".db")
+        filename: (0, _concat["default"])(_context17 = "".concat(path, "/")).call(_context17, colName, ".db")
       });
     });
     return _this;

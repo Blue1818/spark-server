@@ -6,9 +6,9 @@ An API compatible open source server for interacting with devices speaking the [
 
 We support
 
-* OTA Updates - user application as well as system updates
-* Product API - fleet management by grouping devices.
-* Firmware compilation
+- OTA Updates - user application as well as system updates
+- Product API - fleet management by grouping devices.
+- Firmware compilation
 
 <pre>
    __  __            __                 __        __                ____
@@ -30,7 +30,6 @@ a `.env` file in the server root.
 
 You'll need to create an OAuth token under your github settings with the `public_repo` permission
 
-
 The .env file needs the following:
 
 ```
@@ -38,11 +37,12 @@ GITHUB_AUTH_TOKEN=<github-token>
 ```
 
 Then run from the CLI:
+
 ```
 yarn install
 ```
 
-**You may need to run the install a few times in order to fetch all the binaries.** 
+**You may need to run the install a few times in order to fetch all the binaries.**
 Github limits you to 5000 requests per hour so you'd need to run it again after an hour.
 
 _At this point we will be setting up the server. You should change the default username + password in ./dist/settings.js_
@@ -101,7 +101,7 @@ particle login --username __admin__ --password adminPassword
 The default username is `__admin__` and password is `adminPassword`.
 
 This will create an account on the local cloud
-*This creates a config file located in the `%userprofile%/.particle%` folder*
+_This creates a config file located in the `%userprofile%/.particle%` folder_
 
 Perform CTRL + C once you logon with Particle-CLI asking you to send Wifi-credentials etc...
 
@@ -136,6 +136,7 @@ You'll need to run `particle config particle`, `particle keys server cloud_publi
 There is either a bug in the CLI or Particle always expects these newer devices to use UDP.
 
 Put your device in DFU mode and then:
+
 ```
 particle keys new test_key --protocol tcp
 particle keys load test_key.der
@@ -145,6 +146,20 @@ particle keys send XXXXXXXXXXXXXXXXXXXXXXXX test_key.pub.pem
 ---
 
 At this point you should be able to run normal cloud commands and flash binaries. You can add any webhooks you need, call functions, or get variable values.
+
+# Configuring Spark Server
+
+In most cases you'll want to connect to a MongoDB instance as it's going to be a lot more performant than using the built-in NeDB implementation.
+You may also want to change the default admin password or have your server use SSL certificates.
+
+**This can all be accomplished by creating a `settings.json` file in the root of the project.**
+
+1. `cd /my-root-where-i-have-the-repo`
+2. `cp settings.example.json settings.json`
+3. [Edit the json with any of the keys that are set in settings.js](https://github.com/Brewskey/spark-server/blob/dev/src/settings.js#L33-L71)
+4. Run `npm install` if you changed some directories of the binaries (I'd do it just to be safe anyways)
+5. `npm run start:prod`
+6. You should see the JSON changes you made log in the console and the server should run with your changes.
 
 # Electron Support
 
@@ -166,16 +181,16 @@ The way the system stores data has changed.
 
 On first run the server creates the following directories for storing data about your local cloud:
 
-* `data/`
-* The cloud keys `default_key.pem` and `default_key.pub.pem` go directly in here. Previously these keys lived in the main directory.
-* `data/deviceKeys/`
-* Device keys (.pub.pem) and information (.json) for each device live in here. Previously these were found in `core_keys/`
-* `data/users/`
-* User account data (.json) for each user live in here. Previously stored in `users/`
-* `data/knownApps/`
-* ???
-* `data/webhooks/`
-* ???
+- `data/`
+- The cloud keys `default_key.pem` and `default_key.pub.pem` go directly in here. Previously these keys lived in the main directory.
+- `data/deviceKeys/`
+- Device keys (.pub.pem) and information (.json) for each device live in here. Previously these were found in `core_keys/`
+- `data/users/`
+- User account data (.json) for each user live in here. Previously stored in `users/`
+- `data/knownApps/`
+- ???
+- `data/webhooks/`
+- ???
 
 # What kind of project is this?
 
@@ -256,8 +271,8 @@ Publish an event
 
 # What API features are missing
 
-* the build IDE is not part of this release, but may be released separately later
-* massive enterprise magic super horizontal scaling powers
+- the build IDE is not part of this release, but may be released separately later
+- massive enterprise magic super horizontal scaling powers
 
 # Known Limitations
 
