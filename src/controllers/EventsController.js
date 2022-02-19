@@ -49,7 +49,7 @@ class EventsController extends Controller {
       eventNamePrefix,
       // eslint-disable-next-line flowtype/require-parameter-type, flowtype/require-return-type
       (...params) => this._pipeEvent(...params),
-      ...this._getUserFilter(),
+      this._getUserFilter(),
     );
     const keepAliveIntervalID = this._startKeepAlive();
 

@@ -221,7 +221,7 @@ class DeviceManager {
 
     const flashResponse = await this._eventPublisher.publishAndListenForResponse(
       {
-        context: { deviceID, fileBuffer: file.buffer },
+        context: { deviceID, fileBuffer: file.buffer, fileName: file.name },
         name: SPARK_SERVER_EVENTS.FLASH_DEVICE,
       },
     );
@@ -251,7 +251,7 @@ class DeviceManager {
 
     const flashResponse = await this._eventPublisher.publishAndListenForResponse(
       {
-        context: { deviceID, fileBuffer: knownFirmware },
+        context: { deviceID, fileBuffer: knownFirmware, fileName: appName },
         name: SPARK_SERVER_EVENTS.FLASH_DEVICE,
       },
     );

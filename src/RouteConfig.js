@@ -11,6 +11,8 @@ import nullthrows from 'nullthrows';
 import multer from 'multer';
 import HttpError from './lib/HttpError';
 import type { Request, Settings } from './types';
+import Logger from './lib/logger';
+const logger = Logger.createModuleLogger(module);
 
 const maybe = (
   middleware: (req: Request, res: $Response, next: NextFunction) => mixed,
@@ -145,6 +147,7 @@ export default (
                 body[name] = maxCount === 1 ? file[0] : file;
               },
             );
+
             const functionResult = mappedFunction.call(
               controllerInstance,
               ...values,
@@ -152,9 +155,10 @@ export default (
             );
 
             // For SSE routes we don't return a result
-            if (functionResult == null) {
+            if (serverSentEvents) {
               return;
             }
+            logger.info('FunctionResult', functionResult);
 
             if (functionResult.then) {
               const result = !serverSentEvents
@@ -180,6 +184,7 @@ export default (
               response.status(functionResult.status).json(functionResult.data);
             }
           } catch (error) {
+            logger.error(error);
             const httpError = new HttpError(error);
             response.status(httpError.status).json({
               error: httpError.message,
