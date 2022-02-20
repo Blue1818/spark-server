@@ -158,7 +158,6 @@ export default (
             if (serverSentEvents) {
               return;
             }
-            logger.info('FunctionResult', functionResult);
 
             if (functionResult.then) {
               const result = !serverSentEvents

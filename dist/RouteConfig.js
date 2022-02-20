@@ -168,52 +168,50 @@ var _default = function _default(app, container, controllers, settings) {
                   return _context5.abrupt("return");
 
                 case 13:
-                  logger.info('FunctionResult', functionResult);
-
                   if (!functionResult.then) {
-                    _context5.next = 28;
+                    _context5.next = 27;
                     break;
                   }
 
                   if (serverSentEvents) {
-                    _context5.next = 21;
+                    _context5.next = 20;
                     break;
                   }
 
-                  _context5.next = 18;
+                  _context5.next = 17;
                   return _promise["default"].race([functionResult, new _promise["default"](function (resolve, reject) {
                     return (0, _setTimeout2["default"])(function () {
                       return reject(new Error('timeout'));
                     }, settings.API_TIMEOUT);
                   })]);
 
-                case 18:
+                case 17:
                   _context5.t0 = _context5.sent;
-                  _context5.next = 24;
+                  _context5.next = 23;
                   break;
 
-                case 21:
-                  _context5.next = 23;
+                case 20:
+                  _context5.next = 22;
                   return functionResult;
 
-                case 23:
+                case 22:
                   _context5.t0 = _context5.sent;
 
-                case 24:
+                case 23:
                   result = _context5.t0;
                   response.status((0, _nullthrows["default"])(result).status).json((0, _nullthrows["default"])(result).data);
-                  _context5.next = 29;
+                  _context5.next = 28;
                   break;
 
-                case 28:
+                case 27:
                   response.status(functionResult.status).json(functionResult.data);
 
-                case 29:
-                  _context5.next = 36;
+                case 28:
+                  _context5.next = 35;
                   break;
 
-                case 31:
-                  _context5.prev = 31;
+                case 30:
+                  _context5.prev = 30;
                   _context5.t1 = _context5["catch"](8);
                   logger.error(_context5.t1);
                   httpError = new _HttpError["default"](_context5.t1);
@@ -222,12 +220,12 @@ var _default = function _default(app, container, controllers, settings) {
                     ok: false
                   });
 
-                case 36:
+                case 35:
                 case "end":
                   return _context5.stop();
               }
             }
-          }, _callee, null, [[8, 31]]);
+          }, _callee, null, [[8, 30]]);
         }));
 
         return function (_x, _x2) {
