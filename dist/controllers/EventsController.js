@@ -26,8 +26,6 @@ _Object$defineProperty(exports, "__esModule", {
 
 exports["default"] = void 0;
 
-var _concat = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/instance/concat"));
-
 var _setInterval2 = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/set-interval"));
 
 var _stringify = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/json/stringify"));
@@ -35,8 +33,6 @@ var _stringify = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-
 var _getOwnPropertyDescriptor = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-descriptor"));
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime-corejs3/regenerator"));
-
-var _toConsumableArray2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/toConsumableArray"));
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime-corejs3/helpers/asyncToGenerator"));
 
@@ -74,7 +70,7 @@ var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11
 
 function ownKeys(object, enumerableOnly) { var keys = _Object$keys(object); if (_Object$getOwnPropertySymbols) { var symbols = _Object$getOwnPropertySymbols(object); if (enumerableOnly) { symbols = _filterInstanceProperty(symbols).call(symbols, function (sym) { return _Object$getOwnPropertyDescriptor2(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { var _context7; _forEachInstanceProperty(_context7 = ownKeys(Object(source), true)).call(_context7, function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }); } else if (_Object$getOwnPropertyDescriptors) { _Object$defineProperties(target, _Object$getOwnPropertyDescriptors(source)); } else { var _context8; _forEachInstanceProperty(_context8 = ownKeys(Object(source))).call(_context8, function (key) { _Object$defineProperty(target, key, _Object$getOwnPropertyDescriptor2(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { var _context6; _forEachInstanceProperty(_context6 = ownKeys(Object(source), true)).call(_context6, function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }); } else if (_Object$getOwnPropertyDescriptors) { _Object$defineProperties(target, _Object$getOwnPropertyDescriptors(source)); } else { var _context7; _forEachInstanceProperty(_context7 = ownKeys(Object(source))).call(_context7, function (key) { _Object$defineProperty(target, key, _Object$getOwnPropertyDescriptor2(source, key)); }); } } return target; }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = _Reflect$construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
 
@@ -132,26 +128,24 @@ var EventsController = (_dec = (0, _httpVerb["default"])('post'), _dec2 = (0, _r
     key: "getEvents",
     value: function () {
       var _getEvents = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(eventNamePrefix) {
-        var _this$_eventManager,
-            _context2,
-            _this2 = this;
+        var _this2 = this;
 
         var subscriptionID, keepAliveIntervalID;
-        return _regenerator["default"].wrap(function _callee2$(_context3) {
+        return _regenerator["default"].wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                subscriptionID = (_this$_eventManager = this._eventManager).subscribe.apply(_this$_eventManager, (0, _concat["default"])(_context2 = [eventNamePrefix, // eslint-disable-next-line flowtype/require-parameter-type, flowtype/require-return-type
+                subscriptionID = this._eventManager.subscribe(eventNamePrefix, // eslint-disable-next-line flowtype/require-parameter-type, flowtype/require-return-type
                 function () {
                   return _this2._pipeEvent.apply(_this2, arguments);
-                }]).call(_context2, (0, _toConsumableArray2["default"])(this._getUserFilter())));
+                }, this._getUserFilter());
                 keepAliveIntervalID = this._startKeepAlive();
 
                 this._closeStream(subscriptionID, keepAliveIntervalID);
 
               case 3:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
         }, _callee2, this);
@@ -170,9 +164,9 @@ var EventsController = (_dec = (0, _httpVerb["default"])('post'), _dec2 = (0, _r
         var _this3 = this;
 
         var subscriptionID, keepAliveIntervalID;
-        return _regenerator["default"].wrap(function _callee3$(_context4) {
+        return _regenerator["default"].wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 subscriptionID = this._eventManager.subscribe(eventNamePrefix, // eslint-disable-next-line flowtype/require-parameter-type, flowtype/require-return-type
                 function () {
@@ -186,7 +180,7 @@ var EventsController = (_dec = (0, _httpVerb["default"])('post'), _dec2 = (0, _r
 
               case 3:
               case "end":
-                return _context4.stop();
+                return _context3.stop();
             }
           }
         }, _callee3, this);
@@ -205,15 +199,15 @@ var EventsController = (_dec = (0, _httpVerb["default"])('post'), _dec2 = (0, _r
         var _this4 = this;
 
         var deviceID, subscriptionID, keepAliveIntervalID;
-        return _regenerator["default"].wrap(function _callee4$(_context5) {
+        return _regenerator["default"].wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                _context5.next = 2;
+                _context4.next = 2;
                 return this._deviceManager.getDeviceID(deviceIDorName);
 
               case 2:
-                deviceID = _context5.sent;
+                deviceID = _context4.sent;
                 subscriptionID = this._eventManager.subscribe(eventNamePrefix, // eslint-disable-next-line flowtype/require-parameter-type, flowtype/require-return-type
                 function () {
                   return _this4._pipeEvent.apply(_this4, arguments);
@@ -226,7 +220,7 @@ var EventsController = (_dec = (0, _httpVerb["default"])('post'), _dec2 = (0, _r
 
               case 6:
               case "end":
-                return _context5.stop();
+                return _context4.stop();
             }
           }
         }, _callee4, this);
@@ -243,9 +237,9 @@ var EventsController = (_dec = (0, _httpVerb["default"])('post'), _dec2 = (0, _r
     value: function () {
       var _publish = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(postBody) {
         var eventData;
-        return _regenerator["default"].wrap(function _callee5$(_context6) {
+        return _regenerator["default"].wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 eventData = _objectSpread({
                   data: postBody.data,
@@ -256,13 +250,13 @@ var EventsController = (_dec = (0, _httpVerb["default"])('post'), _dec2 = (0, _r
 
                 this._eventManager.publish(eventData);
 
-                return _context6.abrupt("return", this.ok({
+                return _context5.abrupt("return", this.ok({
                   ok: true
                 }));
 
               case 3:
               case "end":
-                return _context6.stop();
+                return _context5.stop();
             }
           }
         }, _callee5, this);

@@ -40,7 +40,11 @@ var _multer = _interopRequireDefault(require("multer"));
 
 var _HttpError = _interopRequireDefault(require("./lib/HttpError"));
 
+var _logger = _interopRequireDefault(require("./lib/logger"));
+
 var _excluded = ["access_token"];
+
+var logger = _logger["default"].createModuleLogger(module);
 
 var maybe = function maybe(middleware, condition) {
   return function (request, response, next) {
@@ -156,7 +160,7 @@ var _default = function _default(app, container, controllers, settings) {
                   });
                   functionResult = mappedFunction.call.apply(mappedFunction, (0, _concat["default"])(_context4 = [controllerInstance]).call(_context4, (0, _toConsumableArray2["default"])(values), [body])); // For SSE routes we don't return a result
 
-                  if (!(functionResult == null)) {
+                  if (!serverSentEvents) {
                     _context5.next = 13;
                     break;
                   }
@@ -164,63 +168,66 @@ var _default = function _default(app, container, controllers, settings) {
                   return _context5.abrupt("return");
 
                 case 13:
+                  logger.info('FunctionResult', functionResult);
+
                   if (!functionResult.then) {
-                    _context5.next = 27;
+                    _context5.next = 28;
                     break;
                   }
 
                   if (serverSentEvents) {
-                    _context5.next = 20;
+                    _context5.next = 21;
                     break;
                   }
 
-                  _context5.next = 17;
+                  _context5.next = 18;
                   return _promise["default"].race([functionResult, new _promise["default"](function (resolve, reject) {
                     return (0, _setTimeout2["default"])(function () {
                       return reject(new Error('timeout'));
                     }, settings.API_TIMEOUT);
                   })]);
 
-                case 17:
+                case 18:
                   _context5.t0 = _context5.sent;
-                  _context5.next = 23;
+                  _context5.next = 24;
                   break;
 
-                case 20:
-                  _context5.next = 22;
+                case 21:
+                  _context5.next = 23;
                   return functionResult;
 
-                case 22:
+                case 23:
                   _context5.t0 = _context5.sent;
 
-                case 23:
+                case 24:
                   result = _context5.t0;
                   response.status((0, _nullthrows["default"])(result).status).json((0, _nullthrows["default"])(result).data);
-                  _context5.next = 28;
+                  _context5.next = 29;
                   break;
-
-                case 27:
-                  response.status(functionResult.status).json(functionResult.data);
 
                 case 28:
-                  _context5.next = 34;
+                  response.status(functionResult.status).json(functionResult.data);
+
+                case 29:
+                  _context5.next = 36;
                   break;
 
-                case 30:
-                  _context5.prev = 30;
+                case 31:
+                  _context5.prev = 31;
                   _context5.t1 = _context5["catch"](8);
+                  logger.error(_context5.t1);
                   httpError = new _HttpError["default"](_context5.t1);
                   response.status(httpError.status).json({
                     error: httpError.message,
                     ok: false
                   });
 
-                case 34:
+                case 36:
                 case "end":
                   return _context5.stop();
               }
             }
-          }, _callee, null, [[8, 30]]);
+          }, _callee, null, [[8, 31]]);
         }));
 
         return function (_x, _x2) {

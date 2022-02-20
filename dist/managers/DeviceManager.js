@@ -529,7 +529,8 @@ var DeviceManager = /*#__PURE__*/function () {
                 return this._eventPublisher.publishAndListenForResponse({
                   context: {
                     deviceID: deviceID,
-                    fileBuffer: file.buffer
+                    fileBuffer: file.buffer,
+                    fileName: file.name
                   },
                   name: _sparkProtocol.SPARK_SERVER_EVENTS.FLASH_DEVICE
                 });
@@ -589,7 +590,8 @@ var DeviceManager = /*#__PURE__*/function () {
                 return this._eventPublisher.publishAndListenForResponse({
                   context: {
                     deviceID: deviceID,
-                    fileBuffer: knownFirmware
+                    fileBuffer: knownFirmware,
+                    fileName: appName
                   },
                   name: _sparkProtocol.SPARK_SERVER_EVENTS.FLASH_DEVICE
                 });
