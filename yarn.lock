@@ -6817,7 +6817,7 @@
   "version" "0.6.1"
 
 "spark-protocol@github:Brewskey/spark-protocol#dev":
-  "resolved" "git+ssh://git@github.com/Brewskey/spark-protocol.git#633f917b3772b3a611c3e72b2cf9ea032b30c5ae"
+  "resolved" "git+ssh://git@github.com/Brewskey/spark-protocol.git#ed82ce8d5a1ecaa1650fac65ecf900fbae7a4c08"
   "version" "0.1.7"
   dependencies:
     "@babel/runtime" "^7.16.5"
