@@ -29,7 +29,7 @@
   "scripts": {
     "build": "babel ./src --out-dir ./dist --copy-files",
     "build:clean": "rimraf ./build",
-    "build:watch": "babel ./src --out-dir ./dist --watch",
+    "build:watch": "babel ./src --out-dir ./dist --watch src --watch ../spark-protocol/dist --ignore data",
     "lint": "eslint --fix --max-warnings 0 -- .",
     "lint-staged": "lint-staged",
     "migrate-files-to-mongo": "npx babel-node ./src/scripts/migrateFilesToDatabase mongo",
