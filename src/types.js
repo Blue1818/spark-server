@@ -143,6 +143,7 @@ export type Settings = {
   BUILD_DIRECTORY: string,
   CRYPTO_ALGORITHM: string,
   DB_CONFIG: {
+    DB_TYPE: 'nedb' | 'mongodb',
     OPTIONS?: Object,
     PATH?: string,
     URL?: string,
@@ -172,6 +173,9 @@ export type Settings = {
   USERS_DIRECTORY: string,
   WEBHOOK_TEMPLATE_PARAMETERS: { [key: string]: string },
   WEBHOOKS_DIRECTORY: string,
+  // Sometimes the device keys become corrupted (or you might have forgotten to update the key)
+  // This will save the key for the device instead of using CLI to set it.
+  ALLOW_DEVICE_TO_PROVIDE_PEM?: boolean,
 };
 
 export type RequestOptions = {

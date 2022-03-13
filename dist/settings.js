@@ -60,7 +60,7 @@ var SETTINGS = _objectSpread({
   API_TIMEOUT: 30000,
   // Timeout for API requests.
   CRYPTO_ALGORITHM: 'aes-128-cbc',
-  LOG_LEVEL: process.env.LOG_LEVEL || 'info',
+  LOG_LEVEL: process.env.LOG_LEVEL || 'error',
   LOGIN_ROUTE: '/oauth/token',
   EXPRESS_SERVER_CONFIG: {
     PORT: 8080,
