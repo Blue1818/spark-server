@@ -118,6 +118,7 @@ var _default = function _default(container, newSettings) {
       model: oauthModel
     };
   }, ['OAuthModel']);
+  container.bindValue('ALLOW_DEVICE_TO_PROVIDE_PEM', _settings["default"].ALLOW_DEVICE_TO_PROVIDE_PEM);
   container.bindClass('OAuthModel', _OAuthModel["default"], ['IUserRepository']);
   container.bindClass('OAuthServer', _expressOauthServer["default"], ['OAUTH_SETTINGS']);
 

@@ -47,7 +47,7 @@ const SETTINGS: Settings = {
   ACCESS_TOKEN_LIFETIME: 7776000, // 90 days,
   API_TIMEOUT: 30000, // Timeout for API requests.
   CRYPTO_ALGORITHM: 'aes-128-cbc',
-  LOG_LEVEL: (process.env.LOG_LEVEL: any) || 'error',
+  LOG_LEVEL: (process.env.LOG_LEVEL: any) || 'info',
   LOGIN_ROUTE: '/oauth/token',
   EXPRESS_SERVER_CONFIG: {
     PORT: 8080,
@@ -69,6 +69,7 @@ const SETTINGS: Settings = {
   WEBHOOK_TEMPLATE_PARAMETERS: {
     // SOME_AUTH_TOKEN: '12312312',
   },
+  ALLOW_DEVICE_TO_PROVIDE_PEM: true,
   ...settingsOverrides,
 };
 

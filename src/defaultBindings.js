@@ -81,6 +81,10 @@ export default (container: Container, newSettings: Settings) => {
     }),
     ['OAuthModel'],
   );
+  container.bindValue(
+    'ALLOW_DEVICE_TO_PROVIDE_PEM',
+    settings.ALLOW_DEVICE_TO_PROVIDE_PEM,
+  );
 
   container.bindClass('OAuthModel', OAuthModel, ['IUserRepository']);
 
