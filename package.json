@@ -34,7 +34,6 @@
     "lint-staged": "lint-staged",
     "migrate-files-to-mongo": "npx babel-node ./src/scripts/migrateFilesToDatabase mongo",
     "migrate-files-to-nedb": "npx babel-node ./src/scripts/migrateFilesToDatabase nedb",
-    "postinstall": "npx update-firmware",
     "prebuild": "npm run build:clean",
     "prettify": "prettier --single-quote --trailing-comma all --write",
     "start": "nodemon --exec npx babel-node ./src/main.js --watch src --watch ../spark-protocol/dist --ignore data | bunyan",
