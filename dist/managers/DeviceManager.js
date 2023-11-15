@@ -52,7 +52,7 @@ var _excluded = ["connected"];
 
 function ownKeys(object, enumerableOnly) { var keys = _Object$keys(object); if (_Object$getOwnPropertySymbols) { var symbols = _Object$getOwnPropertySymbols(object); if (enumerableOnly) { symbols = _filterInstanceProperty(symbols).call(symbols, function (sym) { return _Object$getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { var _context16; _forEachInstanceProperty(_context16 = ownKeys(Object(source), true)).call(_context16, function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }); } else if (_Object$getOwnPropertyDescriptors) { _Object$defineProperties(target, _Object$getOwnPropertyDescriptors(source)); } else { var _context17; _forEachInstanceProperty(_context17 = ownKeys(Object(source))).call(_context17, function (key) { _Object$defineProperty(target, key, _Object$getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { var _context17; _forEachInstanceProperty(_context17 = ownKeys(Object(source), true)).call(_context17, function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }); } else if (_Object$getOwnPropertyDescriptors) { _Object$defineProperties(target, _Object$getOwnPropertyDescriptors(source)); } else { var _context18; _forEachInstanceProperty(_context18 = ownKeys(Object(source))).call(_context18, function (key) { _Object$defineProperty(target, key, _Object$getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 var DeviceManager = /*#__PURE__*/function () {
   function DeviceManager(deviceAttributeRepository, deviceFirmwareRepository, deviceKeyRepository, permissionManager, eventPublisher) {
@@ -513,10 +513,10 @@ var DeviceManager = /*#__PURE__*/function () {
       return getVariableValue;
     }()
   }, {
-    key: "flashBinary",
+    key: "forceFirmwareUpdate",
     value: function () {
-      var _flashBinary = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee10(deviceID, file) {
-        var flashResponse, error;
+      var _forceFirmwareUpdate = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee10(deviceID) {
+        var getVariableResponse, error, result;
         return _regenerator["default"].wrap(function _callee10$(_context10) {
           while (1) {
             switch (_context10.prev = _context10.next) {
@@ -528,16 +528,14 @@ var DeviceManager = /*#__PURE__*/function () {
                 _context10.next = 4;
                 return this._eventPublisher.publishAndListenForResponse({
                   context: {
-                    deviceID: deviceID,
-                    fileBuffer: file.buffer,
-                    fileName: file.name
+                    deviceID: deviceID
                   },
-                  name: _sparkProtocol.SPARK_SERVER_EVENTS.FLASH_DEVICE
+                  name: _sparkProtocol.SPARK_SERVER_EVENTS.GET_DEVICE_VARIABLE_VALUE
                 });
 
               case 4:
-                flashResponse = _context10.sent;
-                error = flashResponse.error;
+                getVariableResponse = _context10.sent;
+                error = getVariableResponse.error, result = getVariableResponse.result;
 
                 if (!error) {
                   _context10.next = 8;
@@ -547,7 +545,7 @@ var DeviceManager = /*#__PURE__*/function () {
                 throw new _HttpError["default"](error);
 
               case 8:
-                return _context10.abrupt("return", flashResponse);
+                return _context10.abrupt("return", result);
 
               case 9:
               case "end":
@@ -557,17 +555,17 @@ var DeviceManager = /*#__PURE__*/function () {
         }, _callee10, this);
       }));
 
-      function flashBinary(_x13, _x14) {
-        return _flashBinary.apply(this, arguments);
+      function forceFirmwareUpdate(_x13) {
+        return _forceFirmwareUpdate.apply(this, arguments);
       }
 
-      return flashBinary;
+      return forceFirmwareUpdate;
     }()
   }, {
-    key: "flashKnownApp",
+    key: "flashBinary",
     value: function () {
-      var _flashKnownApp = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee11(deviceID, appName) {
-        var knownFirmware, flashResponse, error;
+      var _flashBinary = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee11(deviceID, file) {
+        var flashResponse, error;
         return _regenerator["default"].wrap(function _callee11$(_context11) {
           while (1) {
             switch (_context11.prev = _context11.next) {
@@ -576,17 +574,68 @@ var DeviceManager = /*#__PURE__*/function () {
                 return this._permissionManager.checkPermissionsForEntityByID('deviceAttributes', deviceID);
 
               case 2:
+                _context11.next = 4;
+                return this._eventPublisher.publishAndListenForResponse({
+                  context: {
+                    deviceID: deviceID,
+                    fileBuffer: file.buffer,
+                    fileName: file.name
+                  },
+                  name: _sparkProtocol.SPARK_SERVER_EVENTS.FLASH_DEVICE
+                });
+
+              case 4:
+                flashResponse = _context11.sent;
+                error = flashResponse.error;
+
+                if (!error) {
+                  _context11.next = 8;
+                  break;
+                }
+
+                throw new _HttpError["default"](error);
+
+              case 8:
+                return _context11.abrupt("return", flashResponse);
+
+              case 9:
+              case "end":
+                return _context11.stop();
+            }
+          }
+        }, _callee11, this);
+      }));
+
+      function flashBinary(_x14, _x15) {
+        return _flashBinary.apply(this, arguments);
+      }
+
+      return flashBinary;
+    }()
+  }, {
+    key: "flashKnownApp",
+    value: function () {
+      var _flashKnownApp = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee12(deviceID, appName) {
+        var knownFirmware, flashResponse, error;
+        return _regenerator["default"].wrap(function _callee12$(_context12) {
+          while (1) {
+            switch (_context12.prev = _context12.next) {
+              case 0:
+                _context12.next = 2;
+                return this._permissionManager.checkPermissionsForEntityByID('deviceAttributes', deviceID);
+
+              case 2:
                 knownFirmware = this._deviceFirmwareRepository.getByName(appName);
 
                 if (knownFirmware) {
-                  _context11.next = 5;
+                  _context12.next = 5;
                   break;
                 }
 
                 throw new _HttpError["default"]("No firmware ".concat(appName, " found"), 404);
 
               case 5:
-                _context11.next = 7;
+                _context12.next = 7;
                 return this._eventPublisher.publishAndListenForResponse({
                   context: {
                     deviceID: deviceID,
@@ -597,28 +646,28 @@ var DeviceManager = /*#__PURE__*/function () {
                 });
 
               case 7:
-                flashResponse = _context11.sent;
+                flashResponse = _context12.sent;
                 error = flashResponse.error;
 
                 if (!error) {
-                  _context11.next = 11;
+                  _context12.next = 11;
                   break;
                 }
 
                 throw new _HttpError["default"](error);
 
               case 11:
-                return _context11.abrupt("return", flashResponse);
+                return _context12.abrupt("return", flashResponse);
 
               case 12:
               case "end":
-                return _context11.stop();
+                return _context12.stop();
             }
           }
-        }, _callee11, this);
+        }, _callee12, this);
       }));
 
-      function flashKnownApp(_x15, _x16) {
+      function flashKnownApp(_x16, _x17) {
         return _flashKnownApp.apply(this, arguments);
       }
 
@@ -640,16 +689,16 @@ var DeviceManager = /*#__PURE__*/function () {
   }, {
     key: "ping",
     value: function () {
-      var _ping = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee12(deviceID) {
-        return _regenerator["default"].wrap(function _callee12$(_context12) {
+      var _ping = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee13(deviceID) {
+        return _regenerator["default"].wrap(function _callee13$(_context13) {
           while (1) {
-            switch (_context12.prev = _context12.next) {
+            switch (_context13.prev = _context13.next) {
               case 0:
-                _context12.next = 2;
+                _context13.next = 2;
                 return this._permissionManager.checkPermissionsForEntityByID('deviceAttributes', deviceID);
 
               case 2:
-                return _context12.abrupt("return", this._eventPublisher.publishAndListenForResponse({
+                return _context13.abrupt("return", this._eventPublisher.publishAndListenForResponse({
                   context: {
                     deviceID: deviceID
                   },
@@ -658,13 +707,13 @@ var DeviceManager = /*#__PURE__*/function () {
 
               case 3:
               case "end":
-                return _context12.stop();
+                return _context13.stop();
             }
           }
-        }, _callee12, this);
+        }, _callee13, this);
       }));
 
-      function ping(_x17) {
+      function ping(_x18) {
         return _ping.apply(this, arguments);
       }
 
@@ -673,62 +722,62 @@ var DeviceManager = /*#__PURE__*/function () {
   }, {
     key: "provision",
     value: function () {
-      var _provision = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee13(deviceID, userID, publicKey, algorithm) {
+      var _provision = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee14(deviceID, userID, publicKey, algorithm) {
         var eccKey, createdKey;
-        return _regenerator["default"].wrap(function _callee13$(_context13) {
+        return _regenerator["default"].wrap(function _callee14$(_context14) {
           while (1) {
-            switch (_context13.prev = _context13.next) {
+            switch (_context14.prev = _context14.next) {
               case 0:
                 if (!(algorithm === 'ecc')) {
-                  _context13.next = 12;
+                  _context14.next = 12;
                   break;
                 }
 
-                _context13.prev = 1;
+                _context14.prev = 1;
                 eccKey = new _ecKey["default"](publicKey, 'pem');
 
                 if (!eccKey.isPrivateECKey) {
-                  _context13.next = 5;
+                  _context14.next = 5;
                   break;
                 }
 
                 throw new _HttpError["default"]('Not a public key');
 
               case 5:
-                _context13.next = 10;
+                _context14.next = 10;
                 break;
 
               case 7:
-                _context13.prev = 7;
-                _context13.t0 = _context13["catch"](1);
-                throw new _HttpError["default"]("Key error ".concat(_context13.t0));
+                _context14.prev = 7;
+                _context14.t0 = _context14["catch"](1);
+                throw new _HttpError["default"]("Key error ".concat(_context14.t0));
 
               case 10:
-                _context13.next = 21;
+                _context14.next = 21;
                 break;
 
               case 12:
-                _context13.prev = 12;
+                _context14.prev = 12;
                 createdKey = new _nodeRsa["default"](publicKey);
 
                 if (createdKey.isPublic()) {
-                  _context13.next = 16;
+                  _context14.next = 16;
                   break;
                 }
 
                 throw new _HttpError["default"]('Not a public key');
 
               case 16:
-                _context13.next = 21;
+                _context14.next = 21;
                 break;
 
               case 18:
-                _context13.prev = 18;
-                _context13.t1 = _context13["catch"](12);
-                throw new _HttpError["default"]("Key error ".concat(_context13.t1));
+                _context14.prev = 18;
+                _context14.t1 = _context14["catch"](12);
+                throw new _HttpError["default"]("Key error ".concat(_context14.t1));
 
               case 21:
-                _context13.next = 23;
+                _context14.next = 23;
                 return this._deviceKeyRepository.updateByID(deviceID, {
                   algorithm: algorithm,
                   deviceID: deviceID,
@@ -736,24 +785,24 @@ var DeviceManager = /*#__PURE__*/function () {
                 });
 
               case 23:
-                _context13.next = 25;
+                _context14.next = 25;
                 return this._deviceAttributeRepository.updateByID(deviceID, {
                   ownerID: userID,
                   registrar: userID
                 });
 
               case 25:
-                return _context13.abrupt("return", this.getByID(deviceID));
+                return _context14.abrupt("return", this.getByID(deviceID));
 
               case 26:
               case "end":
-                return _context13.stop();
+                return _context14.stop();
             }
           }
-        }, _callee13, this, [[1, 7], [12, 18]]);
+        }, _callee14, this, [[1, 7], [12, 18]]);
       }));
 
-      function provision(_x18, _x19, _x20, _x21) {
+      function provision(_x19, _x20, _x21, _x22) {
         return _provision.apply(this, arguments);
       }
 
@@ -762,17 +811,17 @@ var DeviceManager = /*#__PURE__*/function () {
   }, {
     key: "raiseYourHand",
     value: function () {
-      var _raiseYourHand = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee14(deviceID, shouldShowSignal) {
+      var _raiseYourHand = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee15(deviceID, shouldShowSignal) {
         var raiseYourHandResponse, error;
-        return _regenerator["default"].wrap(function _callee14$(_context14) {
+        return _regenerator["default"].wrap(function _callee15$(_context15) {
           while (1) {
-            switch (_context14.prev = _context14.next) {
+            switch (_context15.prev = _context15.next) {
               case 0:
-                _context14.next = 2;
+                _context15.next = 2;
                 return this._permissionManager.checkPermissionsForEntityByID('deviceAttributes', deviceID);
 
               case 2:
-                _context14.next = 4;
+                _context15.next = 4;
                 return this._eventPublisher.publishAndListenForResponse({
                   context: {
                     deviceID: deviceID,
@@ -782,28 +831,28 @@ var DeviceManager = /*#__PURE__*/function () {
                 });
 
               case 4:
-                raiseYourHandResponse = _context14.sent;
+                raiseYourHandResponse = _context15.sent;
                 error = raiseYourHandResponse.error;
 
                 if (!error) {
-                  _context14.next = 8;
+                  _context15.next = 8;
                   break;
                 }
 
                 throw new _HttpError["default"](error);
 
               case 8:
-                return _context14.abrupt("return", raiseYourHandResponse);
+                return _context15.abrupt("return", raiseYourHandResponse);
 
               case 9:
               case "end":
-                return _context14.stop();
+                return _context15.stop();
             }
           }
-        }, _callee14, this);
+        }, _callee15, this);
       }));
 
-      function raiseYourHand(_x22, _x23) {
+      function raiseYourHand(_x23, _x24) {
         return _raiseYourHand.apply(this, arguments);
       }
 
@@ -812,18 +861,18 @@ var DeviceManager = /*#__PURE__*/function () {
   }, {
     key: "renameDevice",
     value: function () {
-      var _renameDevice = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee15(deviceID, name) {
+      var _renameDevice = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee16(deviceID, name) {
         var attributes;
-        return _regenerator["default"].wrap(function _callee15$(_context15) {
+        return _regenerator["default"].wrap(function _callee16$(_context16) {
           while (1) {
-            switch (_context15.prev = _context15.next) {
+            switch (_context16.prev = _context16.next) {
               case 0:
-                _context15.next = 2;
+                _context16.next = 2;
                 return this.getAttributesByID(deviceID);
 
               case 2:
-                attributes = _context15.sent;
-                _context15.next = 5;
+                attributes = _context16.sent;
+                _context16.next = 5;
                 return this._eventPublisher.publishAndListenForResponse({
                   context: {
                     attributes: {
@@ -835,19 +884,19 @@ var DeviceManager = /*#__PURE__*/function () {
                 });
 
               case 5:
-                return _context15.abrupt("return", this._deviceAttributeRepository.updateByID(deviceID, {
+                return _context16.abrupt("return", this._deviceAttributeRepository.updateByID(deviceID, {
                   name: name
                 }));
 
               case 6:
               case "end":
-                return _context15.stop();
+                return _context16.stop();
             }
           }
-        }, _callee15, this);
+        }, _callee16, this);
       }));
 
-      function renameDevice(_x24, _x25) {
+      function renameDevice(_x25, _x26) {
         return _renameDevice.apply(this, arguments);
       }
 

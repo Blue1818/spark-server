@@ -213,6 +213,27 @@ class DeviceManager {
     return result;
   }
 
+  async forceFirmwareUpdate(deviceID: string): Promise<void> {
+    await this._permissionManager.checkPermissionsForEntityByID(
+      'deviceAttributes',
+      deviceID,
+    );
+
+    const getVariableResponse = await this._eventPublisher.publishAndListenForResponse(
+      {
+        context: { deviceID },
+        name: SPARK_SERVER_EVENTS.GET_DEVICE_VARIABLE_VALUE,
+      },
+    );
+
+    const { error, result } = getVariableResponse;
+    if (error) {
+      throw new HttpError(error);
+    }
+
+    return result;
+  }
+
   async flashBinary(deviceID: string, file: File): Promise<{ status: number }> {
     await this._permissionManager.checkPermissionsForEntityByID(
       'deviceAttributes',
