@@ -39,10 +39,10 @@ GITHUB_AUTH_TOKEN=<github-token>
 Then run from the CLI:
 
 ```
-yarn install
+npm install
 ```
 
-**You may need to run the install a few times in order to fetch all the binaries.**
+**You may need to run npx `update-firmware` a few times in order to fetch all the binaries if your install didn't succeed.**
 Github limits you to 5000 requests per hour so you'd need to run it again after an hour.
 
 _At this point we will be setting up the server. You should change the default username + password in ./dist/settings.js_
@@ -50,7 +50,7 @@ _At this point we will be setting up the server. You should change the default u
 The babel command pre-processes all the src/ to allow modern node
 syntax to be used in older versions of node. The modified code that is
 actually running lives in dist/
-If you change anything in src/ you'll need to rerun `yarn build` for changes
+If you change anything in src/ you'll need to rerun `npm run build` for changes
 to take effect.
 
 [Raspberry pi Quick Install](raspberryPi.md)
@@ -61,13 +61,13 @@ to take effect.
    Run with babel (useful for local development)
 
 ```
-yarn start
+npm start
 ```
 
 For production - uses transpiled files from babel.
 
 ```
-yarn run start:prod
+npm run start:prod
 ```
 
 2. Watch for your IP address, you'll see something like:
