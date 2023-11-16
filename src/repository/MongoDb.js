@@ -149,7 +149,7 @@ class MongoDb extends BaseMongoDb implements IBaseDatabase {
       throw new Error('database is not initialized');
     }
     return callback(
-      this._database.getCollection(collectionName),
+      this._database.collection(collectionName),
     ).catch((error: Error): void =>
       logger.error({ collectionName, err: error }, 'Run for Collection'),
     );
@@ -171,7 +171,7 @@ class MongoDb extends BaseMongoDb implements IBaseDatabase {
       logger.info({ info: str }, 'DB disconnected: '),
     );
 
-    this._database = database;
+    this._database = database.db();
     this._statusEventEmitter.emit(DB_READY_EVENT);
   };
 
