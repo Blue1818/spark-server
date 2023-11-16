@@ -406,7 +406,7 @@ var MongoDb = /*#__PURE__*/function (_BaseMongoDb) {
                 throw new Error('database is not initialized');
 
               case 4:
-                return _context15.abrupt("return", callback(_this._database.collection(collectionName))["catch"](function (error) {
+                return _context15.abrupt("return", callback(_this._database.getCollection(collectionName))["catch"](function (error) {
                   return logger.error({
                     collectionName: collectionName,
                     err: error

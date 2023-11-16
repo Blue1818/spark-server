@@ -149,7 +149,7 @@ class MongoDb extends BaseMongoDb implements IBaseDatabase {
       throw new Error('database is not initialized');
     }
     return callback(
-      this._database.collection(collectionName),
+      this._database.getCollection(collectionName),
     ).catch((error: Error): void =>
       logger.error({ collectionName, err: error }, 'Run for Collection'),
     );
