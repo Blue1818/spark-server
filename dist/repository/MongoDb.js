@@ -161,7 +161,7 @@ var MongoDb = /*#__PURE__*/function (_BaseMongoDb) {
               case 0:
                 return _context6.abrupt("return", _this.__runForCollection(collectionName, /*#__PURE__*/function () {
                   var _ref6 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(collection) {
-                    var insertResult;
+                    var insertResult, result;
                     return _regenerator["default"].wrap(function _callee5$(_context5) {
                       while (1) {
                         switch (_context5.prev = _context5.next) {
@@ -171,9 +171,16 @@ var MongoDb = /*#__PURE__*/function (_BaseMongoDb) {
 
                           case 2:
                             insertResult = _context5.sent;
-                            return _context5.abrupt("return", _this.__translateResultItem(insertResult.ops[0]));
+                            _context5.next = 5;
+                            return collection.findOne({
+                              _id: insertResult.insertedId
+                            });
 
-                          case 4:
+                          case 5:
+                            result = _context5.sent;
+                            return _context5.abrupt("return", _this.__translateResultItem(result));
+
+                          case 7:
                           case "end":
                             return _context5.stop();
                         }
@@ -270,14 +277,14 @@ var MongoDb = /*#__PURE__*/function (_BaseMongoDb) {
                         switch (_context9.prev = _context9.next) {
                           case 0:
                             _context9.next = 2;
-                            return collection.findAndModify(_this.__translateQuery(query), null, _this.__translateQuery(updateQuery), {
+                            return collection.findOneAndUpdate(_this.__translateQuery(query), _this.__translateQuery(updateQuery), {
                               "new": true,
                               upsert: true
                             });
 
                           case 2:
                             modifyResult = _context9.sent;
-                            return _context9.abrupt("return", _this.__translateResultItem(modifyResult.value));
+                            return _context9.abrupt("return", _this.__translateResultItem(modifyResult));
 
                           case 4:
                           case "end":
@@ -361,7 +368,7 @@ var MongoDb = /*#__PURE__*/function (_BaseMongoDb) {
                       while (1) {
                         switch (_context13.prev = _context13.next) {
                           case 0:
-                            return _context13.abrupt("return", collection.remove(_this.__translateQuery(query)));
+                            return _context13.abrupt("return", collection.deleteMany(_this.__translateQuery(query)));
 
                           case 1:
                           case "end":

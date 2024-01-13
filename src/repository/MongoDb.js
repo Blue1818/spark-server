@@ -58,7 +58,10 @@ class MongoDb extends BaseMongoDb implements IBaseDatabase {
       collectionName,
       async (collection: Object): Promise<Object> => {
         const insertResult = await collection.insertOne(entity);
-        return this.__translateResultItem(insertResult.ops[0]);
+        const result = await collection.findOne({
+          _id: insertResult.insertedId,
+        });
+        return this.__translateResultItem(result);
       },
     );
 
@@ -99,13 +102,12 @@ class MongoDb extends BaseMongoDb implements IBaseDatabase {
     this.__runForCollection(
       collectionName,
       async (collection: Object): Promise<Object> => {
-        const modifyResult = await collection.findAndModify(
+        const modifyResult = await collection.findOneAndUpdate(
           this.__translateQuery(query),
-          null,
           this.__translateQuery(updateQuery),
           { new: true, upsert: true },
         );
-        return this.__translateResultItem(modifyResult.value);
+        return this.__translateResultItem(modifyResult);
       },
     );
 
@@ -133,7 +135,7 @@ class MongoDb extends BaseMongoDb implements IBaseDatabase {
     this.__runForCollection(
       collectionName,
       async (collection: Object): Promise<Object> =>
-        collection.remove(this.__translateQuery(query)),
+        collection.deleteMany(this.__translateQuery(query)),
     );
 
   __runForCollection: (
