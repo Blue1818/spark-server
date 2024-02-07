@@ -42,7 +42,8 @@
     "start:warn": "npx babel-node ./src/main.js --trace-warnings | bunyan",
     "test": "ava --serial --no-cache",
     "test:watch": "ava --watch --serial",
-    "watch": "babel ./src --out-dir ./dist --watch"
+    "watch": "babel ./src --out-dir ./dist --watch",
+    "bump": "npm update spark-protocol"
   },
   "lint-staged": {
     "examples/**/*.js": [
