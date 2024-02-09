@@ -43,6 +43,7 @@
     "test": "ava --serial --no-cache",
     "test:watch": "ava --watch --serial",
     "watch": "babel ./src --out-dir ./dist --watch",
+    "update-firmware": "node ./node_modules/spark-protocol/dist/scripts/update-firmware-binaries",
     "bump": "npm update spark-protocol"
   },
   "lint-staged": {
