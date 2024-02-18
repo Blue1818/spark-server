@@ -1,7 +1,12 @@
+import SETTINGS from '../settings';
 import FirmwareManager from '../lib/FirmwareManager';
 import { SystemInformation } from 'binary-version-reader';
 
 describe('FirmwareManager', () => {
+  beforeAll(() => {
+    FirmwareManager.initialize(SETTINGS.BINARIES_DIRECTORY);
+  });
+
   test('should subscribe to event', async () => {
     const SYSTEM: SystemInformation = {
       f: [],

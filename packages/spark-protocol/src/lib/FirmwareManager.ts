@@ -16,14 +16,6 @@ import Logger from './logger';
 const logger = Logger.createModuleLogger(module);
 import { filterFalsyValues } from '../filterFalsyValues';
 
-// eslint-disable-next-line import/no-dynamic-require, @typescript-eslint/no-var-requires
-const FirmwareSettings = require(
-  path.join(
-    protocolSettings.BINARIES_DIRECTORY,
-    '../third-party/settings.json',
-  ),
-) as FirmwareSetting[];
-
 const NUMBER_BY_FUNCTION = {
   b: 2,
   s: 4,
@@ -42,7 +34,15 @@ export type OTAUpdate = {
   allUpdateFiles: Array<string>;
 };
 
+let FirmwareSettings: FirmwareSetting[] = [];
 class FirmwareManager {
+  static initialize(binariesDirectory: string): void {
+    // eslint-disable-next-line import/no-dynamic-require, @typescript-eslint/no-var-requires
+    FirmwareSettings = require(
+      path.join(binariesDirectory, '../third-party/settings.json'),
+    ) as FirmwareSetting[];
+  }
+
   static async getMissingModules(
     systemInformation: SystemInformation,
   ): Promise<FirmwareSetting[] | null | undefined> {

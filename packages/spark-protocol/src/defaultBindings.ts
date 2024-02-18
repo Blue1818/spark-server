@@ -11,6 +11,7 @@ import MockProductDeviceRepository from './repository/MockProductDeviceRepositor
 import MockProductFirmwareRepository from './repository/MockProductFirmwareRepository';
 import ServerKeyFileRepository from './repository/ServerKeyFileRepository';
 import protocolSettings from './settings';
+import FirmwareManager from './lib/FirmwareManager';
 
 type ServerSettings = {
   BINARIES_DIRECTORY?: string;
@@ -31,6 +32,7 @@ const defaultBindings = (
   serverSettings: ServerSettings,
 ) => {
   const mergedSettings = { ...protocolSettings, ...serverSettings } as const;
+  FirmwareManager.initialize(mergedSettings.BINARIES_DIRECTORY);
 
   // Settings
   container.bindValue('DEVICE_DIRECTORY', mergedSettings.DEVICE_DIRECTORY);
