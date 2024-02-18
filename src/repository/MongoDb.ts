@@ -12,7 +12,7 @@ import type { IBaseDatabase } from '../types';
 import BaseMongoDb from './BaseMongoDb';
 import Logger from '../lib/logger';
 import nullthrows from 'nullthrows';
-import { filterFalsyValues } from 'spark-protocol';
+import { filterFalsyValues } from '@brewskey/spark-protocol';
 
 const logger = Logger.createModuleLogger(module);
 
@@ -135,6 +135,7 @@ class MongoDb<
         const resultItem = await collection.findOne(
           this.__translateQuery(query),
         );
+
         return nullthrows(
           this.__translateResultItem(resultItem as unknown as TEntity),
         );

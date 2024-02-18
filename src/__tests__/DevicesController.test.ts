@@ -9,7 +9,7 @@ import {
   IDeviceAttributeRepository,
   IDeviceKeyRepository,
   SPARK_SERVER_EVENTS,
-} from 'spark-protocol';
+} from '@brewskey/spark-protocol';
 import { IDeviceFirmwareRepository, IUserRepository, User } from '../types';
 import nullthrows from 'nullthrows';
 
@@ -388,7 +388,7 @@ describe('DevicesController', () => {
 
   test('should start device flashing process with known application', async () => {
     const knownAppName = 'knownAppName';
-    const knownAppBuffer = new Buffer(knownAppName);
+    const knownAppBuffer = Buffer.from(knownAppName);
 
     const deviceFirmwareStub = sinon
       .stub(

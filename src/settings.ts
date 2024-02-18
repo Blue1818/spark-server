@@ -2,7 +2,13 @@ import path from 'path';
 import fs from 'fs';
 import type { Settings } from './types';
 import { LogLevel } from 'bunyan';
-import settings from 'spark-protocol/dist/settings';
+import { SETTINGS as PROTOCOL_SETTINGS } from '@brewskey/spark-protocol';
+import bunyan from 'bunyan';
+
+const logger = bunyan.createLogger({
+  name: path.basename(module.filename),
+  serializers: bunyan.stdSerializers,
+});
 
 const SETTINGS_OVERRIDE_PATH = path.join(process.cwd(), 'settings.json');
 let settingsOverrides: Partial<Settings> = {};
@@ -10,11 +16,11 @@ if (fs.existsSync(SETTINGS_OVERRIDE_PATH)) {
   settingsOverrides = JSON.parse(
     fs.readFileSync(SETTINGS_OVERRIDE_PATH).toString(),
   ) as Settings;
-  console.log('Loading settings overrides: ', settingsOverrides);
+  logger.info('Loading settings overrides', settingsOverrides);
 }
 
 const SETTINGS: Settings = {
-  ...settings,
+  ...PROTOCOL_SETTINGS,
   BUILD_DIRECTORY: path.join(process.cwd(), 'data/build'),
   DEFAULT_ADMIN_PASSWORD: 'adminPassword',
   DEFAULT_ADMIN_USERNAME: '__admin__',
