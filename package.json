@@ -51,7 +51,7 @@
     "test:all": "npm run test:deps && npm run test",
     "test:watch": "jest --watch",
     "watch": "tsc --watch",
-    "update-firmware": "node ./node_modules/spark-protocol/dist/scripts/update-firmware-binaries",
+    "update-firmware": "node ./node_modules/@brewskey/spark-protocol/dist/scripts/update-firmware-binaries",
     "bump": "npm update spark-protocol"
   },
   "workspaces": [
@@ -75,7 +75,7 @@
     "test"
   ],
   "dependencies": {
-    "@brewskey/spark-protocol": "^1.0.0",
+    "@brewskey/spark-protocol": "^1.0.4",
     "basic-auth-parser": "0.0.2",
     "binary-version-reader": "^2.4.0",
     "body-parser": "^1.20.2",

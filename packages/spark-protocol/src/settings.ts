@@ -25,10 +25,12 @@ export type Settings = {
   ALLOW_DEVICE_TO_PROVIDE_PEM: boolean;
 };
 
+const ROOT_DIR = path.join(__dirname, '../../..');
+
 const SETTINGS: Settings = {
-  BINARIES_DIRECTORY: path.join(process.cwd(), 'data/binaries'),
+  BINARIES_DIRECTORY: path.join(ROOT_DIR, 'data/binaries'),
   DEFAULT_EVENT_TTL: 60,
-  DEVICE_DIRECTORY: path.join(process.cwd(), 'data/deviceKeys'),
+  DEVICE_DIRECTORY: path.join(ROOT_DIR, 'data/deviceKeys'),
   TCP_DEVICE_SERVER_CONFIG: {
     ENABLE_SYSTEM_FIRWMARE_AUTOUPDATES: true,
     HOST: 'localhost',
@@ -36,7 +38,7 @@ const SETTINGS: Settings = {
   },
   SERVER_KEY_FILENAME: 'default_key.pem',
   SERVER_KEY_PASSWORD: null as string | null | undefined,
-  SERVER_KEYS_DIRECTORY: path.join(__dirname, '../data/users'),
+  SERVER_KEYS_DIRECTORY: path.join(ROOT_DIR, 'data/users'),
 
   CRYPTO_ALGORITHM: 'aes-128-cbc',
   LOG_LEVEL: (process.env.LOG_LEVEL as unknown as LogLevel) || 'info',
