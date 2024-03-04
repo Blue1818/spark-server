@@ -11,7 +11,6 @@ import {
   ModuleSubDependency,
 } from 'binary-version-reader';
 import nullthrows from 'nullthrows';
-import protocolSettings from '../settings';
 import Logger from './logger';
 const logger = Logger.createModuleLogger(module);
 import { filterFalsyValues } from '../filterFalsyValues';
@@ -36,7 +35,10 @@ export type OTAUpdate = {
 
 let FirmwareSettings: FirmwareSetting[] = [];
 class FirmwareManager {
+  private static binariesDirectory: string;
+
   static initialize(binariesDirectory: string): void {
+    FirmwareManager.binariesDirectory = binariesDirectory;
     // eslint-disable-next-line import/no-dynamic-require, @typescript-eslint/no-var-requires
     FirmwareSettings = require(
       path.join(binariesDirectory, '../third-party/settings.json'),
@@ -59,7 +61,7 @@ class FirmwareManager {
     }
     const { systemFiles, ...result } = missingDependencies.reduce(
       (acc, dependency) => {
-        const dependencyPath = `${protocolSettings.BINARIES_DIRECTORY}/${dependency.filename}`;
+        const dependencyPath = `${FirmwareManager.binariesDirectory}/${dependency.filename}`;
 
         if (!fs.existsSync(dependencyPath)) {
           logger.error(
