@@ -128,16 +128,17 @@ class MongoDb<
   findOne = async (
     collectionName: string,
     query?: Record<string, unknown>,
-  ): Promise<TEntity> =>
+  ): Promise<TEntity | undefined> =>
     this.__runForCollection(
       collectionName,
-      async (collection: Collection): Promise<TEntity> => {
+      async (collection: Collection): Promise<TEntity | undefined> => {
         const resultItem = await collection.findOne(
           this.__translateQuery(query),
         );
 
-        return nullthrows(
-          this.__translateResultItem(resultItem as unknown as TEntity),
+        return (
+          this.__translateResultItem(resultItem as unknown as TEntity) ??
+          undefined
         );
       },
     );

@@ -193,6 +193,7 @@ export default (
                   error as unknown as string | Error | HttpError,
                 );
                 response.status(httpError.status).json({
+                  ...httpError,
                   error: httpError.message,
                   ok: false,
                 });
