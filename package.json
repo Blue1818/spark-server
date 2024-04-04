@@ -1,6 +1,6 @@
 {
   "name": "@brewskey/spark-server",
-  "version": "1.0.8",
+  "version": "1.0.10",
   "license": "AGPL-3.0",
   "repository": {
     "type": "git",
@@ -34,7 +34,7 @@
     "build:deps": "npx lerna run build",
     "build:all": "npm run build:deps && npm run build",
     "build:clean": "rimraf ./build",
-    "build:watch": "tsc --watch src --watch ../spark-protocol/dist --ignore data",
+    "build:watch": "tsc --watch src --watch ./packages/spark-protocol/dist --ignore data",
     "lint": "eslint --fix --max-warnings 0 ./src",
     "lint-staged": "lint-staged",
     "lint:deps": "npx lerna run lint",
@@ -43,7 +43,7 @@
     "prettify": "prettier --write src/*/**.ts",
     "prettify:deps": "npx lerna run prettify",
     "start": "nodemon --watch \"src/**\" --ext \"ts,json\" --ignore \"src/**/*.test.ts\" --exec \"ts-node src/main.ts | bunyan\"",
-    "start:debug": "ts-node ./src/main.ts --watch src --ignore data | bunyan",
+    "start:debug": "ts-node ./src/main.ts --watch src --watch ./packages/spark-protocol/dist --ignore data | bunyan",
     "start:prod": "node ./dist/main.js | bunyan",
     "start:warn": "ts-node ./src/main.ts --trace-warnings | bunyan",
     "test": "jest",

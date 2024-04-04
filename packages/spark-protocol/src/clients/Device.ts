@@ -1112,13 +1112,15 @@ class Device extends EventEmitter {
         // Because some firmware versions do not send the app + system state
         // in a single message, we cannot use `listenFor` and instead have to
         // write some hacky code that duplicates a lot of the functionality
-        this.sendMessage('Describe', null, [
-          {
-            // Passing this because it seems like it's required now..?
-            name: CoapMessage.Option.URI_QUERY,
-            value: Buffer.from([0x2]),
-          },
-        ]);
+        this.sendMessage('Describe');
+        // Try this later??
+        // null, [
+        //   {
+        //     // Passing this because it seems like it's required now..?
+        //     name: CoapMessage.Option.URI_QUERY,
+        //     value: Buffer.from([0x2]),
+        //   },
+        // ]);
       },
     );
   }
