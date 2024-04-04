@@ -390,7 +390,9 @@ class WebhookManager {
               return;
             }
             if (response.statusCode >= 400) {
-              onResponseError(error || new Error(response.statusMessage));
+              onResponseError(
+                error || new Error(JSON.stringify(response.toJSON())),
+              );
               return;
             }
 

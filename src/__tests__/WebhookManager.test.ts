@@ -14,7 +14,7 @@ import { CoreOptions, UrlOptions } from 'request';
 const WEBHOOK_BASE: Webhook = {
   event: 'test-event',
   requestType: 'POST',
-  url: 'https://webhook-test.com/67fcfefd07229639ddc49a1ba71816f2',
+  url: 'https://webhook.site/7d7dff97-b980-4d36-a4ed-ac7e94cc0c0f',
   created_at: new Date(),
   id: 'test-id',
   ownerID: 'test-owner-id',
@@ -294,7 +294,7 @@ describe('WebhookManager', () => {
     const event = getEvent(data);
     const webhook = {
       ...WEBHOOK_BASE,
-      url: 'https://webhook-test.com/67fcfefd07229639ddc49a1ba71816f2/{{t}}/{{g}}',
+      url: 'https://webhook.site/7d7dff97-b980-4d36-a4ed-ac7e94cc0c0f/{{t}}/{{g}}',
     };
     const defaultRequestData = getDefaultRequestData(event);
 
