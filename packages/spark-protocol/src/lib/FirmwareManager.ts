@@ -29,11 +29,26 @@ const FUNC_BY_NUMBER = {
 export type OTAUpdate = {
   allModuleFunctions: ModuleDependency['f'][];
   allModuleIndices: Array<number>;
-  systemFile: Buffer;
+  systemFiles: Buffer[];
   allUpdateFiles: Array<string>;
+  currentModulesFiles: string[];
 };
 
 let FirmwareSettings: FirmwareSetting[] = [];
+
+const findSettingForFirmwareModule = (
+  platformID: number,
+  dependency: FirmwareModule,
+): FirmwareSetting | undefined => {
+  return FirmwareSettings.find(
+    ({ prefixInfo }: { prefixInfo: FirmwarePrefixInfo }): boolean =>
+      prefixInfo.platformID === platformID &&
+      prefixInfo.moduleVersion === dependency.version &&
+      dependency.func != null &&
+      prefixInfo.moduleFunction === NUMBER_BY_FUNCTION[dependency.func] &&
+      prefixInfo.moduleIndex === parseInt(dependency.name, 10),
+  );
+};
 class FirmwareManager {
   private static binariesDirectory: string;
 
@@ -43,6 +58,28 @@ class FirmwareManager {
     FirmwareSettings = require(
       path.join(binariesDirectory, '../third-party/settings.json'),
     ) as FirmwareSetting[];
+  }
+
+  static getCurrentModules(
+    systemInformation: SystemInformation,
+  ): FirmwareSetting[] {
+    // Fix 204 version deps. 204 doesn't exist so map it to 207
+    systemInformation.m.forEach((moduleDependency: ModuleDependency) => {
+      moduleDependency.d.forEach((subDependency: ModuleSubDependency) => {
+        if (subDependency.v === 204) {
+          subDependency.v = 207;
+        }
+      });
+    });
+
+    return systemInformation.m
+      .map((moduleDependency: ModuleDependency) =>
+        findSettingForFirmwareModule(
+          systemInformation.p,
+          new FirmwareModule(moduleDependency),
+        ),
+      )
+      .filter(filterFalsyValues);
   }
 
   static async getMissingModules(
@@ -98,7 +135,10 @@ class FirmwareManager {
 
     return {
       ...result,
-      systemFile: systemFiles[0],
+      systemFiles,
+      currentModulesFiles: FirmwareManager.getCurrentModules(
+        systemInformation,
+      ).map((setting: FirmwareSetting) => setting.filename),
     };
   }
 
@@ -136,23 +176,11 @@ class FirmwareManager {
     }
 
     const iter = 0;
-    const findSettingForFirmwareModule = (
-      dependency: FirmwareModule,
-    ): FirmwareSetting | undefined => {
-      return FirmwareSettings.find(
-        ({ prefixInfo }: { prefixInfo: FirmwarePrefixInfo }): boolean =>
-          prefixInfo.platformID === platformID &&
-          prefixInfo.moduleVersion === dependency.version &&
-          dependency.func != null &&
-          prefixInfo.moduleFunction === NUMBER_BY_FUNCTION[dependency.func] &&
-          prefixInfo.moduleIndex === parseInt(dependency.name, 10),
-      );
-    };
 
     const addRealDependencies = (
       dependency: FirmwareModule,
     ): FirmwareModule | null => {
-      const setting = findSettingForFirmwareModule(dependency);
+      const setting = findSettingForFirmwareModule(platformID, dependency);
       if (!setting) {
         logger.error({
           msg: 'Cannot find firmware for module',
@@ -225,7 +253,7 @@ class FirmwareManager {
         return a.name.localeCompare(b.name);
       })
       .map((dep: FirmwareModule): FirmwareSetting | undefined => {
-        const setting = findSettingForFirmwareModule(dep);
+        const setting = findSettingForFirmwareModule(platformID, dep);
 
         if (!setting) {
           logger.error({ dep, platformID }, 'Missing firmware setting');

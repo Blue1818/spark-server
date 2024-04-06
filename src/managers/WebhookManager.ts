@@ -323,7 +323,7 @@ class WebhookManager {
           responseEventData,
           webhook,
         },
-        'Webhook',
+        'Webhook ' + webhook.event,
       );
     } catch (error) {
       logger.error(

@@ -397,11 +397,9 @@ class Device extends EventEmitter {
       this._logger.info(
         {
           cache_key: this._connectionKey,
-          deviceID: this.getDeviceID(),
-          firmwareVersion: this._attributesFromDevice.productFirmwareVersion,
+          ...this._attributesFromDevice,
           ip: this.getRemoteIPAddress(),
-          particleProductId: this._attributesFromDevice.particleProductId,
-          platformId: this._attributesFromDevice.platformId,
+          systemInformation,
         },
         'On device protocol initialization complete',
       );
@@ -450,8 +448,6 @@ class Device extends EventEmitter {
         productFirmwareVersion: payload.readUInt16BE(2),
         reservedFlags: payload.readUInt16BE(4),
       };
-
-      this._logger.info(this._attributesFromDevice, 'Connection attributes');
 
       if (this._attributesFromDevice.platformId !== 0) {
         // This is the maximum for Photon/P1.

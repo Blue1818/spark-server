@@ -87,6 +87,11 @@ describe('FirmwareManager', () => {
         'system-part2-1.0.1-p1.bin',
         'bootloader-1.0.1-p1.bin',
       ],
+      currentModulesFiles: [
+        'bootloader-0.6.2-p1.bin',
+        'system-part1-0.6.3-p1.bin',
+        'system-part2-0.6.3-p1.bin',
+      ],
     });
   });
 
@@ -219,6 +224,74 @@ describe('FirmwareManager', () => {
       allUpdateFiles: [
         'system-part1-1.0.1-p1.bin',
         'system-part2-1.0.1-p1.bin',
+      ],
+      currentModulesFiles: [
+        'p1-bootloader@3.3.1+lto.bin',
+        'system-part1-0.7.0-p1.bin',
+        'system-part2-0.7.0-p1.bin',
+      ],
+    });
+  });
+
+  it('should work for 2.3.1', async () => {
+    const BAD_DEVICE_THAT_WONT_UPDATE: SystemInformation = {
+      f: [],
+      v: {},
+      p: 8,
+      m: [
+        { s: 16384, l: 'm', vc: 30, vv: 30, f: 'b', n: '0', v: 501, d: [] },
+        {
+          s: 262144,
+          l: 'm',
+          vc: 30,
+          vv: 30,
+          f: 's',
+          n: '1',
+          v: 1406,
+          d: [{ f: 's', n: '2', v: 207, _: '' }],
+        },
+        {
+          s: 262144,
+          l: 'm',
+          vc: 30,
+          vv: 30,
+          f: 's',
+          n: '2',
+          v: 1406,
+          d: [
+            { f: 's', n: '1', v: 1406, _: '' },
+            { f: 'b', n: '0', v: 400, _: '' },
+          ],
+        },
+        {
+          s: 131072,
+          l: 'm',
+          vc: 30,
+          vv: 26,
+          u: '99703CDF1C6D6C6ABCAB382D9EC6EBE0167FB2B9507B5DF521A822E1956EA8FA',
+          f: 'u',
+          n: '1',
+          v: 6,
+          d: [{ f: 's', n: '2', v: 2302, _: '' }],
+        },
+      ],
+    };
+    const result = await FirmwareManager.getOtaSystemUpdateConfig(
+      BAD_DEVICE_THAT_WONT_UPDATE,
+    );
+
+    expect(result).toMatchObject({
+      allModuleFunctions: ['s', 's', 'b'],
+      allModuleIndices: [1, 2, 0],
+      allUpdateFiles: [
+        'p1-system-part1@2.3.1.bin',
+        'p1-system-part2@2.3.1.bin',
+        'p1-bootloader@2.0.0-rc.3+lto.bin',
+      ],
+      currentModulesFiles: [
+        'p1-bootloader@1.5.1+lto.bin',
+        'p1-system-part1@1.4.4.bin',
+        'p1-system-part2@1.4.4.bin',
       ],
     });
   });

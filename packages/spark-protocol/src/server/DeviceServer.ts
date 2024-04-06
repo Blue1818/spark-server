@@ -236,13 +236,16 @@ class DeviceServer {
         false,
       );
 
-      logger.info('Flashing OTA System Firmware', {
-        filename: config.allUpdateFiles[0],
-        deviceId: device.getDeviceID(),
-        systemInformation: JSON.stringify(systemInformation),
-      });
+      logger.info(
+        {
+          filename: config.allUpdateFiles[0],
+          deviceId: device.getDeviceID(),
+          systemInformation,
+        },
+        'Flashing OTA System Firmware',
+      );
 
-      await device.flash(config.systemFile);
+      await device.flash(config.systemFiles[0]);
     }, 100);
   }
 
@@ -536,7 +539,13 @@ class DeviceServer {
 
       let shouldSwallowEvent = false;
 
-      logger.error(eventData);
+      logger.info(
+        {
+          ...device.getAttributes(),
+          ...eventData,
+        },
+        eventName,
+      );
 
       // All spark events except special events should be hidden from the
       // event stream.
@@ -720,12 +729,12 @@ class DeviceServer {
 
       logger.info(
         {
-          deviceID,
+          ...device.getAttributes(),
           isFromMyDevices,
           messageName,
           query,
         },
-        'Subscribe Request',
+        'Subscribe Request ' + messageName,
       );
 
       device.sendReply('SubscribeAck', packet.messageId);
